@@ -1,4 +1,4 @@
-docker pull dlfdyd96/spring-cicd:latest
+docker pull dlfdyd96/spring-cicd-test:latest
 docker run --publish 8081:8080 \
     -it --detach \
     --name spring-cicd-test dlfdyd96/spring-cicd-test:latest /bin/bash
