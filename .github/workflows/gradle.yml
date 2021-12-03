@@ -5,12 +5,10 @@
 name: Spring Boot & Gradle CI/CD
 
 # Event Trigger
-# [ main ] branch에 push 또는 pull request가 발생할 경우 동작
+# [ main ] branch에 push 경우 동작
 # branch 단위 외에도, tag나 cron 식 등을 사용할 수 있음
 on:
   push:
-    branches: [ develop ]
-  pull_request:
     branches: [ develop ]
 
 jobs:
