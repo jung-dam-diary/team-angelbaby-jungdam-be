@@ -28,6 +28,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # Copy test properties (application.yaml)
+      - name: copy test properties file
+        run: cp ./main/resources/secret-keys/application.yaml ./main/resources
+
       # Build
       - name: Build with Gradle
         run: ./gradlew clean build
