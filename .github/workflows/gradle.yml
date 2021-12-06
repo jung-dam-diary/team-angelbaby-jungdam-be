@@ -28,9 +28,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # Echo current Dir
+      - name: print current Dir
+        run: echo | pwd
+
       # Copy test properties (application.yaml)
       - name: copy test properties file
-        run: cp ./main/resources/secret-keys/application.yaml ./main/resources
+        run: cp ./src/main/resources/secret-keys/application.yaml ./src/main/resources
 
       # Build
       - name: Build with Gradle
