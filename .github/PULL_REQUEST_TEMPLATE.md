@@ -6,17 +6,18 @@
     
     PR에 사용되는 Gitmoji 가이드입니다.
     
-    feat(:sparkles:) - Introduce new features
-    fix(:bug:) - Fix a bug
-    docs(:memo:) - Add or update documentation
-    style(:art:) - Improve structure / format of the code
-    refactor(:recycle:) - Refactor code
-    perf(:zap:) - Improve performance
-    test(:white_check_mark:) - Add or update tests
-    build(:construction_worker:) - Add or update CI build system
-    chore(:gear:) - Other changes 
-    revert(:rewind:) - Revert changes
-    hotfix(:ambulance:) - Critical hotfix
+    feat(✨) - Introduce new features
+    fix(🐛) - Fix a bug
+    docs(📝) - Add or update documentation
+    style(🎨) - Improve structure / format of the code
+    refactor(♻️) - Refactor code
+    perf(⚡️) - Improve performance
+    test(✅) - Add or update tests
+    build(👷) - Add or update CI build system
+    ci(💚) - Fix CI Build
+    chore(⚙️) - Other changes 
+    revert(⏪️) - Revert changes
+    hotfix(🚑️) - Critical hotfix
 -->
 
 
