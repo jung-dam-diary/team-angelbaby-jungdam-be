@@ -1,23 +1,21 @@
 package com.jungdam.common.dto;
 
-import org.springframework.hateoas.EntityModel;
-
 import java.time.LocalDateTime;
 
 public class ResponseDto<T> {
 
     private final String message;
     private final LocalDateTime serverDateTime;
-    private final EntityModel<T> data;
+    private final T data;
 
-    private ResponseDto(ResponseMessage message, EntityModel<T> entityModel) {
+    private ResponseDto(ResponseMessage message, T data) {
         this.message = message.name();
         this.serverDateTime = LocalDateTime.now();
-        this.data = entityModel;
+        this.data = data;
     }
 
-    public static <T> ResponseDto<T> of(ResponseMessage message, EntityModel<T> model) {
-        return new ResponseDto<>(message, model);
+    public static <T> ResponseDto<T> of(ResponseMessage message, T data) {
+        return new ResponseDto<>(message, data);
     }
 
     public String getMessage() {
@@ -28,7 +26,7 @@ public class ResponseDto<T> {
         return serverDateTime;
     }
 
-    public EntityModel<T> getData() {
+    public T getData() {
         return data;
     }
 }
