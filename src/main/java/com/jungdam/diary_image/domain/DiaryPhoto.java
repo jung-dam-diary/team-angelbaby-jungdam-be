@@ -2,7 +2,9 @@ package com.jungdam.diary_image.domain;
 
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary_image.domain.vo.Image;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,13 +21,13 @@ public class DiaryPhoto extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "diary_photo_image")
-    private String image;
+    @Embedded
+    private Image image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
-    
+
     protected DiaryPhoto() {
 
     }
