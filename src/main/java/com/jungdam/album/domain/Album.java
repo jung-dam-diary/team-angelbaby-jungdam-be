@@ -1,8 +1,11 @@
 package com.jungdam.album.domain;
 
 import com.jungdam.album.domain.vo.Diaries;
+import com.jungdam.album.domain.vo.FamilyMotto;
 import com.jungdam.album.domain.vo.Invitations;
 import com.jungdam.album.domain.vo.Participants;
+import com.jungdam.album.domain.vo.Thumbnail;
+import com.jungdam.album.domain.vo.Title;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.invitation.domain.Invitation;
@@ -26,14 +29,14 @@ public class Album extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "album_title", length = 20)
-    private String title;
+    @Embedded
+    private Title title;
 
-    @Column(name = "album_family_motto", length = 30)
-    private String familyMotto;
+    @Embedded
+    private FamilyMotto familyMotto;
 
-    @Column(name = "album_thumbnail")
-    private String thumbnail;
+    @Embedded
+    private Thumbnail thumbnail;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
