@@ -3,13 +3,16 @@ package com.jungdam.diary.domain;
 import com.jungdam.album.domain.Album;
 import com.jungdam.comment.domain.Comment;
 import com.jungdam.common.domain.BaseEntity;
+import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.diary.domain.vo.Comments;
+import com.jungdam.diary.domain.vo.Content;
 import com.jungdam.diary.domain.vo.DiaryPhotos;
 import com.jungdam.diary.domain.vo.Emojis;
+import com.jungdam.diary.domain.vo.RecordedAt;
+import com.jungdam.diary.domain.vo.Title;
 import com.jungdam.diary_image.domain.DiaryPhoto;
 import com.jungdam.emoji.domain.Emoji;
 import com.jungdam.member.domain.Member;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -28,17 +31,17 @@ public class Diary extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "diary_title")
-    private String title;
+    @Embedded
+    private Title title;
 
-    @Column(name = "diary_content")
-    private String content;
+    @Embedded
+    private Content content;
 
-    @Column(name = "diary_bookmark")
-    private Boolean bookmark;
+    @Embedded
+    private Bookmark bookmark;
 
-    @Column(name = "diary_recorded_at")
-    private LocalDateTime recordedAt;
+    @Embedded
+    private RecordedAt recordedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
