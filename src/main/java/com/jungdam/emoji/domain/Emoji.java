@@ -2,8 +2,10 @@ package com.jungdam.emoji.domain;
 
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.emoji.domain.vo.Content;
 import com.jungdam.member.domain.Member;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,8 +22,8 @@ public class Emoji extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "emoji_content")
-    private String content;
+    @Embedded
+    private Content content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_Id")
