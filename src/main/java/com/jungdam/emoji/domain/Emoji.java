@@ -26,11 +26,11 @@ public class Emoji extends BaseEntity {
     private Content content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_Id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_Id")
+    @JoinColumn(name = "diary_id")
     private Diary diary;
 
     protected Emoji() {

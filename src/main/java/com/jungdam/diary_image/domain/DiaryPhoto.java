@@ -17,7 +17,7 @@ import javax.persistence.ManyToOne;
 public class DiaryPhoto extends BaseEntity {
 
     @Id
-    @Column(name = "diary_image_id")
+    @Column(name = "diary_photo_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
