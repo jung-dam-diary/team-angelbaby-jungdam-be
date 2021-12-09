@@ -24,6 +24,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     //     implementation 'org.springframework.boot:spring-boot-starter-security'
     //     testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-aws:2.2.1.RELEASE'
+    }
 }
 
 test {
