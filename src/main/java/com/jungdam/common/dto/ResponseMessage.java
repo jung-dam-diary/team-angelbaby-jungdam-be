@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public enum ResponseMessage {
 
-    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED, "회원가입 성공");
+    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED, "회원가입 성공"),
+    IMAGE_UPLOAD_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공");
 
     private final HttpStatus status;
     private final String message;

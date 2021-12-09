@@ -1,8 +1,12 @@
-package com.jungdam.image.service;
+package com.jungdam.image.application;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.FileConverterException;
+import com.jungdam.image.dto.bundle.UploadBundle;
+import com.jungdam.image.dto.response.UploadResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +23,9 @@ public class S3Uploader {
 
     private static final Logger log = LoggerFactory.getLogger(S3Uploader.class);
 
+    private static final String URL_SLASH = "/";
+    private static final String DIRECTORY_PROPERTY = "user.dir";
+
     private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
@@ -28,28 +35,36 @@ public class S3Uploader {
         this.amazonS3Client = amazonS3Client;
     }
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile).orElseThrow(
-            () -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-        return upload(uploadFile, dirName);
+    public UploadResponse upload(UploadBundle bundle) throws IOException {
+        File uploadFile = convert(bundle.getMultipartFile())
+            .orElseThrow(
+                () -> new FileConverterException(ErrorMessage.FAILURE_FILE_CONVERT)
+            );
+        String uploadImageUrl = upload(uploadFile, bundle.getDirectoryName());
+
+        return new UploadResponse(uploadImageUrl);
     }
 
     public String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + UUID.randomUUID();
+        String fileName = dirName + URL_SLASH + UUID.randomUUID();
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }
 
     public String putS3(File uploadFile, String fileName) {
+
         try {
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName,
+                uploadFile);
             amazonS3Client.putObject(
-                new PutObjectRequest(bucketName, fileName, uploadFile).withCannedAcl(
-                    CannedAccessControlList.PublicRead));
-        } catch (Exception error) {
+                putObjectRequest.withCannedAcl(
+                    CannedAccessControlList.PublicRead)
+            );
+        } finally {
             removeNewFile(uploadFile);
-            throw error;
         }
+
         return amazonS3Client.getUrl(bucketName, fileName).toString();
     }
 
@@ -63,9 +78,7 @@ public class S3Uploader {
 
     public Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(
-            System.getProperty("user.dir") + "/" + file.getOriginalFilename());
-        log.info("project dir : {}", System.getProperty("user.dir"));
-        log.info("Original File Name : {}", file.getOriginalFilename());
+            System.getProperty(DIRECTORY_PROPERTY) + URL_SLASH + file.getOriginalFilename());
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());

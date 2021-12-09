@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorMessage {
 
-    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다.");
+    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다."),
+    FAILURE_FILE_CONVERT(HttpStatus.BAD_REQUEST, "File convert fail");
 
     private final HttpStatus status;
     private final String message;
