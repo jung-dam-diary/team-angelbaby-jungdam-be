@@ -42,9 +42,14 @@ public class S3Uploader {
     }
 
     public String putS3(File uploadFile, String fileName) {
-        amazonS3Client.putObject(
-            new PutObjectRequest(bucketName, fileName, uploadFile).withCannedAcl(
-                CannedAccessControlList.PublicRead));
+        try {
+            amazonS3Client.putObject(
+                new PutObjectRequest(bucketName, fileName, uploadFile).withCannedAcl(
+                    CannedAccessControlList.PublicRead));
+        } catch (Exception error) {
+            removeNewFile(uploadFile);
+            throw error;
+        }
         return amazonS3Client.getUrl(bucketName, fileName).toString();
     }
 
@@ -52,13 +57,15 @@ public class S3Uploader {
         if (targetFile.delete()) {
             log.info("File delete success");
         } else {
-            log.info("File delete fail");
+            log.warn("File delete fail");
         }
     }
 
     public Optional<File> convert(MultipartFile file) throws IOException {
         File convertFile = new File(
             System.getProperty("user.dir") + "/" + file.getOriginalFilename());
+        log.info("project dir : {}", System.getProperty("user.dir"));
+        log.info("Original File Name : {}", file.getOriginalFilename());
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
