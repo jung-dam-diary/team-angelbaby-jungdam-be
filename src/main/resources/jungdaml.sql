@@ -1,8 +1,8 @@
-# CREATE DATABASE
-create database jungdam character set utf8 default collate utf8_general_ci;
+-- CREATE DATABASE
+CREATE database jungdam CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
 
-# USE DATABASE
+-- USE DATABASE
 use jungdam;
 
-# SHOW TABLES;
+-- SHOW TABLES;
 show tables;
