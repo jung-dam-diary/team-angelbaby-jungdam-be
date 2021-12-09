@@ -12,7 +12,6 @@ public enum ErrorMessage {
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "토큰에 문제가 발생"),
     FAILURE_FILE_CONVERT(HttpStatus.BAD_REQUEST, "File convert fail");
 
-
     private final HttpStatus status;
     private final String message;
 
