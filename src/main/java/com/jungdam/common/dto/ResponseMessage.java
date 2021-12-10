@@ -4,7 +4,10 @@ import org.springframework.http.HttpStatus;
 
 public enum ResponseMessage {
 
-    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED, "회원가입 성공");
+    MEMBER_CREATE_SUCCESS(HttpStatus.CREATED, "회원가입 성공"),
+    MEMBER_READ_SUCCESS(HttpStatus.OK, "회원조회 성공"),
+    MEMBER_LOGIN_SUCCESS(HttpStatus.OK, "로그인 성공"),
+    TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 리프레시 성공");
 
     private final HttpStatus status;
     private final String message;
