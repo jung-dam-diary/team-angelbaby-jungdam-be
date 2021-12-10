@@ -1,6 +1,4 @@
-package com.jungdam.error.exception;
-
-import com.jungdam.error.ErrorMessage;
+package com.jungdam.error;
 
 public class BusinessException extends RuntimeException {
 

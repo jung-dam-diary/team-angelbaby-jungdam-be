@@ -1,4 +1,4 @@
-package com.jungdam.config;
+package com.jungdam.common.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;

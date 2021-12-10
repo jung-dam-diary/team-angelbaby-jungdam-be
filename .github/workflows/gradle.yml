@@ -33,7 +33,7 @@ jobs:
 
       # Copy test properties (application.yaml)
       - name: copy test properties file
-        run: cp src/main/resources/secret-keys/application-dev.yaml src/main/resources/application.yaml
+        run: cp src/main/resources/secret-keys/application-dev.yaml src/main/resources/application.yaml && cp src/main/resources/secret-keys/application-oauth.yaml src/main/resources/application-oauth.yaml
 
       # Build
       - name: Build with Gradle
