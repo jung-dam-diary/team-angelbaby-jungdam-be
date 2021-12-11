@@ -119,12 +119,6 @@ public class AuthController {
         Map<String, String> token = new HashMap<>();
         token.put("token", newAccessToken.getToken());
 
-        return ResponseEntity.status(ResponseMessage.TOKEN_REFRESH_SUCCESS.getStatus())
-            .body(
-                ResponseDto.of(
-                    ResponseMessage.TOKEN_REFRESH_SUCCESS,
-                    token
-                )
-            );
+        return ResponseDto.of(ResponseMessage.TOKEN_REFRESH_SUCCESS, token);
     }
 }

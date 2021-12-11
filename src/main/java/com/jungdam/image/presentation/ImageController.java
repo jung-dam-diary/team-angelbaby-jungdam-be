@@ -31,11 +31,6 @@ public class ImageController {
         UploadBundle bundle = new UploadBundle(multipartFile, "temp");
         UploadResponse response = s3Uploader.upload(bundle);
 
-        return ResponseEntity.status(
-                ResponseMessage.IMAGE_UPLOAD_SUCCESS.getStatus()
-            )
-            .body(
-                ResponseDto.of(ResponseMessage.IMAGE_UPLOAD_SUCCESS, response)
-            );
+        return ResponseDto.of(ResponseMessage.IMAGE_UPLOAD_SUCCESS, response);
     }
 }

@@ -30,12 +30,6 @@ public class MemberController {
 
         ReadMemberResponse response = memberService.find(bundle);
 
-        return ResponseEntity.status(ResponseMessage.MEMBER_READ_SUCCESS.getStatus())
-            .body(
-                ResponseDto.of(
-                    ResponseMessage.MEMBER_READ_SUCCESS,
-                    response
-                )
-            );
+        return ResponseDto.of(ResponseMessage.MEMBER_READ_SUCCESS, response);
     }
 }
