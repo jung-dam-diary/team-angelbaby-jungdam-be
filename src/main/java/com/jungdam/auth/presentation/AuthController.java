@@ -10,9 +10,11 @@ import com.jungdam.common.utils.HeaderUtil;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.InvalidRefreshTokenException;
 import com.jungdam.error.exception.NotExpiredException;
+import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.infrastructure.MemberRefreshTokenRepository;
+import com.jungdam.member.infrastructure.MemberRepository;
 import io.jsonwebtoken.Claims;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,16 +40,19 @@ public class AuthController {
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     public AuthController(
         AuthProperties authProperties,
         AuthTokenProvider tokenProvider,
         AuthenticationManager authenticationManager,
-        MemberRefreshTokenRepository memberRefreshTokenRepository) {
+        MemberRefreshTokenRepository memberRefreshTokenRepository,
+        MemberRepository memberRepository) {
         this.authProperties = authProperties;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.memberRefreshTokenRepository = memberRefreshTokenRepository;
+        this.memberRepository = memberRepository;
     }
 
     @GetMapping("/refresh")
@@ -64,7 +69,10 @@ public class AuthController {
             throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
         }
 
-        String oauthPermission = claims.getSubject();
+        Long oauthPermission = Long.parseLong(claims.getSubject());
+
+        Member member = memberRepository.findById(oauthPermission).get();
+
         Role roleType = Role.of(claims.get("role", String.class));
 
         String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN)
@@ -77,14 +85,14 @@ public class AuthController {
         }
 
         MemberRefreshToken userRefreshToken = memberRefreshTokenRepository.findByOauthPermissionAndRefreshToken(
-            oauthPermission, refreshToken);
+            member.getOauthPermission(), refreshToken);
         if (Objects.isNull(userRefreshToken)) {
             throw new InvalidRefreshTokenException(ErrorMessage.INVALID_REFRESH_TOKEN);
         }
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-            oauthPermission,
+            String.valueOf(oauthPermission),
             roleType.getRole(),
             new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
         );

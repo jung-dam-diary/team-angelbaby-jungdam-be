@@ -10,10 +10,12 @@ import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.config.AuthProperties;
 import com.jungdam.common.utils.CookieUtil;
+import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.infrastructure.MemberRefreshTokenRepository;
+import com.jungdam.member.infrastructure.MemberRepository;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
@@ -42,15 +44,18 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private final AuthProperties authProperties;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository;
+    private final MemberRepository memberRepository;
 
     public OAuth2AuthenticationSuccessHandler(final AuthTokenProvider tokenProvider,
         final AuthProperties authProperties,
         final MemberRefreshTokenRepository memberRefreshTokenRepository,
-        final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository) {
+        final OAuth2AuthorizationRequestBasedOnCookieRepository authorizationRequestRepository,
+        final MemberRepository memberRepository) {
         this.tokenProvider = tokenProvider;
         this.authProperties = authProperties;
         this.memberRefreshTokenRepository = memberRefreshTokenRepository;
         this.authorizationRequestRepository = authorizationRequestRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -95,8 +100,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         Role role = hasAuthority(authorities, Role.ADMIN.getRole()) ? Role.ADMIN : Role.USER;
 
         Date now = new Date();
+
+        Member member = memberRepository.findByOauthPermission(
+            oAuth2MemberInfo.getOauthPermission());
+
         AuthToken accessToken = tokenProvider.createAuthToken(
-            oAuth2MemberInfo.getOauthPermission(),
+            String.valueOf(member.getId()),
             role.getRole(),
             new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
         );

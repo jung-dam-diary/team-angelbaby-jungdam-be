@@ -10,6 +10,7 @@ import com.jungdam.auth.infrastructure.OAuth2AuthorizationRequestBasedOnCookieRe
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.infrastructure.MemberRefreshTokenRepository;
+import com.jungdam.member.infrastructure.MemberRepository;
 import java.util.Arrays;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,18 +33,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
+    private final MemberRepository memberRepository;
 
     public SecurityConfig(final CorsProperties corsProperties, final AuthProperties authProperties,
         final AuthTokenProvider tokenProvider,
         final CustomOAuth2UserService oAuth2UserService,
         final TokenAccessDeniedHandler tokenAccessDeniedHandler,
-        final MemberRefreshTokenRepository memberRefreshTokenRepository) {
+        final MemberRefreshTokenRepository memberRefreshTokenRepository,
+        final MemberRepository memberRepository) {
         this.corsProperties = corsProperties;
         this.authProperties = authProperties;
         this.tokenProvider = tokenProvider;
         this.oAuth2UserService = oAuth2UserService;
         this.tokenAccessDeniedHandler = tokenAccessDeniedHandler;
         this.memberRefreshTokenRepository = memberRefreshTokenRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -107,7 +111,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             tokenProvider,
             authProperties,
             memberRefreshTokenRepository,
-            oAuth2AuthorizationRequestBasedOnCookieRepository()
+            oAuth2AuthorizationRequestBasedOnCookieRepository(),
+            memberRepository
         );
     }
 
