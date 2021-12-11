@@ -44,7 +44,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    // 추가로 이메일 검증 필요
     private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         ProviderType providerType = ProviderType.valueOf(
             oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()

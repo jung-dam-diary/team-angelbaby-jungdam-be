@@ -8,6 +8,8 @@ import com.jungdam.auth.handler.RestAuthenticationEntryPoint;
 import com.jungdam.auth.handler.TokenAccessDeniedHandler;
 import com.jungdam.auth.infrastructure.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.jungdam.auth.token.AuthTokenProvider;
+import com.jungdam.common.properties.AuthProperties;
+import com.jungdam.common.properties.CorsProperties;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.infrastructure.MemberRefreshTokenRepository;
 import com.jungdam.member.infrastructure.MemberRepository;

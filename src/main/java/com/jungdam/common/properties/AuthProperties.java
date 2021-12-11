@@ -1,4 +1,4 @@
-package com.jungdam.common.config;
+package com.jungdam.common.properties;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -23,6 +23,10 @@ public class MemberRefreshToken extends BaseEntity {
     @Column(name = "member_refresh_token")
     private String refreshToken;
 
+    protected MemberRefreshToken() {
+
+    }
+
     public MemberRefreshToken(
         String oauthPermission,
         String refreshToken
@@ -31,15 +35,11 @@ public class MemberRefreshToken extends BaseEntity {
         this.refreshToken = refreshToken;
     }
 
-    protected MemberRefreshToken() {
-
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
     }
 }

@@ -1,6 +1,7 @@
 package com.jungdam.error;
 
 import java.time.LocalDateTime;
+import org.springframework.http.ResponseEntity;
 
 public class ErrorResponseDto {
 
@@ -12,8 +13,14 @@ public class ErrorResponseDto {
         this.serverDateTime = LocalDateTime.now();
     }
 
-    public static ErrorResponseDto of(ErrorMessage message) {
-        return new ErrorResponseDto(message.getMessage());
+    public static ResponseEntity<ErrorResponseDto> of(ErrorMessage message) {
+        return ResponseEntity
+            .status(
+                message.getStatus()
+            )
+            .body(
+                new ErrorResponseDto(message.getMessage())
+            );
     }
 
     public String getMessage() {

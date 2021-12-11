@@ -16,7 +16,6 @@ public class AuthToken {
 
     private static final String AUTHORITIES_KEY = "role";
     private final Logger log = LoggerFactory.getLogger(getClass());
-
     private final String token;
     private final Key key;
 
@@ -25,31 +24,31 @@ public class AuthToken {
         this.key = key;
     }
 
-    AuthToken(String email, Date expiry, Key key) {
+    AuthToken(String id, Date expiry, Key key) {
         this.key = key;
-        this.token = createAuthToken(email, expiry);
+        this.token = createAuthToken(id, expiry);
     }
 
-    AuthToken(String email, String role, Date expiry, Key key) {
+    AuthToken(String id, String role, Date expiry, Key key) {
         this.key = key;
-        this.token = createAuthToken(email, role, expiry);
+        this.token = createAuthToken(id, role, expiry);
     }
 
     public String getToken() {
         return token;
     }
 
-    private String createAuthToken(String email, Date expiry) {
+    private String createAuthToken(String id, Date expiry) {
         return Jwts.builder()
-            .setSubject(email)
+            .setSubject(id)
             .signWith(key, SignatureAlgorithm.HS256)
             .setExpiration(expiry)
             .compact();
     }
 
-    private String createAuthToken(String email, String role, Date expiry) {
+    private String createAuthToken(String id, String role, Date expiry) {
         return Jwts.builder()
-            .setSubject(email)
+            .setSubject(id)
             .claim(AUTHORITIES_KEY, role)
             .signWith(key, SignatureAlgorithm.HS256)
             .setExpiration(expiry)

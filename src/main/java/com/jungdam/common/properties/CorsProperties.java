@@ -1,4 +1,4 @@
-package com.jungdam.common.config;
+package com.jungdam.common.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

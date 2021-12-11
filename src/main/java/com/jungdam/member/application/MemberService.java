@@ -20,16 +20,21 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
-        Member member = memberRepository.findById(bundle.getMemberId())
-            .orElseThrow(() -> {
-                throw new NotExistException(ErrorMessage.NOT_EXIST_MEMBER);
-            });
-
+        Member member = findById(bundle.getMemberId());
+        
         return new ReadMemberResponse(
             member.getEmail(),
             member.getNickname(),
             member.getAvatar(),
             member.getRole()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(() -> {
+                throw new NotExistException(ErrorMessage.NOT_EXIST_MEMBER);
+            });
     }
 }

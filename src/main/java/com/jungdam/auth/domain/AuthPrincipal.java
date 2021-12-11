@@ -19,20 +19,17 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final Long id;
     private final String email;
     private final String oauthPermission;
-    private final String password;
     private final ProviderType providerType;
     private final Role role;
     private final Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
     private AuthPrincipal(final Long id, final String email, final String oauthPermission,
-        final String password,
         final ProviderType providerType, final Role role,
         final Collection<GrantedAuthority> authorities, final Map<String, Object> attributes) {
         this.id = id;
         this.email = email;
         this.oauthPermission = oauthPermission;
-        this.password = password;
         this.providerType = providerType;
         this.role = role;
         this.authorities = authorities;
@@ -40,13 +37,11 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
     }
 
     public AuthPrincipal(final Long id, final String email, final String oauthPermission,
-        final String password,
         final ProviderType providerType, final Role role,
         final Collection<GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
         this.oauthPermission = oauthPermission;
-        this.password = password;
         this.providerType = providerType;
         this.role = role;
         this.authorities = authorities;
@@ -57,7 +52,6 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
             member.getId(),
             member.getEmail(),
             member.getOauthPermission(),
-            member.getPassword(),
             member.getProviderType(),
             Role.USER,
             Collections.singletonList(new SimpleGrantedAuthority(Role.USER.getRole()))
@@ -79,6 +73,11 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return "NO_PASSWORD";
     }
 
     @Override
@@ -128,10 +127,6 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
 
     public void initAttributes(Map<String, Object> attributes) {
         this.attributes = attributes;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public Long getId() {

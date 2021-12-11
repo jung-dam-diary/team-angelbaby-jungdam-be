@@ -11,10 +11,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponseDto> handleBusinessException(
         BusinessException exception) {
         ErrorMessage message = exception.getErrorMessage();
-        ErrorResponseDto response = ErrorResponseDto.of(message);
-
-        return ResponseEntity
-            .status(message.getStatus())
-            .body(response);
+        return ErrorResponseDto.of(message);
     }
 }

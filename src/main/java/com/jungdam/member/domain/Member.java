@@ -5,7 +5,6 @@ import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.member.domain.vo.Avatar;
 import com.jungdam.member.domain.vo.Email;
 import com.jungdam.member.domain.vo.Nickname;
-import com.jungdam.member.domain.vo.Password;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.domain.vo.Status;
@@ -45,9 +44,6 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Status status;
 
-    @Embedded
-    private Password password;
-
     @Column(name = "member_provider_type")
     @Enumerated(EnumType.STRING)
     private ProviderType providerType;
@@ -68,7 +64,6 @@ public class Member extends BaseEntity {
     ) {
         this.oauthPermission = oauthPermission;
         this.nickname = new Nickname(nickname);
-        this.password = new Password("NO_PASSWORD");
         this.email = Objects.isNull(email) ? new Email("NO_EMAIL") : new Email(email);
         this.avatar = Objects.isNull(avatar) ? new Avatar("NO_AVATAR") : new Avatar(avatar);
         this.providerType = providerType;
@@ -86,10 +81,6 @@ public class Member extends BaseEntity {
 
     public String getNickname() {
         return nickname.getNickname();
-    }
-
-    public String getPassword() {
-        return password.getPassword();
     }
 
     public String getAvatar() {

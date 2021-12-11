@@ -1,6 +1,5 @@
 package com.jungdam.auth.handler;
 
-import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,8 +19,7 @@ public class TokenAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
-        AccessDeniedException accessDeniedException) throws IOException {
-        //response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
+        AccessDeniedException accessDeniedException) {
         handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
     }
 }

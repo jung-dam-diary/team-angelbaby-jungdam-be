@@ -1,5 +1,7 @@
 package com.jungdam.common.config;
 
+import com.jungdam.common.properties.AuthProperties;
+import com.jungdam.common.properties.CorsProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

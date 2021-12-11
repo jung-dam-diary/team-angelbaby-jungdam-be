@@ -8,7 +8,7 @@ import com.jungdam.auth.oauth2.OAuth2MemberInfo;
 import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
 import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
-import com.jungdam.common.config.AuthProperties;
+import com.jungdam.common.properties.AuthProperties;
 import com.jungdam.common.utils.CookieUtil;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;
@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +59,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException, ServletException {
+        Authentication authentication) throws IOException {
         String targetUrl = determineTargetUrl(request, response, authentication);
 
         if (response.isCommitted()) {
@@ -74,7 +73,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) {
-        System.out.println("11111");
 
         Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
             .map(Cookie::getValue);
@@ -131,12 +129,17 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         int cookieMaxAge = (int) refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECONDS;
 
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+        updateCookie(request, response, refreshToken, cookieMaxAge);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
             .queryParam(QUERY_PARAM_FOR_TOKEN, accessToken.getToken())
             .build().toUriString();
+    }
+
+    private void updateCookie(HttpServletRequest request, HttpServletResponse response,
+        AuthToken refreshToken, int cookieMaxAge) {
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request,
@@ -165,7 +168,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         return authProperties.getOauth2().getAuthorizedRedirectUris()
             .stream()
             .anyMatch(authorizedRedirectUri -> {
-                // Only validate host and port. Let the clients use different paths if they want to
                 URI authorizedURI = URI.create(authorizedRedirectUri);
                 if (authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
                     && authorizedURI.getPort() == clientRedirectUri.getPort()) {
