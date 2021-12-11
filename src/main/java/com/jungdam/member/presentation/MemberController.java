@@ -4,9 +4,8 @@ import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.member.application.MemberService;
-import com.jungdam.member.dto.MemberBundle;
-import com.jungdam.member.dto.MemberResponse;
-import com.jungdam.member.dto.MemberResponse.MemberReadResponse;
+import com.jungdam.member.dto.bundle.ReadMemberBundle;
+import com.jungdam.member.dto.response.ReadMemberResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +22,11 @@ public class MemberController {
     }
 
     @GetMapping()
-    public ResponseEntity<ResponseDto<MemberReadResponse>> findMember() {
+    public ResponseEntity<ResponseDto<ReadMemberResponse>> findMember() {
         String username = SecurityUtils.getCurrentUsername();
-        MemberBundle.MemberReadBundle bundle = new MemberBundle.MemberReadBundle(username);
+        ReadMemberBundle bundle = new ReadMemberBundle(username);
 
-        MemberResponse.MemberReadResponse response = memberService.find(bundle);
+        ReadMemberResponse response = memberService.find(bundle);
 
         return ResponseEntity.status(ResponseMessage.MEMBER_READ_SUCCESS.getStatus())
             .body(
