@@ -127,13 +127,21 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
         }
 
-        int cookieMaxAge = (int) refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECONDS;
+        int cookieMaxAge = calculateRefreshTokenExpiry((int) refreshTokenExpiry);
 
         updateCookie(request, response, refreshToken, cookieMaxAge);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-            .queryParam(QUERY_PARAM_FOR_TOKEN, accessToken.getToken())
-            .build().toUriString();
+            .queryParam(
+                QUERY_PARAM_FOR_TOKEN,
+                accessToken.getToken()
+            )
+            .build()
+            .toUriString();
+    }
+
+    private int calculateRefreshTokenExpiry(int refreshTokenExpiry) {
+        return refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECONDS;
     }
 
     private void updateCookie(HttpServletRequest request, HttpServletResponse response,
