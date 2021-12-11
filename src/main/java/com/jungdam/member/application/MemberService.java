@@ -1,5 +1,7 @@
 package com.jungdam.member.application;
 
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
@@ -18,8 +20,10 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
-        Member member = memberRepository.findById(Long.parseLong(bundle.getOauthPermission()))
-            .get();
+        Member member = memberRepository.findById(bundle.getMemberId())
+            .orElseThrow(() -> {
+                throw new NotExistException(ErrorMessage.NOT_EXIST_MEMBER);
+            });
 
         return new ReadMemberResponse(
             member.getEmail(),

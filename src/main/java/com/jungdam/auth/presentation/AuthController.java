@@ -69,9 +69,9 @@ public class AuthController {
             throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
         }
 
-        Long oauthPermission = Long.parseLong(claims.getSubject());
+        Long memberId = Long.parseLong(claims.getSubject());
 
-        Member member = memberRepository.findById(oauthPermission).get();
+        Member member = memberRepository.findById(memberId).get();
 
         Role roleType = Role.of(claims.get("role", String.class));
 
@@ -92,7 +92,7 @@ public class AuthController {
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-            String.valueOf(oauthPermission),
+            String.valueOf(memberId),
             roleType.getRole(),
             new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
         );

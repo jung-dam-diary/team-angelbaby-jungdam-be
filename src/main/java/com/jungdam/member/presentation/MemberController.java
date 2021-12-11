@@ -24,13 +24,9 @@ public class MemberController {
     @GetMapping()
     public ResponseEntity<ResponseDto<ReadMemberResponse>> findMember() {
 
-        String username = SecurityUtils.getCurrentUsername();
+        Long memberId = SecurityUtils.getCurrentUsername();
 
-        System.out.println("-----------------------------------");
-        System.out.println(username);
-        System.out.println("-----------------------------------");
-
-        ReadMemberBundle bundle = new ReadMemberBundle(username);
+        ReadMemberBundle bundle = new ReadMemberBundle(memberId);
 
         ReadMemberResponse response = memberService.find(bundle);
 

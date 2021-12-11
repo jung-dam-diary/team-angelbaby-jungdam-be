@@ -12,16 +12,16 @@ public class SecurityUtils {
     private SecurityUtils() {
     }
 
-    public static String getCurrentUsername() {
+    public static Long getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         isNullAuthentication(authentication);
 
         if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-            return springSecurityUser.getUsername();
+            return Long.parseLong(springSecurityUser.getUsername());
         }
-        return (String) authentication.getPrincipal();
+        return (Long) authentication.getPrincipal();
     }
 
     private static void isNullAuthentication(Authentication authentication) {

@@ -1,7 +1,6 @@
 package com.jungdam.member.infrastructure;
 
 import com.jungdam.member.domain.Member;
-import com.jungdam.member.domain.vo.Email;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,5 +10,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByOauthPermission(String oauthPermission);
 
-    Optional<Member> findByEmail(Email email);
+    Optional<Member> findById(Long memberId);
 }
