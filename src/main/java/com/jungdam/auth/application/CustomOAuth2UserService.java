@@ -30,6 +30,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest)
         throws OAuth2AuthenticationException {
+
+        System.out.println("-----");
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
         try {
@@ -55,7 +57,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
 
         Member member = memberRepository.findByOauthPermission(
-            oAuth2MemberInfo.getOauthPermission());
+            oAuth2MemberInfo.getOauthPermission()
+        );
 
         if (!Objects.isNull(member)) {
             if (providerType != member.getProviderType()) {
@@ -64,6 +67,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             update(member, oAuth2MemberInfo);
         } else {
             member = createUser(oAuth2MemberInfo, providerType);
+            System.out.println("내가 먼저");
         }
 
         return AuthPrincipal.create(member, oAuth2User.getAttributes());

@@ -60,15 +60,15 @@ public class Member extends BaseEntity {
     }
 
     public Member(
-        String userId,
-        String username,
+        String oauthPermission,
+        String nickname,
         String email,
         String avatar,
         ProviderType providerType
     ) {
-        this.oauthPermission = userId;
-        this.nickname = new Nickname(username);
-        this.password = new Password("NO_PASS");
+        this.oauthPermission = oauthPermission;
+        this.nickname = new Nickname(nickname);
+        this.password = new Password("NO_PASSWORD");
         this.email = Objects.isNull(email) ? new Email("NO_EMAIL") : new Email(email);
         this.avatar = Objects.isNull(avatar) ? new Avatar("NO_AVATAR") : new Avatar(avatar);
         this.providerType = providerType;
@@ -88,7 +88,6 @@ public class Member extends BaseEntity {
         return nickname.getNickname();
     }
 
-
     public String getPassword() {
         return password.getPassword();
     }
@@ -96,7 +95,6 @@ public class Member extends BaseEntity {
     public String getAvatar() {
         return avatar.getAvatar();
     }
-
 
     public ProviderType getProviderType() {
         return providerType;

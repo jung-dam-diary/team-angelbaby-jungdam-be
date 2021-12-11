@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.User;
 public class AuthTokenProvider {
 
     private static final String AUTHORITIES_KEY = "role";
-    private static final String USER_PASSWORD = "";
+    private static final String USER_PASSWORD = "NO_PASSWORD";
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final Key key;
 

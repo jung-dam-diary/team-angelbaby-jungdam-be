@@ -1,16 +1,14 @@
 package com.jungdam.member.dto.bundle;
 
-import com.jungdam.member.domain.vo.Email;
-
 public class ReadMemberBundle {
 
-    private final Email email;
+    private final String email;
 
     public ReadMemberBundle(String email) {
-        this.email = new Email(email);
+        this.email = email;
     }
 
-    public Email getEmail() {
+    public String getEmail() {
         return email;
     }
 }

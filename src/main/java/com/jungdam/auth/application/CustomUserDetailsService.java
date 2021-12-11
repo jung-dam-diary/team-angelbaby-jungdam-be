@@ -21,6 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.memberRepository = memberRepository;
     }
 
+    //일반 사용자의 로그인 진행
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {

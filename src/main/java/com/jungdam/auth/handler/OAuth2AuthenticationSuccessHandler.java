@@ -69,6 +69,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) {
+        System.out.println("11111");
+
         Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
             .map(Cookie::getValue);
 
@@ -81,7 +83,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
         ProviderType providerType = ProviderType.valueOf(
-            authToken.getAuthorizedClientRegistrationId().toUpperCase());
+            authToken.getAuthorizedClientRegistrationId().toUpperCase()
+        );
 
         OidcUser oidcUser = ((OidcUser) authentication.getPrincipal());
         OAuth2MemberInfo oAuth2MemberInfo = OAuth2MemberInfoFactory.of(
@@ -89,12 +92,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             oidcUser.getAttributes());
         Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
 
-        Role role =
-            hasAuthority(authorities, Role.ADMIN.getRole()) ? Role.ADMIN : Role.USER;
+        Role role = hasAuthority(authorities, Role.ADMIN.getRole()) ? Role.ADMIN : Role.USER;
 
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
-            oAuth2MemberInfo.getEmail(),
+            oAuth2MemberInfo.getOauthPermission(),
             role.getRole(),
             new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
         );
@@ -111,8 +113,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         if (!Objects.isNull(memberRefreshToken)) {
             memberRefreshToken.setRefreshToken(refreshToken.getToken());
         } else {
-            memberRefreshToken = new MemberRefreshToken(oAuth2MemberInfo.getOauthPermission(),
-                refreshToken.getToken());
+            memberRefreshToken = new MemberRefreshToken(
+                oAuth2MemberInfo.getOauthPermission(),
+                refreshToken.getToken()
+            );
             memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
         }
 
