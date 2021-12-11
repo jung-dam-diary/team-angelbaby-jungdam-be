@@ -1,10 +1,15 @@
 package com.jungdam.member.domain.vo;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @Embeddable
 public class Avatar {
+
+    @Transient
+    private final static String NO_AVATAR = "NO_AVATAR";
 
     @Column(name = "member_avatar")
     private String avatar;
@@ -14,10 +19,17 @@ public class Avatar {
     }
 
     public Avatar(String avatar) {
-        this.avatar = avatar;
+        this.avatar = validate(avatar);
     }
 
-    public String getAvatar() {
+    private String validate(String avatar) {
+        if (Objects.isNull(avatar)) {
+            return NO_AVATAR;
+        }
+        return avatar;
+    }
+
+    public String validate() {
         return avatar;
     }
 }
