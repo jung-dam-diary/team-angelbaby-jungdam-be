@@ -29,6 +29,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String[] AUTH_WHITELIST = {
+        "/v2/api-docs",
+        "/swagger-resources",
+        "/swagger-resources/**",
+        "/configuration/ui",
+        "/configuration/security",
+        "/swagger-ui.html",
+        "/webjars/**",
+        "/v3/api-docs/**",
+        "/swagger-ui/**"
+    };
+
     private final CorsProperties corsProperties;
     private final AuthProperties authProperties;
     private final AuthTokenProvider tokenProvider;
@@ -54,11 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
             .cors();
+
         http
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         http
             .csrf().disable()
             .formLogin().disable()
@@ -66,12 +81,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling()
             .authenticationEntryPoint(new RestAuthenticationEntryPoint())
             .accessDeniedHandler(tokenAccessDeniedHandler);
+
         http
             .authorizeRequests()
+            .antMatchers(AUTH_WHITELIST).permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
             .antMatchers("/api/**").hasAnyAuthority(Role.USER.getRole())
             .antMatchers("/api/**/admin/**").hasAnyAuthority(Role.ADMIN.getRole())
             .anyRequest().authenticated();
+
         http
             .oauth2Login()
             .authorizationEndpoint()
@@ -87,8 +105,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .successHandler(oAuth2AuthenticationSuccessHandler())
             .failureHandler(oAuth2AuthenticationFailureHandler());
 
-        http.addFilterBefore(tokenAuthenticationFilter(),
-            UsernamePasswordAuthenticationFilter.class);
+        http
+            .addFilterBefore(tokenAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
