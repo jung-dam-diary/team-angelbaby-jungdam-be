@@ -36,26 +36,24 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
         this.attributes = attributes;
     }
 
-    public AuthPrincipal(final Long id, final String email, final String oauthPermission,
-        final ProviderType providerType, final Role role,
-        final Collection<GrantedAuthority> authorities) {
+    private AuthPrincipal(final Long id, final String email, final String oauthPermission,
+        final ProviderType providerType) {
         this.id = id;
         this.email = email;
         this.oauthPermission = oauthPermission;
         this.providerType = providerType;
-        this.role = role;
-        this.authorities = authorities;
+        this.role = Role.USER;
+        this.authorities = Collections.singletonList(
+            new SimpleGrantedAuthority(Role.USER.getRole()));
     }
 
     public static AuthPrincipal create(Member member) {
-        return new AuthPrincipal(
-            member.getId(),
-            member.getEmail(),
-            member.getOauthPermission(),
-            member.getProviderType(),
-            Role.USER,
-            Collections.singletonList(new SimpleGrantedAuthority(Role.USER.getRole()))
-        );
+        return AuthPrincipal.builder()
+            .id(member.getId())
+            .email(member.getEmail())
+            .oauthPermission(member.getOauthPermission())
+            .providerType(member.getProviderType())
+            .build();
     }
 
     public static AuthPrincipal create(Member member, Map<String, Object> attributes) {
@@ -63,6 +61,10 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
         authPrincipal.initAttributes(attributes);
 
         return authPrincipal;
+    }
+
+    public static AuthPrincipal.AuthPrincipalBuilder builder() {
+        return new AuthPrincipal.AuthPrincipalBuilder();
     }
 
     @Override
@@ -131,5 +133,41 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
 
     public Long getId() {
         return id;
+    }
+
+    public static class AuthPrincipalBuilder {
+
+        private Long id;
+        private String email;
+        private String oauthPermission;
+        private ProviderType providerType;
+
+        private AuthPrincipalBuilder() {
+
+        }
+
+        private AuthPrincipal.AuthPrincipalBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        private AuthPrincipal.AuthPrincipalBuilder email(final String email) {
+            this.email = email;
+            return this;
+        }
+
+        private AuthPrincipal.AuthPrincipalBuilder oauthPermission(final String oauthPermission) {
+            this.oauthPermission = oauthPermission;
+            return this;
+        }
+
+        private AuthPrincipal.AuthPrincipalBuilder providerType(final ProviderType providerType) {
+            this.providerType = providerType;
+            return this;
+        }
+
+        private AuthPrincipal build() {
+            return new AuthPrincipal(this.id, this.email, this.oauthPermission, this.providerType);
+        }
     }
 }

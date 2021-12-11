@@ -8,7 +8,6 @@ import com.jungdam.member.domain.vo.Nickname;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.domain.vo.Status;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -64,11 +63,15 @@ public class Member extends BaseEntity {
     ) {
         this.oauthPermission = oauthPermission;
         this.nickname = new Nickname(nickname);
-        this.email = Objects.isNull(email) ? new Email("NO_EMAIL") : new Email(email);
-        this.avatar = Objects.isNull(avatar) ? new Avatar("NO_AVATAR") : new Avatar(avatar);
+        this.email = new Email(email);
+        this.avatar = new Avatar(avatar);
         this.providerType = providerType;
         this.role = Role.USER;
         this.status = Status.FREE;
+    }
+
+    public static Member.MemberBuilder builder() {
+        return new Member.MemberBuilder();
     }
 
     public void updateNickname(String nickname) {
@@ -84,7 +87,7 @@ public class Member extends BaseEntity {
     }
 
     public String getAvatar() {
-        return avatar.getAvatar();
+        return avatar.validate();
     }
 
     public ProviderType getProviderType() {
@@ -100,10 +103,52 @@ public class Member extends BaseEntity {
     }
 
     public String getEmail() {
-        return email.getEmail();
+        return email.validate();
     }
 
     public String getOauthPermission() {
         return oauthPermission;
+    }
+
+    public static class MemberBuilder {
+
+        private String oauthPermission;
+        private String nickname;
+        private String email;
+        private String avatar;
+        private ProviderType providerType;
+
+        private MemberBuilder() {
+        }
+
+        public Member.MemberBuilder oauthPermission(final String oauthPermission) {
+            this.oauthPermission = oauthPermission;
+            return this;
+        }
+
+        public Member.MemberBuilder nickname(final String nickname) {
+            this.nickname = nickname;
+            return this;
+        }
+
+        public Member.MemberBuilder email(final String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Member.MemberBuilder avatar(final String avatar) {
+            this.avatar = avatar;
+            return this;
+        }
+
+        public Member.MemberBuilder providerType(ProviderType providerType) {
+            this.providerType = providerType;
+            return this;
+        }
+
+        public Member build() {
+            return new Member(this.oauthPermission, this.nickname, this.email, this.avatar,
+                this.providerType);
+        }
     }
 }
