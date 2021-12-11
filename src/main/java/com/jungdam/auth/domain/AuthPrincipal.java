@@ -134,10 +134,6 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
         return password;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
     public Long getId() {
         return id;
     }

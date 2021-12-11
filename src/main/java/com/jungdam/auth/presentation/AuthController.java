@@ -1,7 +1,5 @@
 package com.jungdam.auth.presentation;
 
-import com.jungdam.auth.domain.AuthPrincipal;
-import com.jungdam.auth.dto.request.AuthRequestDto;
 import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.config.AuthProperties;
@@ -25,12 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,61 +48,6 @@ public class AuthController {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.memberRefreshTokenRepository = memberRefreshTokenRepository;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<ResponseDto<Map<String, String>>> login(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        @RequestBody AuthRequestDto authRequestDto
-    ) {
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                authRequestDto.getUsername(),
-                authRequestDto.getPassword()
-            )
-        );
-
-        String username = authRequestDto.getUsername();
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        Date now = new Date();
-        AuthToken accessToken = tokenProvider.createAuthToken(
-            username,
-            ((AuthPrincipal) authentication.getPrincipal()).getRole().getRole(),
-            new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
-        );
-
-        long refreshTokenExpiry = authProperties.getOauth().getRefreshTokenExpiry();
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-            authProperties.getOauth().getTokenSecret(),
-            new Date(now.getTime() + refreshTokenExpiry)
-        );
-
-        MemberRefreshToken userRefreshToken = memberRefreshTokenRepository.findByOauthPermission(
-            username);
-
-        if (Objects.isNull(userRefreshToken)) {
-            userRefreshToken = new MemberRefreshToken(username, refreshToken.getToken());
-            memberRefreshTokenRepository.saveAndFlush(userRefreshToken);
-        } else {
-            userRefreshToken.updateRefreshToken(refreshToken.getToken());
-        }
-
-        int cookieMaxAge = (int) refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECOND;
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
-
-        Map<String, String> token = new HashMap<>();
-        token.put("token", accessToken.getToken());
-
-        return ResponseEntity.status(ResponseMessage.MEMBER_LOGIN_SUCCESS.getStatus())
-            .body(
-                ResponseDto.of(
-                    ResponseMessage.MEMBER_LOGIN_SUCCESS,
-                    token
-                )
-            );
     }
 
     @GetMapping("/refresh")

@@ -1,7 +1,6 @@
 package com.jungdam.common.config;
 
 import com.jungdam.auth.application.CustomOAuth2UserService;
-import com.jungdam.auth.application.CustomUserDetailsService;
 import com.jungdam.auth.filter.TokenAuthenticationFilter;
 import com.jungdam.auth.handler.OAuth2AuthenticationFailureHandler;
 import com.jungdam.auth.handler.OAuth2AuthenticationSuccessHandler;
@@ -16,11 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
@@ -32,29 +29,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsProperties corsProperties;
     private final AuthProperties authProperties;
     private final AuthTokenProvider tokenProvider;
-    private final CustomUserDetailsService userDetailsService;
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
 
     public SecurityConfig(final CorsProperties corsProperties, final AuthProperties authProperties,
-        final AuthTokenProvider tokenProvider, final CustomUserDetailsService userDetailsService,
+        final AuthTokenProvider tokenProvider,
         final CustomOAuth2UserService oAuth2UserService,
         final TokenAccessDeniedHandler tokenAccessDeniedHandler,
         final MemberRefreshTokenRepository memberRefreshTokenRepository) {
         this.corsProperties = corsProperties;
         this.authProperties = authProperties;
         this.tokenProvider = tokenProvider;
-        this.userDetailsService = userDetailsService;
         this.oAuth2UserService = oAuth2UserService;
         this.tokenAccessDeniedHandler = tokenAccessDeniedHandler;
         this.memberRefreshTokenRepository = memberRefreshTokenRepository;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -100,11 +89,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     protected AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
