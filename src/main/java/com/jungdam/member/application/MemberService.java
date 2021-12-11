@@ -18,7 +18,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
-        Member member = memberRepository.findByOauthPermission(bundle.getEmail());
+        Member member = memberRepository.findByOauthPermission(bundle.getOauthPermission());
 
         return new ReadMemberResponse(
             member.getEmail(),

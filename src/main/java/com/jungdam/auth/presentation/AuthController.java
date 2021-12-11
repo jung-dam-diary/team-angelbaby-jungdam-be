@@ -93,7 +93,7 @@ public class AuthController {
             userRefreshToken = new MemberRefreshToken(username, refreshToken.getToken());
             memberRefreshTokenRepository.saveAndFlush(userRefreshToken);
         } else {
-            userRefreshToken.setRefreshToken(refreshToken.getToken());
+            userRefreshToken.updateRefreshToken(refreshToken.getToken());
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECOND;
@@ -162,7 +162,7 @@ public class AuthController {
                 new Date(now.getTime() + refreshTokenExpiry)
             );
 
-            userRefreshToken.setRefreshToken(authRefreshToken.getToken());
+            userRefreshToken.updateRefreshToken(authRefreshToken.getToken());
 
             int cookieMaxAge = (int) refreshTokenExpiry / REFRESH_TOKEN_EXPIRY_SECOND;
             CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);

@@ -2,13 +2,13 @@ package com.jungdam.member.dto.bundle;
 
 public class ReadMemberBundle {
 
-    private final String email;
+    private final String oauthPermission;
 
-    public ReadMemberBundle(String email) {
-        this.email = email;
+    public ReadMemberBundle(String oauthPermission) {
+        this.oauthPermission = oauthPermission;
     }
 
-    public String getEmail() {
-        return email;
+    public String getOauthPermission() {
+        return oauthPermission;
     }
 }

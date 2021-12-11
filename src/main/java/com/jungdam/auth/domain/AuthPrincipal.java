@@ -25,7 +25,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-    public AuthPrincipal(final Long id, final String email, final String oauthPermission,
+    private AuthPrincipal(final Long id, final String email, final String oauthPermission,
         final String password,
         final ProviderType providerType, final Role role,
         final Collection<GrantedAuthority> authorities, final Map<String, Object> attributes) {

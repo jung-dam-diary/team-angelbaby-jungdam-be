@@ -13,14 +13,14 @@ public class MemberRefreshToken extends BaseEntity {
 
     @JsonIgnore
     @Id
-    @Column(name = "refresh_token_seq")
+    @Column(name = "refresh_token_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "member_oauth_permission", unique = true)
     private String oauthPermission;
 
-    @Column(name = "refresh_token")
+    @Column(name = "member_refresh_token")
     private String refreshToken;
 
     public MemberRefreshToken(
@@ -39,15 +39,7 @@ public class MemberRefreshToken extends BaseEntity {
         return id;
     }
 
-    public String getOauthPermission() {
-        return oauthPermission;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
+    public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
 }
