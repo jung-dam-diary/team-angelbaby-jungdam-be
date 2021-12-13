@@ -11,12 +11,4 @@ public class Bookmark {
 
     public Bookmark() {
     }
-
-    public void check() {
-        if (this.bookmark) {
-            this.bookmark = false;
-            return;
-        }
-        this.bookmark = true;
-    }
 }
