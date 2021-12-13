@@ -8,4 +8,8 @@ public class UploadResponse {
     public UploadResponse(String uploadImageUrl) {
         this.uploadImageUrl = uploadImageUrl;
     }
+
+    public String getUploadImageUrl() {
+        return uploadImageUrl;
+    }
 }
