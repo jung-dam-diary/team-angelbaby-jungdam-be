@@ -1,6 +1,6 @@
 package com.jungdam.diary.domain.vo;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -8,13 +8,17 @@ import javax.persistence.Embeddable;
 public class RecordedAt {
 
     @Column(name = "diary_recorded_at")
-    private LocalDateTime recordedAt;
+    private LocalDate recordedAt;
 
     protected RecordedAt() {
 
     }
 
-    public RecordedAt(LocalDateTime recordedAt) {
+    public RecordedAt(LocalDate recordedAt) {
         this.recordedAt = recordedAt;
+    }
+
+    public LocalDate getRecordedAt() {
+        return recordedAt;
     }
 }

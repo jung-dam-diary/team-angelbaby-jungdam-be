@@ -9,17 +9,13 @@ import com.jungdam.album.domain.vo.Title;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.invitation.domain.Invitation;
-import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class Album extends BaseEntity {
@@ -37,10 +33,6 @@ public class Album extends BaseEntity {
 
     @Embedded
     private Thumbnail thumbnail;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
     @Embedded
     private Participants participants;
@@ -68,5 +60,9 @@ public class Album extends BaseEntity {
     public void addInvitation(Invitation invitation) {
         invitations.add(invitation);
         invitation.register(this);
+    }
+
+    public Long getId() {
+        return id;
     }
 }

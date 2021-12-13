@@ -1,4 +1,4 @@
-package com.jungdam.diary_image.domain.vo;
+package com.jungdam.diary_photo.domain.vo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,5 +15,9 @@ public class Image {
 
     public Image(String image) {
         this.image = image;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

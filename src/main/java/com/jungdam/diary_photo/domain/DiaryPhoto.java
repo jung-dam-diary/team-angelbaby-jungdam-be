@@ -1,8 +1,8 @@
-package com.jungdam.diary_image.domain;
+package com.jungdam.diary_photo.domain;
 
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
-import com.jungdam.diary_image.domain.vo.Image;
+import com.jungdam.diary_photo.domain.vo.Image;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -32,7 +32,15 @@ public class DiaryPhoto extends BaseEntity {
 
     }
 
+    public DiaryPhoto(Image image) {
+        this.image = image;
+    }
+
     public void register(Diary diary) {
         this.diary = diary;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }
