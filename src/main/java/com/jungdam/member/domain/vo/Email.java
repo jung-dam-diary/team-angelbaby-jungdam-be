@@ -29,7 +29,7 @@ public class Email {
         return email;
     }
 
-    public String validate() {
+    public String getEmail() {
         return email;
     }
 }

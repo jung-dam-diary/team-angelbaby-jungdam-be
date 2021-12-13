@@ -29,7 +29,7 @@ public class Avatar {
         return avatar;
     }
 
-    public String validate() {
+    public String getAvatar() {
         return avatar;
     }
 }

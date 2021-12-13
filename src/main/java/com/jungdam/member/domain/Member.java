@@ -87,7 +87,7 @@ public class Member extends BaseEntity {
     }
 
     public String getAvatar() {
-        return avatar.validate();
+        return avatar.getAvatar();
     }
 
     public ProviderType getProviderType() {
@@ -103,7 +103,7 @@ public class Member extends BaseEntity {
     }
 
     public String getEmail() {
-        return email.validate();
+        return email.getEmail();
     }
 
     public String getOauthPermission() {
