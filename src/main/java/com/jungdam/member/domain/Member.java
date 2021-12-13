@@ -1,6 +1,5 @@
 package com.jungdam.member.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.member.domain.vo.Avatar;
 import com.jungdam.member.domain.vo.Email;
@@ -20,7 +19,6 @@ import javax.persistence.Id;
 @Entity
 public class Member extends BaseEntity {
 
-    @JsonIgnore
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
