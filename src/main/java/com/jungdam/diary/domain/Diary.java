@@ -137,7 +137,7 @@ public class Diary extends BaseEntity {
         }
 
         public Diary build() {
-            return new Diary(this.title, this.content, this.recordedAt, member);
+            return new Diary(this.title, this.content, this.recordedAt, this.member);
         }
     }
 }
