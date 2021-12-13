@@ -19,7 +19,7 @@ public class ErrorResponseDto {
                 message.getStatus()
             )
             .body(
-                new ErrorResponseDto(message.getMessage())
+                new ErrorResponseDto(message.name())
             );
     }
 
