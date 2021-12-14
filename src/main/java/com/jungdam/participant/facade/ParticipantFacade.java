@@ -2,6 +2,10 @@ package com.jungdam.participant.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.NotExistException;
+import com.jungdam.member.application.MemberService;
+import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.converter.ParticipantConverter;
 import com.jungdam.participant.domain.Participant;
@@ -15,13 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class ParticipantFacade {
 
     private final AlbumService albumService;
+    private final MemberService memberService;
     private final ParticipantService participantService;
     private final ParticipantConverter participantConverter;
 
     public ParticipantFacade(AlbumService albumService,
+        MemberService memberService,
         ParticipantService participantService,
         ParticipantConverter participantConverter) {
         this.albumService = albumService;
+        this.memberService = memberService;
         this.participantService = participantService;
         this.participantConverter = participantConverter;
     }
@@ -29,6 +36,11 @@ public class ParticipantFacade {
     @Transactional
     public ReadAllParticipantResponse getAll(ReadAllParticipantBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        if (!participantService.existsByAlbumAndMember(album, member)) {
+            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
+        }
 
         List<Participant> participants = participantService.findAllByAlbum(album);
 
