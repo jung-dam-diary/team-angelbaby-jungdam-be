@@ -50,7 +50,7 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
     public static AuthPrincipal create(Member member) {
         return AuthPrincipal.builder()
             .id(member.getId())
-            .email(member.getEmail())
+            .email(member.getEmail().getEmail())
             .oauthPermission(member.getOauthPermission())
             .providerType(member.getProviderType())
             .build();

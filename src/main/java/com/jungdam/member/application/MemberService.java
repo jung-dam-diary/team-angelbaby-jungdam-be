@@ -21,7 +21,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
         Member member = findById(bundle.getMemberId());
-        
+
         return new ReadMemberResponse(
             member.getEmail(),
             member.getNickname(),
