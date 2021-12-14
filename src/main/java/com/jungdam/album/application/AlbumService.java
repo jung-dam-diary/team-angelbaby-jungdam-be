@@ -19,8 +19,6 @@ public class AlbumService {
     @Transactional(readOnly = true)
     public Album findById(Long id) {
         return albumRepository.findById(id)
-            .orElseThrow(() -> {
-                throw new NotExistException(ErrorMessage.NOT_EXIST_ALBUM);
-            });
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_ALBUM));
     }
 }

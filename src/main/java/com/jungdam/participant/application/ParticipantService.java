@@ -17,7 +17,7 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public boolean existsByAlbumAndMember(Album album, Member member) {
-        return participantRepository.existsByAlbumAndMember(album, member);
+    public boolean notExistsByAlbumAndMember(Album album, Member member) {
+        return !participantRepository.existsByAlbumAndMember(album, member);
     }
 }

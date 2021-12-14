@@ -48,8 +48,6 @@ public class DiaryService {
     @Transactional(readOnly = true)
     public Diary findById(Long id) {
         return diaryRepository.findById(id)
-            .orElseThrow(() -> {
-                throw new NotExistException(ErrorMessage.NOT_EXIST_DIARY);
-            });
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
     }
 }

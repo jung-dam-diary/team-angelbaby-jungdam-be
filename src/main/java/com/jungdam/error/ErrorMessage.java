@@ -16,7 +16,9 @@ public enum ErrorMessage {
     NOT_EXIST_ALBUM(HttpStatus.BAD_REQUEST, "존재하지 않는 앨범입니다."),
     DUPLICATION_DIARY_RECORDED_AT(HttpStatus.BAD_REQUEST, "해당 날짜에 일기가 존재합니다."),
     NOT_EXIST_PARTICIPANT(HttpStatus.BAD_REQUEST, "앨범에 포함되지 않은 회원입니다."),
-    NOT_EXIST_DIARY(HttpStatus.BAD_REQUEST, "존재하지 않는 일기입니다.");
+    NOT_EXIST_DIARY(HttpStatus.BAD_REQUEST, "존재하지 않는 일기입니다."),
+
+    ;
 
     private final HttpStatus status;
     private final String message;

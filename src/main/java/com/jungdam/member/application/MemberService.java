@@ -33,8 +33,6 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findById(Long id) {
         return memberRepository.findById(id)
-            .orElseThrow(() -> {
-                throw new NotExistException(ErrorMessage.NOT_EXIST_MEMBER);
-            });
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 }

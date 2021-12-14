@@ -83,8 +83,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member update(Member member, OAuth2MemberInfo oAuth2MemberInfo) {
-        if (!Objects.isNull(oAuth2MemberInfo.getNickname()) && !member.getNickname().getNickname()
-            .equals(oAuth2MemberInfo.getNickname())) {
+        if (!Objects.isNull(oAuth2MemberInfo.getNickname()) &&
+            !member.getNickname().isEquals(oAuth2MemberInfo.getNickname())) {
             member.updateNickname(oAuth2MemberInfo.getNickname());
         }
 
