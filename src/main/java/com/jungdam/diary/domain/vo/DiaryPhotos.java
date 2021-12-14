@@ -22,5 +22,13 @@ public class DiaryPhotos {
         diaryPhotos.add(diaryPhoto);
     }
 
+    public List<DiaryPhoto> getDiaryPhotos() {
+        return diaryPhotos;
+    }
 
+    public List<String> getDiaryPhotosUrl() {
+        return diaryPhotos.stream()
+            .map(diaryPhoto -> diaryPhoto.getImage().getImage())
+            .collect(Collectors.toList());
+    }
 }
