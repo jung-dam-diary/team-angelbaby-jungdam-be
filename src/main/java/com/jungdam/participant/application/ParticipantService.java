@@ -27,4 +27,9 @@ public class ParticipantService {
     public List<Participant> findAllByAlbum(Album album) {
         return participantRepository.findAllByAlbum(album);
     }
+
+    @Transactional(readOnly = true)
+    public List<Participant> findAllByAlbum(Album album) {
+        return participantRepository.findAllByAlbum(album);
+    }
 }
