@@ -10,7 +10,9 @@ public enum ResponseMessage {
     TOKEN_REFRESH_SUCCESS(HttpStatus.OK, "토큰 리프레시 성공"),
     IMAGE_UPLOAD_SUCCESS(HttpStatus.CREATED, "이미지 업로드 성공"),
     DIARY_CREATE_SUCCESS(HttpStatus.CREATED, "일기 생성 성공"),
-    INVITATION_CREATE_SUCCESS(HttpStatus.BAD_REQUEST, "초대 생성 성공"),
+    INVITATION_CREATE_SUCCESS(HttpStatus.CREATED, "초대 생성 성공"),
+    PARTICIPANT_READ_SUCCESS(HttpStatus.OK, "멤버 리스트 조회 성공"),
+
     ;
 
     private final HttpStatus status;
