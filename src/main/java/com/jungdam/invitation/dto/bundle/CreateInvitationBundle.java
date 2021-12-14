@@ -35,7 +35,6 @@ public class CreateInvitationBundle {
         private Long albumId;
 
         private CreateInvitationBundleBuilder() {
-
         }
 
         public CreateInvitationBundleBuilder targetMemberId(

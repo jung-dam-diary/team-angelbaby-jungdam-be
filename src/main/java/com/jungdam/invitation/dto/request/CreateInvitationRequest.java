@@ -5,7 +5,6 @@ public class CreateInvitationRequest {
     private Long targetMemberId;
 
     protected CreateInvitationRequest() {
-
     }
 
     public Long getTargetMemberId() {
