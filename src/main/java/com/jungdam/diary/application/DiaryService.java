@@ -8,6 +8,7 @@ import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
+import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,13 @@ public class DiaryService {
 
     private boolean existsByRecordedAtAndMember(RecordedAt recordedAt, Member member) {
         return diaryRepository.existsByRecordedAtAndMember(recordedAt, member);
+    }
+
+    @Transactional(readOnly = true)
+    public Diary findById(Long id) {
+        return diaryRepository.findById(id)
+            .orElseThrow(() -> {
+                throw new NotExistException(ErrorMessage.NOT_EXIST_DIARY);
+            });
     }
 }

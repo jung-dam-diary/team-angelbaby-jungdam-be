@@ -11,4 +11,8 @@ public class Bookmark {
 
     public Bookmark() {
     }
+
+    public Boolean getBookmark() {
+        return bookmark;
+    }
 }
