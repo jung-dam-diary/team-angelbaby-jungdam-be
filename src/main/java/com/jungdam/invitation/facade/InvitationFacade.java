@@ -5,6 +5,7 @@ import com.jungdam.album.domain.Album;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.invitation.application.InvitationService;
+import com.jungdam.invitation.converter.InvitationConverter;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
@@ -22,14 +23,17 @@ public class InvitationFacade {
     private final AlbumService albumService;
     private final MemberService memberService;
     private final ParticipantService participantService;
+    private final InvitationConverter invitationConverter;
 
     public InvitationFacade(InvitationService invitationService,
         AlbumService albumService, MemberService memberService,
-        ParticipantService participantService) {
+        ParticipantService participantService,
+        InvitationConverter invitationConverter) {
         this.invitationService = invitationService;
         this.albumService = albumService;
         this.memberService = memberService;
         this.participantService = participantService;
+        this.invitationConverter = invitationConverter;
     }
 
     @Transactional
@@ -54,6 +58,6 @@ public class InvitationFacade {
 
         album.addInvitation(invitation);
 
-        return new CreateInvitationResponse(invitation.getId());
+        return invitationConverter.toCreateInvitationResponse(invitation);
     }
 }
