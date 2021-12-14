@@ -68,7 +68,7 @@ public class Member extends BaseEntity {
         this.status = Status.FREE;
     }
 
-    public static Member.MemberBuilder builder() {
+    public static MemberBuilder builder() {
         return new Member.MemberBuilder();
     }
 
@@ -80,28 +80,29 @@ public class Member extends BaseEntity {
         this.avatar = new Avatar(profileImageUrl);
     }
 
-    public String getNickname() {
-        return nickname.getNickname();
+    public Email getEmail() {
+        return email;
     }
 
-    public String getAvatar() {
-        return avatar.getAvatar();
+    public Nickname getNickname() {
+        return nickname;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public ProviderType getProviderType() {
         return providerType;
     }
 
-    public String getRole() {
-        return role.getRole();
-    }
 
     public Long getId() {
         return id;
-    }
-
-    public String getEmail() {
-        return email.getEmail();
     }
 
     public String getOauthPermission() {
@@ -119,27 +120,27 @@ public class Member extends BaseEntity {
         private MemberBuilder() {
         }
 
-        public Member.MemberBuilder oauthPermission(final String oauthPermission) {
+        public MemberBuilder oauthPermission(final String oauthPermission) {
             this.oauthPermission = oauthPermission;
             return this;
         }
 
-        public Member.MemberBuilder nickname(final String nickname) {
+        public MemberBuilder nickname(final String nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public Member.MemberBuilder email(final String email) {
+        public MemberBuilder email(final String email) {
             this.email = email;
             return this;
         }
 
-        public Member.MemberBuilder avatar(final String avatar) {
+        public MemberBuilder avatar(final String avatar) {
             this.avatar = avatar;
             return this;
         }
 
-        public Member.MemberBuilder providerType(ProviderType providerType) {
+        public MemberBuilder providerType(ProviderType providerType) {
             this.providerType = providerType;
             return this;
         }
