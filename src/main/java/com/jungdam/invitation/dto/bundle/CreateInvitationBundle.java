@@ -12,8 +12,8 @@ public class CreateInvitationBundle {
         this.albumId = albumId;
     }
 
-    public static CreateInvitationBundle.CreateInvitationBundleBuilder builder() {
-        return new CreateInvitationBundle.CreateInvitationBundleBuilder();
+    public static CreateInvitationBundleBuilder builder() {
+        return new CreateInvitationBundleBuilder();
     }
 
     public Long getTargetMemberId() {
@@ -38,19 +38,19 @@ public class CreateInvitationBundle {
 
         }
 
-        public CreateInvitationBundle.CreateInvitationBundleBuilder targetMemberId(
+        public CreateInvitationBundleBuilder targetMemberId(
             final Long targetMemberId) {
             this.targetMemberId = targetMemberId;
             return this;
         }
 
-        public CreateInvitationBundle.CreateInvitationBundleBuilder subjectMemberId(
+        public CreateInvitationBundleBuilder subjectMemberId(
             final Long subjectMemberId) {
             this.subjectMemberId = subjectMemberId;
             return this;
         }
 
-        public CreateInvitationBundle.CreateInvitationBundleBuilder albumId(final Long albumId) {
+        public CreateInvitationBundleBuilder albumId(final Long albumId) {
             this.albumId = albumId;
             return this;
         }
