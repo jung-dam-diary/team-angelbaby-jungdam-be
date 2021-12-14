@@ -49,10 +49,6 @@ public class Invitation extends BaseEntity {
         this.status = Status.PENDING;
     }
 
-    public static InvitationBuilder builder() {
-        return new InvitationBuilder();
-    }
-
     public void register(Album album) {
         this.album = album;
     }
@@ -60,30 +56,4 @@ public class Invitation extends BaseEntity {
     public Long getId() {
         return this.id;
     }
-
-    public static class InvitationBuilder {
-
-        private Member targetMember;
-        private Member subjectMember;
-
-        private InvitationBuilder() {
-
-        }
-
-        public Invitation.InvitationBuilder targetMember(final Member targetMember) {
-            this.targetMember = targetMember;
-            return this;
-        }
-
-        public Invitation.InvitationBuilder subjectMember(final Member subjectMember) {
-            this.subjectMember = subjectMember;
-            return this;
-        }
-
-        public Invitation build() {
-            return new Invitation(this.targetMember, this.subjectMember);
-        }
-    }
-
-
 }

@@ -20,10 +20,7 @@ public class InvitationService {
 
     @Transactional
     public Invitation save(Member targetMember, Member subjectMember) {
-        Invitation invitation = Invitation.builder()
-            .targetMember(targetMember)
-            .subjectMember(subjectMember)
-            .build();
+        Invitation invitation = new Invitation(targetMember, subjectMember);
 
         return invitationRepository.save(invitation);
     }
