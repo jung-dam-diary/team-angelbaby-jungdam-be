@@ -44,7 +44,6 @@ public class Album extends BaseEntity {
     private Invitations invitations;
 
     protected Album() {
-
     }
 
     public void addParticipant(Participant participant) {

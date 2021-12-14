@@ -15,7 +15,6 @@ public class DiaryPhotos {
     private List<DiaryPhoto> diaryPhotos = new ArrayList<>();
 
     public DiaryPhotos() {
-
     }
 
     public void add(DiaryPhoto diaryPhoto) {

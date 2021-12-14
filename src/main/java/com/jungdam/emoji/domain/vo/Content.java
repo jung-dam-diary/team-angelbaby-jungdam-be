@@ -10,7 +10,6 @@ public class Content {
     private String content;
 
     protected Content() {
-
     }
 
     public Content(String content) {

@@ -34,7 +34,6 @@ public class Emoji extends BaseEntity {
     private Diary diary;
 
     protected Emoji() {
-
     }
 
     public void register(Diary diary) {

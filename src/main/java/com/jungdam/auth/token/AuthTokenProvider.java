@@ -58,5 +58,4 @@ public class AuthTokenProvider {
             throw new TokenValidFailedException(ErrorMessage.FAIL_TO_GENERATE_TOKEN);
         }
     }
-
 }

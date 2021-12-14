@@ -11,7 +11,6 @@ public class CreateDiaryRequest {
     private LocalDate recordedAt;
 
     protected CreateDiaryRequest() {
-
     }
 
     public String getDiaryTitle() {

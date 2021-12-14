@@ -15,7 +15,6 @@ public class Avatar {
     private String avatar;
 
     protected Avatar() {
-
     }
 
     public Avatar(String avatar) {

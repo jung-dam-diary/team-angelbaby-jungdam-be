@@ -15,7 +15,6 @@ public class Email {
     private String email;
 
     protected Email() {
-
     }
 
     public Email(String email) {

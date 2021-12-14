@@ -10,7 +10,6 @@ public class Image {
     private String image;
 
     protected Image() {
-
     }
 
     public Image(String image) {

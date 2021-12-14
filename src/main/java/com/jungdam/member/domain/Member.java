@@ -49,7 +49,6 @@ public class Member extends BaseEntity {
     private String oauthPermission;
 
     protected Member() {
-
     }
 
     public Member(

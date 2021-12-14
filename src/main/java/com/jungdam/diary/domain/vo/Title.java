@@ -17,7 +17,6 @@ public class Title {
     private String title;
 
     protected Title() {
-
     }
 
     public Title(String title) {

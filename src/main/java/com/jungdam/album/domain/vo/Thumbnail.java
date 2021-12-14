@@ -10,7 +10,6 @@ public class Thumbnail {
     private String thumbnail;
 
     protected Thumbnail() {
-
     }
 
     public Thumbnail(String thumbnail) {

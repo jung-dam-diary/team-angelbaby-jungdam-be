@@ -10,7 +10,6 @@ public class FamilyMotto {
     private String familyMotto;
 
     protected FamilyMotto() {
-
     }
 
     public FamilyMotto(String familyMotto) {

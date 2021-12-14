@@ -62,7 +62,6 @@ public class Diary extends BaseEntity {
     private Emojis emojis;
 
     protected Diary() {
-
     }
 
     public Diary(Title title, Content content, RecordedAt recordedAt, Member member) {

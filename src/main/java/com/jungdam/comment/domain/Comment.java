@@ -34,7 +34,6 @@ public class Comment extends BaseEntity {
     private Diary diary;
 
     protected Comment() {
-
     }
 
     public void register(Diary diary) {

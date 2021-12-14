@@ -40,7 +40,6 @@ public class Invitation extends BaseEntity {
     private Member targetMember;
 
     protected Invitation() {
-
     }
 
     public void register(Album album) {

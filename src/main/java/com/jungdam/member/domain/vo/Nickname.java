@@ -10,7 +10,6 @@ public class Nickname {
     private String nickname;
 
     protected Nickname() {
-
     }
 
     public Nickname(String nickname) {

@@ -11,7 +11,6 @@ public class RecordedAt {
     private LocalDate recordedAt;
 
     protected RecordedAt() {
-
     }
 
     public RecordedAt(LocalDate recordedAt) {

@@ -24,7 +24,6 @@ public class MemberRefreshToken extends BaseEntity {
     private String refreshToken;
 
     protected MemberRefreshToken() {
-
     }
 
     public MemberRefreshToken(
