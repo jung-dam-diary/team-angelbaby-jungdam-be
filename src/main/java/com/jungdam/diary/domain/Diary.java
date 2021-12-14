@@ -78,6 +78,26 @@ public class Diary extends BaseEntity {
         return new DiaryBuilder();
     }
 
+    public Title getTitle() {
+        return title;
+    }
+
+    public Content getContent() {
+        return content;
+    }
+
+    public Bookmark getBookmark() {
+        return bookmark;
+    }
+
+    public RecordedAt getRecordedAt() {
+        return recordedAt;
+    }
+
+    public DiaryPhotos getDiaryPhotos() {
+        return diaryPhotos;
+    }
+
     public void register(Album album) {
         this.album = album;
     }

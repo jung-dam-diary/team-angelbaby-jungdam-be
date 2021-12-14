@@ -5,7 +5,9 @@ import com.jungdam.album.domain.Album;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
+import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.application.MemberService;
@@ -46,5 +48,27 @@ public class DiaryFacade {
         album.addDiary(diary);
 
         return new CreateDiaryResponse(album.getId(), diary.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public ReadDiaryResponse find(ReadDiaryBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        if (!participantService.existsByAlbumAndMember(album, member)) {
+            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
+        }
+
+        Diary diary = diaryService.findById(bundle.getDiaryId());
+
+        return ReadDiaryResponse.builder()
+            .albumId(album.getId())
+            .diaryId(diary.getId())
+            .title(diary.getTitle())
+            .content(diary.getContent())
+            .bookmark(diary.getBookmark())
+            .diaryPhotos(diary.getDiaryPhotos())
+            .recordedAt(diary.getRecordedAt())
+            .build();
     }
 }

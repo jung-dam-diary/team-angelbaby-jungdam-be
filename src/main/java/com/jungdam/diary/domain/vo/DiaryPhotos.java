@@ -3,6 +3,7 @@ package com.jungdam.diary.domain.vo;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
