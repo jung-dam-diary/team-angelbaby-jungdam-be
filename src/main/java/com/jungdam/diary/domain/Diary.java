@@ -79,27 +79,27 @@ public class Diary extends BaseEntity {
     }
 
     public Long getAlbumValue() {
-        return this.album.getId();
+        return album.getId();
     }
 
     public String getTitleValue() {
-        return this.title.getTitle();
+        return title.getTitle();
     }
 
     public String getContentValue() {
-        return this.content.getContent();
+        return content.getContent();
     }
 
     public boolean getBookmarkValue() {
-        return this.bookmark.getBookmark();
+        return bookmark.getBookmark();
     }
 
     public List<String> getDiaryPhotosValue() {
-        return this.diaryPhotos.getDiaryPhotosUrl();
+        return diaryPhotos.getDiaryPhotosUrl();
     }
 
     public LocalDate getRecordedAtValue() {
-        return this.recordedAt.getRecordedAt();
+        return recordedAt.getRecordedAt();
     }
 
     public Album getAlbum() {

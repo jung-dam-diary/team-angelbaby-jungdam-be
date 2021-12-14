@@ -46,22 +46,22 @@ public class ReadMemberResponse {
 
         }
 
-        public ReadMemberResponseBuilder email(String email) {
+        public ReadMemberResponseBuilder email(final String email) {
             this.email = email;
             return this;
         }
 
-        public ReadMemberResponseBuilder nickname(String nickname) {
+        public ReadMemberResponseBuilder nickname(final String nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public ReadMemberResponseBuilder avatar(String avatar) {
+        public ReadMemberResponseBuilder avatar(final String avatar) {
             this.avatar = avatar;
             return this;
         }
 
-        public ReadMemberResponseBuilder role(String role) {
+        public ReadMemberResponseBuilder role(final String role) {
             this.role = role;
             return this;
         }
