@@ -42,4 +42,8 @@ public class DiaryPhoto extends BaseEntity {
     public Image getImage() {
         return image;
     }
+
+    public String getImageValue() {
+        return image.getImage();
+    }
 }

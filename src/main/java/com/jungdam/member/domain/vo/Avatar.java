@@ -31,4 +31,8 @@ public class Avatar {
     public String getAvatar() {
         return avatar;
     }
+
+    public boolean isEquals(String avatar) {
+        return this.avatar.equals(avatar);
+    }
 }

@@ -79,6 +79,22 @@ public class Member extends BaseEntity {
         this.avatar = new Avatar(profileImageUrl);
     }
 
+    public String getEmailValue() {
+        return email.getEmail();
+    }
+
+    public String getNicknameValue() {
+        return nickname.getNickname();
+    }
+
+    public String getAvatarValue() {
+        return avatar.getAvatar();
+    }
+
+    public String getRoleValue() {
+        return role.getRole();
+    }
+
     public Email getEmail() {
         return email;
     }

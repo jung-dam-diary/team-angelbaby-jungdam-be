@@ -2,6 +2,7 @@ package com.jungdam.member.application;
 
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
+import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
@@ -13,21 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberConverter memberConverter;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository,
+        MemberConverter memberConverter) {
         this.memberRepository = memberRepository;
+        this.memberConverter = memberConverter;
     }
 
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
         Member member = findById(bundle.getMemberId());
-
-        return new ReadMemberResponse(
-            member.getEmail(),
-            member.getNickname(),
-            member.getAvatar(),
-            member.getRole()
-        );
+        
+        return memberConverter.toReadMemberResponse(member);
     }
 
     @Transactional(readOnly = true)

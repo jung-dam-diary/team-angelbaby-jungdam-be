@@ -1,16 +1,14 @@
 package com.jungdam.diary.application;
 
+import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
-import com.jungdam.diary.domain.vo.Content;
 import com.jungdam.diary.domain.vo.RecordedAt;
-import com.jungdam.diary.domain.vo.Title;
+import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.infrastructure.DiaryRepository;
-import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,25 +16,21 @@ import org.springframework.transaction.annotation.Transactional;
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
+    private final DiaryConverter diaryConverter;
 
-    public DiaryService(DiaryRepository diaryRepository) {
+    public DiaryService(DiaryRepository diaryRepository, DiaryConverter diaryConverter) {
         this.diaryRepository = diaryRepository;
+        this.diaryConverter = diaryConverter;
     }
 
     @Transactional
-    public Diary save(Title title, Content content, RecordedAt recordedAt,
-        List<DiaryPhoto> diaryPhotos, Member member) {
-        if (existsByRecordedAtAndMember(recordedAt, member)) {
+    public Diary save(CreateDiaryBundle bundle, Member member) {
+        if (existsByRecordedAtAndMember(bundle.getRecordedAt(), member)) {
             throw new DuplicationException(ErrorMessage.DUPLICATION_DIARY_RECORDED_AT);
         }
-        Diary diary = Diary.builder()
-            .title(title)
-            .content(content)
-            .recordedAt(recordedAt)
-            .member(member)
-            .build();
 
-        diary.addDiaryPhotos(diaryPhotos);
+        Diary diary = diaryConverter.toDiary(bundle, member);
+        diary.addDiaryPhotos(bundle.getDiaryPhotos());
 
         return diaryRepository.save(diary);
     }

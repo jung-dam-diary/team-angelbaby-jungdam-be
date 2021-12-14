@@ -13,6 +13,7 @@ import com.jungdam.diary.domain.vo.Title;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.emoji.domain.Emoji;
 import com.jungdam.member.domain.Member;
+import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -77,24 +78,36 @@ public class Diary extends BaseEntity {
         return new DiaryBuilder();
     }
 
-    public Title getTitle() {
-        return title;
+    public Long getAlbumValue() {
+        return this.album.getId();
+    }
+
+    public String getTitleValue() {
+        return this.title.getTitle();
+    }
+
+    public String getContentValue() {
+        return this.content.getContent();
+    }
+
+    public boolean getBookmarkValue() {
+        return this.bookmark.getBookmark();
+    }
+
+    public List<String> getDiaryPhotosValue() {
+        return this.diaryPhotos.getDiaryPhotosUrl();
+    }
+
+    public LocalDate getRecordedAtValue() {
+        return this.recordedAt.getRecordedAt();
+    }
+
+    public Album getAlbum() {
+        return album;
     }
 
     public Content getContent() {
         return content;
-    }
-
-    public Bookmark getBookmark() {
-        return bookmark;
-    }
-
-    public RecordedAt getRecordedAt() {
-        return recordedAt;
-    }
-
-    public DiaryPhotos getDiaryPhotos() {
-        return diaryPhotos;
     }
 
     public void register(Album album) {

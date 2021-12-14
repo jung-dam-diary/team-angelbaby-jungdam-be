@@ -1,10 +1,5 @@
 package com.jungdam.diary.dto.response;
 
-import com.jungdam.diary.domain.vo.Bookmark;
-import com.jungdam.diary.domain.vo.Content;
-import com.jungdam.diary.domain.vo.DiaryPhotos;
-import com.jungdam.diary.domain.vo.RecordedAt;
-import com.jungdam.diary.domain.vo.Title;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,15 +13,16 @@ public class ReadDiaryResponse {
     private final List<String> diaryPhotos;
     private final LocalDate recordedAt;
 
-    public ReadDiaryResponse(Long albumId, Long diaryId, Title title, Content content,
-        Bookmark bookmark, DiaryPhotos diaryPhotos, RecordedAt recordedAt) {
+    public ReadDiaryResponse(Long albumId, Long diaryId, String title, String content,
+        boolean bookmark,
+        List<String> diaryPhotos, LocalDate recordedAt) {
         this.albumId = albumId;
         this.diaryId = diaryId;
-        this.title = title.getTitle();
-        this.content = content.getContent();
-        this.bookmark = bookmark.getBookmark();
-        this.diaryPhotos = diaryPhotos.getDiaryPhotosUrl();
-        this.recordedAt = recordedAt.getRecordedAt();
+        this.title = title;
+        this.content = content;
+        this.bookmark = bookmark;
+        this.diaryPhotos = diaryPhotos;
+        this.recordedAt = recordedAt;
     }
 
     public static ReadDiaryResponseBuilder builder() {
@@ -65,11 +61,11 @@ public class ReadDiaryResponse {
 
         private Long albumId;
         private Long diaryId;
-        private Title title;
-        private Content content;
-        private Bookmark bookmark;
-        private DiaryPhotos diaryPhotos;
-        private RecordedAt recordedAt;
+        private String title;
+        private String content;
+        private boolean bookmark;
+        private List<String> diaryPhotos;
+        private LocalDate recordedAt;
 
         private ReadDiaryResponseBuilder() {
 
@@ -85,27 +81,27 @@ public class ReadDiaryResponse {
             return this;
         }
 
-        public ReadDiaryResponseBuilder title(final Title title) {
+        public ReadDiaryResponseBuilder title(final String title) {
             this.title = title;
             return this;
         }
 
-        public ReadDiaryResponseBuilder content(final Content content) {
+        public ReadDiaryResponseBuilder content(final String content) {
             this.content = content;
             return this;
         }
 
-        public ReadDiaryResponseBuilder bookmark(final Bookmark bookmark) {
+        public ReadDiaryResponseBuilder bookmark(final boolean bookmark) {
             this.bookmark = bookmark;
             return this;
         }
 
-        public ReadDiaryResponseBuilder diaryPhotos(final DiaryPhotos diaryPhotos) {
+        public ReadDiaryResponseBuilder diaryPhotos(final List<String> diaryPhotos) {
             this.diaryPhotos = diaryPhotos;
             return this;
         }
 
-        public ReadDiaryResponseBuilder recordedAt(final RecordedAt recordedAt) {
+        public ReadDiaryResponseBuilder recordedAt(final LocalDate recordedAt) {
             this.recordedAt = recordedAt;
             return this;
         }

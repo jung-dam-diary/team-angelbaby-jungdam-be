@@ -25,7 +25,7 @@ public class Title {
     }
 
     private void validate(String title) {
-        if (!Pattern.matches(TITLE_VALIDATOR, title) || !title.trim().isEmpty()) {
+        if (!Pattern.matches(TITLE_VALIDATOR, title) || title.trim().isEmpty()) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_TITLE);
         }
     }

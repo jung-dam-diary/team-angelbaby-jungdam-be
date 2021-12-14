@@ -3,6 +3,7 @@ package com.jungdam.diary.facade;
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
 import com.jungdam.diary.application.DiaryService;
+import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
@@ -23,14 +24,16 @@ public class DiaryFacade {
     private final AlbumService albumService;
     private final DiaryService diaryService;
     private final ParticipantService participantService;
+    private final DiaryConverter diaryConverter;
 
     public DiaryFacade(MemberService memberService,
         AlbumService albumService, DiaryService diaryService,
-        ParticipantService participantService) {
+        ParticipantService participantService, DiaryConverter diaryConverter) {
         this.memberService = memberService;
         this.albumService = albumService;
         this.diaryService = diaryService;
         this.participantService = participantService;
+        this.diaryConverter = diaryConverter;
     }
 
     @Transactional
@@ -42,12 +45,11 @@ public class DiaryFacade {
             throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
         }
 
-        Diary diary = diaryService.save(bundle.getTitle(), bundle.getContent(),
-            bundle.getRecordedAt(), bundle.getDiaryPhotos(), member);
+        Diary diary = diaryService.save(bundle, member);
 
         album.addDiary(diary);
 
-        return new CreateDiaryResponse(album.getId(), diary.getId());
+        return diaryConverter.toCreateDiaryResponse(diary);
     }
 
     @Transactional(readOnly = true)
@@ -61,14 +63,6 @@ public class DiaryFacade {
 
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
-        return ReadDiaryResponse.builder()
-            .albumId(album.getId())
-            .diaryId(diary.getId())
-            .title(diary.getTitle())
-            .content(diary.getContent())
-            .bookmark(diary.getBookmark())
-            .diaryPhotos(diary.getDiaryPhotos())
-            .recordedAt(diary.getRecordedAt())
-            .build();
+        return diaryConverter.toReadDiaryResponse(diary);
     }
 }

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+// TODO : 리펙토링 진행
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {

@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+// TODO : 리펙토링 진행
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -88,8 +89,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             member.updateNickname(oAuth2MemberInfo.getNickname());
         }
 
-        if (!Objects.isNull(oAuth2MemberInfo.getAvatar()) && !member.getAvatar()
-            .equals(oAuth2MemberInfo.getAvatar())) {
+        if (!Objects.isNull(oAuth2MemberInfo.getAvatar()) &&
+            !member.getAvatar().isEquals(oAuth2MemberInfo.getAvatar())) {
             member.updateAvatar(oAuth2MemberInfo.getAvatar());
         }
 

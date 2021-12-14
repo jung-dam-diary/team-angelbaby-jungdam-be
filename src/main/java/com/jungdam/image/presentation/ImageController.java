@@ -23,7 +23,6 @@ public class ImageController {
         this.s3Uploader = s3Uploader;
     }
 
-    // TODO: Security
     @PostMapping("/images")
     public ResponseEntity<ResponseDto<UploadResponse>> upload(
         @RequestParam("image") MultipartFile multipartFile)

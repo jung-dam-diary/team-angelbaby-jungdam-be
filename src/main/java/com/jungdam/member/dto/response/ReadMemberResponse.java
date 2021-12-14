@@ -1,10 +1,5 @@
 package com.jungdam.member.dto.response;
 
-import com.jungdam.member.domain.vo.Avatar;
-import com.jungdam.member.domain.vo.Email;
-import com.jungdam.member.domain.vo.Nickname;
-import com.jungdam.member.domain.vo.Role;
-
 public class ReadMemberResponse {
 
     private final String memberEmail;
@@ -12,11 +7,12 @@ public class ReadMemberResponse {
     private final String memberAvatar;
     private final String memberRole;
 
-    public ReadMemberResponse(Email email, Nickname nickname, Avatar avatar, Role role) {
-        this.memberEmail = email.getEmail();
-        this.memberNickname = nickname.getNickname();
-        this.memberAvatar = avatar.getAvatar();
-        this.memberRole = role.getRole();
+    public ReadMemberResponse(String memberEmail, String memberNickname, String memberAvatar,
+        String memberRole) {
+        this.memberEmail = memberEmail;
+        this.memberNickname = memberNickname;
+        this.memberAvatar = memberAvatar;
+        this.memberRole = memberRole;
     }
 
     public static ReadMemberResponseBuilder builder() {
@@ -41,31 +37,31 @@ public class ReadMemberResponse {
 
     public static class ReadMemberResponseBuilder {
 
-        private Email email;
-        private Nickname nickname;
-        private Avatar avatar;
-        private Role role;
+        private String email;
+        private String nickname;
+        private String avatar;
+        private String role;
 
         private ReadMemberResponseBuilder() {
 
         }
 
-        public ReadMemberResponseBuilder email(Email email) {
+        public ReadMemberResponseBuilder email(String email) {
             this.email = email;
             return this;
         }
 
-        public ReadMemberResponseBuilder nickname(Nickname nickname) {
+        public ReadMemberResponseBuilder nickname(String nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public ReadMemberResponseBuilder avatar(Avatar avatar) {
+        public ReadMemberResponseBuilder avatar(String avatar) {
             this.avatar = avatar;
             return this;
         }
 
-        public ReadMemberResponseBuilder role(Role role) {
+        public ReadMemberResponseBuilder role(String role) {
             this.role = role;
             return this;
         }

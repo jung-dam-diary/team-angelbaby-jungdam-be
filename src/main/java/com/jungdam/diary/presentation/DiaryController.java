@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api("Diary")
 @RestController
-@RequestMapping("/api/v1/albums/{albumId}")
+@RequestMapping("/api/v1/albums/{albumId}/diaries")
 public class DiaryController {
 
     private final DiaryFacade diaryFacade;
@@ -31,7 +31,7 @@ public class DiaryController {
     }
 
     @ApiOperation("일기 생성")
-    @PostMapping("/diaries")
+    @PostMapping()
     public ResponseEntity<ResponseDto<CreateDiaryResponse>> create(
         @PathVariable Long albumId, @RequestBody CreateDiaryRequest request) {
         Long memberId = SecurityUtils.getCurrentUsername();
@@ -48,7 +48,7 @@ public class DiaryController {
     }
 
     @ApiOperation("일기 조회")
-    @GetMapping("/diaries/{diaryId}")
+    @GetMapping("/{diaryId}")
     public ResponseEntity<ResponseDto<ReadDiaryResponse>> read(@PathVariable Long albumId,
         @PathVariable Long diaryId) {
         Long memberId = SecurityUtils.getCurrentUsername();
