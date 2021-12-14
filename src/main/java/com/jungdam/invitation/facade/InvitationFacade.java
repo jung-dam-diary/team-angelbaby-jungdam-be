@@ -47,7 +47,7 @@ public class InvitationFacade {
             throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM);
         }
 
-        if (participantService.existsByAlbumAndMember(album, targetMember)) {
+        if (participantService.notExistsByAlbumAndMember(album, targetMember)) {
             throw new DuplicationException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
         }
 
