@@ -2,6 +2,7 @@ package com.jungdam.participant.presentation;
 
 import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
+import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.participant.dto.bundle.ReadAllParticipantBundle;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
 import com.jungdam.participant.facade.ParticipantFacade;
@@ -24,7 +25,9 @@ public class ParticipantController {
     @GetMapping()
     public ResponseEntity<ResponseDto<ReadAllParticipantResponse>> read(
         @PathVariable Long albumId) {
-        ReadAllParticipantBundle bundle = new ReadAllParticipantBundle(albumId);
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        ReadAllParticipantBundle bundle = new ReadAllParticipantBundle(albumId, memberId);
 
         ReadAllParticipantResponse response = participantFacade.getAll(bundle);
 
