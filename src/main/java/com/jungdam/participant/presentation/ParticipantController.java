@@ -33,7 +33,7 @@ public class ParticipantController {
 
         ReadAllParticipantBundle bundle = new ReadAllParticipantBundle(albumId, memberId);
 
-        ReadAllParticipantResponse response = participantFacade.getAll(bundle);
+        ReadAllParticipantResponse response = participantFacade.findAll(bundle);
 
         return ResponseDto.of(ResponseMessage.PARTICIPANT_READ_SUCCESS, response);
     }

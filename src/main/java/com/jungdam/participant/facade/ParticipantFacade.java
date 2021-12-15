@@ -33,8 +33,8 @@ public class ParticipantFacade {
         this.participantConverter = participantConverter;
     }
 
-    @Transactional
-    public ReadAllParticipantResponse getAll(ReadAllParticipantBundle bundle) {
+    @Transactional(readOnly = true)
+    public ReadAllParticipantResponse findAll(ReadAllParticipantBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
