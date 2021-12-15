@@ -4,6 +4,8 @@ import com.jungdam.album.domain.Album;
 import com.jungdam.album.infrastructure.AlbumRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
+import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +16,14 @@ public class AlbumService {
 
     public AlbumService(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
+    }
+
+    @Transactional
+    public Album save(Album album, Member member) {
+        Participant participant = new Participant(member);
+        album.addParticipant(participant);
+
+        return albumRepository.save(album);
     }
 
     @Transactional(readOnly = true)

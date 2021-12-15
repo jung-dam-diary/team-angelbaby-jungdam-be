@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Override
+    <S extends Album> S save(S entity);
+
+    @Override
     Optional<Album> findById(Long id);
 }
