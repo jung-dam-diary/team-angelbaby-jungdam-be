@@ -44,7 +44,7 @@ public class Participant extends BaseEntity {
 
     public Participant(Member member) {
         this.role = Role.OWNER;
-        this.nickname = member.getNicknameValue();
+        this.nickname = new Nickname(member.getNicknameValue());
         this.member = member;
     }
 
