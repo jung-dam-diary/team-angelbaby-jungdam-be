@@ -13,6 +13,7 @@ public enum ResponseMessage {
     DIARY_READ_SUCCESS(HttpStatus.OK, "일기 조회 성공"),
     INVITATION_CREATE_SUCCESS(HttpStatus.BAD_REQUEST, "초대 생성 성공"),
 
+    ALBUM_CREATE_SUCCESS(HttpStatus.CREATED, "앨범 생성 성공"),
     ;
 
     private final HttpStatus status;
