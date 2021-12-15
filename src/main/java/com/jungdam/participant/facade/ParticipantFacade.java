@@ -18,10 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class ParticipantFacade {
 
+    private final ParticipantConverter participantConverter;
+    private final ParticipantService participantService;
     private final AlbumService albumService;
     private final MemberService memberService;
-    private final ParticipantService participantService;
-    private final ParticipantConverter participantConverter;
 
     public ParticipantFacade(AlbumService albumService,
         MemberService memberService,
