@@ -41,6 +41,12 @@ public class Participant extends BaseEntity {
     protected Participant() {
     }
 
+    public Participant(Member member) {
+        this.role = Role.OWNER;
+        this.nickname = member.getNicknameValue();
+        this.member = member;
+    }
+
     public void register(Album album) {
         this.album = album;
     }
