@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/images")
 public class ImageController {
 
     private final S3Uploader s3Uploader;
@@ -23,7 +23,7 @@ public class ImageController {
         this.s3Uploader = s3Uploader;
     }
 
-    @PostMapping("/images")
+    @PostMapping
     public ResponseEntity<ResponseDto<UploadResponse>> upload(
         @RequestParam("image") MultipartFile multipartFile)
         throws IOException {

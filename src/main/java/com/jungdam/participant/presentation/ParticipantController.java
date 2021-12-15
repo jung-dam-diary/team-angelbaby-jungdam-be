@@ -26,7 +26,7 @@ public class ParticipantController {
     }
 
     @ApiOperation("멤버 리스트 조회")
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<ResponseDto<ReadAllParticipantResponse>> read(
         @PathVariable Long albumId) {
         Long memberId = SecurityUtils.getCurrentUsername();

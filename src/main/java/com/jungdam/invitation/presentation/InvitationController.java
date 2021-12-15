@@ -28,7 +28,7 @@ public class InvitationController {
     }
 
     @ApiOperation("앨범으로 초대")
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ResponseDto<CreateInvitationResponse>> invite(
         @PathVariable Long albumId, @RequestBody CreateInvitationRequest request) {
         Long subjectMemberId = SecurityUtils.getCurrentUsername();
