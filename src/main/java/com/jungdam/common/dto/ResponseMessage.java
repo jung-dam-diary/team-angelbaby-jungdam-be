@@ -15,6 +15,7 @@ public enum ResponseMessage {
     DIARY_READ_SUCCESS(HttpStatus.OK, "일기 조회 성공"),
     COMMENT_CREATE_SUCCESS(HttpStatus.CREATED, "댓글 생성 성공"),
     ALBUM_CREATE_SUCCESS(HttpStatus.CREATED, "앨범 생성 성공"),
+    MEMBER_SEARCH_SUCCESS(HttpStatus.OK, "회원 검색 성공"),
 
     ;
 

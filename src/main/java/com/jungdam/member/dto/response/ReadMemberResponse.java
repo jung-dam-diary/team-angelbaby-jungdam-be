@@ -15,8 +15,8 @@ public class ReadMemberResponse {
         this.memberRole = memberRole;
     }
 
-    public static ReadMemberResponseBuilder builder() {
-        return new ReadMemberResponseBuilder();
+    public static SearchMemberResponseBuilder builder() {
+        return new SearchMemberResponseBuilder();
     }
 
     public String getMemberEmail() {
@@ -35,33 +35,33 @@ public class ReadMemberResponse {
         return memberRole;
     }
 
-    public static class ReadMemberResponseBuilder {
+    public static class SearchMemberResponseBuilder {
 
         private String email;
         private String nickname;
         private String avatar;
         private String role;
 
-        private ReadMemberResponseBuilder() {
+        private SearchMemberResponseBuilder() {
 
         }
 
-        public ReadMemberResponseBuilder email(final String email) {
+        public SearchMemberResponseBuilder email(final String email) {
             this.email = email;
             return this;
         }
 
-        public ReadMemberResponseBuilder nickname(final String nickname) {
+        public SearchMemberResponseBuilder nickname(final String nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public ReadMemberResponseBuilder avatar(final String avatar) {
+        public SearchMemberResponseBuilder avatar(final String avatar) {
             this.avatar = avatar;
             return this;
         }
 
-        public ReadMemberResponseBuilder role(final String role) {
+        public SearchMemberResponseBuilder role(final String role) {
             this.role = role;
             return this;
         }

@@ -5,7 +5,9 @@ import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
+import com.jungdam.member.dto.bundle.SearchMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
+import com.jungdam.member.dto.response.SearchMemberResponse;
 import com.jungdam.member.infrastructure.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +27,16 @@ public class MemberService {
     @Transactional(readOnly = true)
     public ReadMemberResponse find(ReadMemberBundle bundle) {
         Member member = findById(bundle.getMemberId());
-        
+
         return memberConverter.toReadMemberResponse(member);
+    }
+
+    @Transactional(readOnly = true)
+    public SearchMemberResponse findByEmail(SearchMemberBundle bundle) {
+        Member member = memberRepository.findByEmail(bundle.getEmail())
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
+
+        return memberConverter.toSearchMemberResponse(member);
     }
 
     @Transactional(readOnly = true)
