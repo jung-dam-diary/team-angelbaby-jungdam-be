@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     @ApiOperation("댓글 생성")
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ResponseDto<CreateCommentResponse>> create(@PathVariable Long albumId,
         @PathVariable Long diaryId, @RequestBody CreateCommentRequest request) {
         Long memberId = SecurityUtils.getCurrentUsername();

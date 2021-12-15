@@ -31,7 +31,7 @@ public class DiaryController {
     }
 
     @ApiOperation("일기 생성")
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ResponseDto<CreateDiaryResponse>> create(
         @PathVariable Long albumId, @RequestBody CreateDiaryRequest request) {
         Long memberId = SecurityUtils.getCurrentUsername();
