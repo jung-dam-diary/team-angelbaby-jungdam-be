@@ -7,8 +7,7 @@ public class ReadAllParticipant {
     private final String avatar;
     private final String role;
 
-    public ReadAllParticipant(String email, String nickname,
-        String avatar, String role) {
+    public ReadAllParticipant(String email, String nickname, String avatar, String role) {
         this.email = email;
         this.nickname = nickname;
         this.avatar = avatar;
@@ -50,8 +49,7 @@ public class ReadAllParticipant {
             return this;
         }
 
-        public ReadParticipantResponseBuilder nickname(
-            final String nickname) {
+        public ReadParticipantResponseBuilder nickname(final String nickname) {
             this.nickname = nickname;
             return this;
         }
@@ -67,9 +65,7 @@ public class ReadAllParticipant {
         }
 
         public ReadAllParticipant build() {
-            return new ReadAllParticipant(this.email, this.nickname,
-                this.avatar, this.role
-            );
+            return new ReadAllParticipant(this.email, this.nickname, this.avatar, this.role);
         }
     }
 

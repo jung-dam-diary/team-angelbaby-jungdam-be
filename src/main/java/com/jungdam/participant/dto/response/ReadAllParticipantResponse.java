@@ -6,8 +6,7 @@ public class ReadAllParticipantResponse {
 
     private final List<ReadAllParticipant> participants;
 
-    public ReadAllParticipantResponse(
-        List<ReadAllParticipant> participants) {
+    public ReadAllParticipantResponse(List<ReadAllParticipant> participants) {
         this.participants = participants;
     }
 

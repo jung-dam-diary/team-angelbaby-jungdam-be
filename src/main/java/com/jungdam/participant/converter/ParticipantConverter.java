@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class ParticipantConverter {
 
     public ReadAllParticipantResponse toReadAllParticipantResponse(List<Participant> participants) {
-        List<ReadAllParticipant> readParticipantResponses = participants.stream()
+        List<ReadAllParticipant> readAllParticipants = participants.stream()
             .map(participant ->
                 ReadAllParticipant.builder()
                     .email(participant.getMember().getEmailValue())
@@ -21,6 +21,6 @@ public class ParticipantConverter {
                     .build())
             .collect(Collectors.toList());
 
-        return new ReadAllParticipantResponse(readParticipantResponses);
+        return new ReadAllParticipantResponse(readAllParticipants);
     }
 }
