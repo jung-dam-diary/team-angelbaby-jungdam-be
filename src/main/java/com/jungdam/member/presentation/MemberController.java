@@ -30,6 +30,8 @@ public class MemberController {
     @ApiOperation("사용자 조회")
     @GetMapping
     public ResponseEntity<ResponseDto<ReadMemberResponse>> getOne() {
+    @GetMapping
+    public ResponseEntity<ResponseDto<ReadMemberResponse>> findMember() {
 
         Long memberId = SecurityUtils.getCurrentUsername();
 
@@ -41,9 +43,9 @@ public class MemberController {
     }
 
     @ApiOperation("회원 검색 조회(by email)")
-    @GetMapping
+    @GetMapping("/search")
     public ResponseEntity<ResponseDto<SearchMemberResponse>> getMemberByEmail(
-        @RequestParam String email) {
+        @RequestParam("email") String email) {
 
         SearchMemberBundle bundle = new SearchMemberBundle(email);
 
