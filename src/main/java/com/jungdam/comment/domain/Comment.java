@@ -36,7 +36,20 @@ public class Comment extends BaseEntity {
     protected Comment() {
     }
 
+    public Comment(Content content, Member member) {
+        this.content = content;
+        this.member = member;
+    }
+
     public void register(Diary diary) {
         this.diary = diary;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getContentValue() {
+        return content.getContent();
     }
 }

@@ -68,7 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-            .cors().configurationSource(corsConfigurationSource());
+            .cors()
+            .configurationSource(corsConfigurationSource());
 
         http
             .sessionManagement()

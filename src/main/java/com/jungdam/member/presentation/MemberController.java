@@ -25,8 +25,8 @@ public class MemberController {
     }
 
     @ApiOperation("사용자 조회")
-    @GetMapping()
-    public ResponseEntity<ResponseDto<ReadMemberResponse>> findMember() {
+    @GetMapping
+    public ResponseEntity<ResponseDto<ReadMemberResponse>> getOne() {
 
         Long memberId = SecurityUtils.getCurrentUsername();
 

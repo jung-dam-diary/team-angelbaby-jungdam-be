@@ -9,8 +9,6 @@ import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
-import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
@@ -41,9 +39,7 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        if (participantService.notExistsByAlbumAndMember(album, member)) {
-            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
-        }
+        participantService.checkNotExists(album, member);
 
         Diary diary = diaryService.save(bundle, member);
 
@@ -57,9 +53,7 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        if (participantService.notExistsByAlbumAndMember(album, member)) {
-            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
-        }
+        participantService.checkNotExists(album, member);
 
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
