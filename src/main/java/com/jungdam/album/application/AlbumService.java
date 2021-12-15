@@ -6,6 +6,7 @@ import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
+import com.jungdam.participant.domain.vo.Role;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,7 @@ public class AlbumService {
 
     @Transactional
     public Album save(Album album, Member member) {
-        Participant participant = new Participant(member);
+        Participant participant = new Participant(member, Role.OWNER);
         album.addParticipant(participant);
 
         return albumRepository.save(album);

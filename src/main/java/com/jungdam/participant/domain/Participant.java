@@ -42,8 +42,8 @@ public class Participant extends BaseEntity {
     protected Participant() {
     }
 
-    public Participant(Member member) {
-        this.role = Role.OWNER;
+    public Participant(Member member, Role role) {
+        this.role = role;
         this.nickname = new Nickname(member.getNicknameValue());
         this.member = member;
     }

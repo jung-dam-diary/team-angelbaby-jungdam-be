@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 public enum Role {
     OWNER("ALBUM_OWNER", "앨범 소유자"),
-    ADMIN("ALBUM_OWNER", "앨범 소유자"),
-    MEMBER("ALBUM_OWNER", "앨범 소유자"),
+    ADMIN("ALBUM_ADMIN", "앨범 관리자"),
+    MEMBER("ALBUM_MEMBER", "앨범 맴버"),
     ;
 
     private final String role;
