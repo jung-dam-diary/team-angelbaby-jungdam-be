@@ -2,15 +2,15 @@ package com.jungdam.album.dto.response;
 
 public class ReadOneAlbumResponse {
 
-    private final Long albumId;
-    private final String albumTitle;
+    private final Long id;
+    private final String title;
     private final String familyMotto;
     private final String thumbnail;
 
-    public ReadOneAlbumResponse(Long albumId, String albumTitle, String familyMotto,
+    public ReadOneAlbumResponse(Long id, String title, String familyMotto,
         String thumbnail) {
-        this.albumId = albumId;
-        this.albumTitle = albumTitle;
+        this.id = id;
+        this.title = title;
         this.familyMotto = familyMotto;
         this.thumbnail = thumbnail;
     }
@@ -19,12 +19,12 @@ public class ReadOneAlbumResponse {
         return new ReadOneAlbumResponseBuilder();
     }
 
-    public Long getAlbumId() {
-        return albumId;
+    public Long getId() {
+        return id;
     }
 
-    public String getAlbumTitle() {
-        return albumTitle;
+    public String getTitle() {
+        return title;
     }
 
     public String getFamilyMotto() {
@@ -37,21 +37,21 @@ public class ReadOneAlbumResponse {
 
     public static class ReadOneAlbumResponseBuilder {
 
-        private Long albumId;
-        private String albumTitle;
+        private Long id;
+        private String title;
         private String familyMotto;
         private String thumbnail;
 
         private ReadOneAlbumResponseBuilder() {
         }
 
-        public ReadOneAlbumResponseBuilder albumId(final Long albumId) {
-            this.albumId = albumId;
+        public ReadOneAlbumResponseBuilder id(final Long id) {
+            this.id = id;
             return this;
         }
 
-        public ReadOneAlbumResponseBuilder albumTitle(final String albumTitle) {
-            this.albumTitle = albumTitle;
+        public ReadOneAlbumResponseBuilder title(final String title) {
+            this.title = title;
             return this;
         }
 
@@ -66,7 +66,7 @@ public class ReadOneAlbumResponse {
         }
 
         public ReadOneAlbumResponse build() {
-            return new ReadOneAlbumResponse(this.albumId, this.albumTitle, this.familyMotto,
+            return new ReadOneAlbumResponse(this.id, this.title, this.familyMotto,
                 this.thumbnail);
         }
     }

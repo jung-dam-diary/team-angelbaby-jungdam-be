@@ -47,6 +47,6 @@ public class AlbumFacade {
 
         participantService.checkNotExists(album, member);
 
-        return albumConverter.toReadOneAlbumResponseBuilder(album);
+        return albumConverter.toReadOneAlbumResponse(album);
     }
 }

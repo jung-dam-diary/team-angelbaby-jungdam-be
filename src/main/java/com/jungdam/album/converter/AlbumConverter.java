@@ -26,10 +26,10 @@ public class AlbumConverter {
             .build();
     }
 
-    public ReadOneAlbumResponse toReadOneAlbumResponseBuilder(Album album) {
+    public ReadOneAlbumResponse toReadOneAlbumResponse(Album album) {
         return ReadOneAlbumResponse.builder()
-            .albumId(album.getId())
-            .albumTitle(album.getTitleValue())
+            .id(album.getId())
+            .title(album.getTitleValue())
             .familyMotto(album.getFamilyMottoValue())
             .thumbnail(album.getThumbnailValue())
             .build();
