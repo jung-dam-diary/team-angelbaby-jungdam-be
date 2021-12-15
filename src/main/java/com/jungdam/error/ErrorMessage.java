@@ -20,6 +20,7 @@ public enum ErrorMessage {
     DUPLICATION_PARTICIPANT_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원이 존재합니다."),
     DUPLICATION_INVITATION_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원을 초대 후 대기 상태입니다."),
     INVALID_COMMENT_CONTENT(HttpStatus.BAD_REQUEST, "댓글의 형식이 잘못되었습니다."),
+    INVALID_DIARY_PHOTO_IMAGE(HttpStatus.BAD_REQUEST, "이미지 정보가 잘못되었습니다."),
 
     ;
 
