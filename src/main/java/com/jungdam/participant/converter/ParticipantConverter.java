@@ -12,12 +12,12 @@ public class ParticipantConverter {
 
     public ReadAllParticipantResponse toReadAllParticipantResponse(List<Participant> participants) {
         List<ReadAllParticipant> readParticipantResponses = participants.stream()
-            .map(p ->
+            .map(participant ->
                 ReadAllParticipant.builder()
-                    .participantEmail(p.getMember().getEmailValue())
-                    .participantNickname(p.getNicknameValue())
-                    .participantAvatar(p.getMember().getAvatarValue())
-                    .participantRole(p.getRoleValue())
+                    .email(participant.getMember().getEmailValue())
+                    .nickname(participant.getNicknameValue())
+                    .avatar(participant.getMember().getAvatarValue())
+                    .role(participant.getRoleValue())
                     .build())
             .collect(Collectors.toList());
 

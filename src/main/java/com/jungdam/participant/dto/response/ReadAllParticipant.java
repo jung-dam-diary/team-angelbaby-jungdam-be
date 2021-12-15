@@ -2,73 +2,73 @@ package com.jungdam.participant.dto.response;
 
 public class ReadAllParticipant {
 
-    private final String participantEmail;
-    private final String participantNickname;
-    private final String participantAvatar;
-    private final String participantRole;
+    private final String email;
+    private final String nickname;
+    private final String avatar;
+    private final String role;
 
-    public ReadAllParticipant(String participantEmail, String participantNickname,
-        String participantAvatar, String participantRole) {
-        this.participantEmail = participantEmail;
-        this.participantNickname = participantNickname;
-        this.participantAvatar = participantAvatar;
-        this.participantRole = participantRole;
+    public ReadAllParticipant(String email, String nickname,
+        String avatar, String role) {
+        this.email = email;
+        this.nickname = nickname;
+        this.avatar = avatar;
+        this.role = role;
     }
 
     public static ReadParticipantResponseBuilder builder() {
         return new ReadParticipantResponseBuilder();
     }
 
-    public String getParticipantEmail() {
-        return participantEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public String getParticipantNickname() {
-        return participantNickname;
+    public String getNickname() {
+        return nickname;
     }
 
-    public String getParticipantAvatar() {
-        return participantAvatar;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public String getParticipantRole() {
-        return participantRole;
+    public String getRole() {
+        return role;
     }
 
     public static class ReadParticipantResponseBuilder {
 
-        private String participantEmail;
-        private String participantNickname;
-        private String participantAvatar;
-        private String participantRole;
+        private String email;
+        private String nickname;
+        private String avatar;
+        private String role;
 
         private ReadParticipantResponseBuilder() {
         }
 
-        public ReadParticipantResponseBuilder participantEmail(final String participantEmail) {
-            this.participantEmail = participantEmail;
+        public ReadParticipantResponseBuilder email(final String email) {
+            this.email = email;
             return this;
         }
 
-        public ReadParticipantResponseBuilder participantNickname(
-            final String participantNickname) {
-            this.participantNickname = participantNickname;
+        public ReadParticipantResponseBuilder nickname(
+            final String nickname) {
+            this.nickname = nickname;
             return this;
         }
 
-        public ReadParticipantResponseBuilder participantAvatar(final String participantAvatar) {
-            this.participantAvatar = participantAvatar;
+        public ReadParticipantResponseBuilder avatar(final String avatar) {
+            this.avatar = avatar;
             return this;
         }
 
-        public ReadParticipantResponseBuilder participantRole(final String participantRole) {
-            this.participantRole = participantRole;
+        public ReadParticipantResponseBuilder role(final String role) {
+            this.role = role;
             return this;
         }
 
         public ReadAllParticipant build() {
-            return new ReadAllParticipant(this.participantEmail, this.participantNickname,
-                this.participantAvatar, this.participantRole
+            return new ReadAllParticipant(this.email, this.nickname,
+                this.avatar, this.role
             );
         }
     }
