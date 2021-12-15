@@ -27,8 +27,8 @@ public class CreateDiaryBundle {
         this.recordedAt = new RecordedAt(request.getRecordedAt());
     }
 
-    public static CreateDiaryBundle.CreateDiaryBundleBuilder builder() {
-        return new CreateDiaryBundle.CreateDiaryBundleBuilder();
+    public static CreateDiaryBundleBuilder builder() {
+        return new CreateDiaryBundleBuilder();
     }
 
     private List<DiaryPhoto> convert(List<String> diaryPhotos) {
@@ -71,17 +71,17 @@ public class CreateDiaryBundle {
 
         }
 
-        public CreateDiaryBundle.CreateDiaryBundleBuilder memberId(final Long memberId) {
+        public CreateDiaryBundleBuilder memberId(final Long memberId) {
             this.memberId = memberId;
             return this;
         }
 
-        public CreateDiaryBundle.CreateDiaryBundleBuilder albumId(final Long albumId) {
+        public CreateDiaryBundleBuilder albumId(final Long albumId) {
             this.albumId = albumId;
             return this;
         }
 
-        public CreateDiaryBundle.CreateDiaryBundleBuilder request(
+        public CreateDiaryBundleBuilder request(
             final CreateDiaryRequest request) {
             this.request = request;
             return this;
