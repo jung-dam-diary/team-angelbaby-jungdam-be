@@ -3,6 +3,7 @@ package com.jungdam.participant.domain;
 import com.jungdam.album.domain.Album;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.vo.Nickname;
 import com.jungdam.participant.domain.vo.Role;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,7 +29,7 @@ public class Participant extends BaseEntity {
     private Role role;
 
     @Column(name = "participant_nickname")
-    private String nickname;
+    private Nickname nickname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -41,11 +42,19 @@ public class Participant extends BaseEntity {
     protected Participant() {
     }
 
+    public String getRoleValue() {
+        return role.getRole();
+    }
+
+    public String getNicknameValue() {
+        return nickname.getNickname();
+    }
+
     public Role getRole() {
         return role;
     }
 
-    public String getNickname() {
+    public Nickname getNickname() {
         return nickname;
     }
 

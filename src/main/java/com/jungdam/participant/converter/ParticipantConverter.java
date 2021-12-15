@@ -15,9 +15,9 @@ public class ParticipantConverter {
             .map(p ->
                 ReadAllParticipant.builder()
                     .participantEmail(p.getMember().getEmailValue())
-                    .participantNickname(p.getNickname())
+                    .participantNickname(p.getNicknameValue())
                     .participantAvatar(p.getMember().getAvatarValue())
-                    .participantRole(p.getRole().name())
+                    .participantRole(p.getRoleValue())
                     .build())
             .collect(Collectors.toList());
 
