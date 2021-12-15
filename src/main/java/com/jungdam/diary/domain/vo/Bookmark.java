@@ -15,4 +15,12 @@ public class Bookmark {
     public Boolean getBookmark() {
         return bookmark;
     }
+
+    public void check() {
+        if (bookmark) {
+            bookmark = false;
+            return;
+        }
+        bookmark = true;
+    }
 }

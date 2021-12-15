@@ -133,6 +133,10 @@ public class Diary extends BaseEntity {
         emoji.register(this);
     }
 
+    public void checkingBookmark() {
+        bookmark.check();
+    }
+
     public Long getId() {
         return id;
     }
