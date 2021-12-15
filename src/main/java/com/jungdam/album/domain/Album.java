@@ -46,12 +46,15 @@ public class Album extends BaseEntity {
     protected Album() {
     }
 
-    public Album(Long id, Title title, FamilyMotto familyMotto, Thumbnail thumbnail) {
-        this.id = id;
+    public Album(Title title, FamilyMotto familyMotto, Thumbnail thumbnail) {
         this.title = title;
         this.familyMotto = familyMotto;
         this.thumbnail = thumbnail;
         this.participants = new Participants();
+    }
+
+    public static AlbumBuilder builder() {
+        return new AlbumBuilder();
     }
 
     public void addParticipant(Participant participant) {
@@ -71,10 +74,6 @@ public class Album extends BaseEntity {
 
     public Long getId() {
         return id;
-    }
-
-    public static AlbumBuilder builder() {
-        return new AlbumBuilder();
     }
 
     public Title getTitle() {
@@ -103,17 +102,11 @@ public class Album extends BaseEntity {
 
     public static class AlbumBuilder {
 
-        private Long id;
         private Title title;
         private FamilyMotto familyMotto;
         private Thumbnail thumbnail;
 
         private AlbumBuilder() {
-        }
-
-        public AlbumBuilder id(final Long id) {
-            this.id = id;
-            return this;
         }
 
         public AlbumBuilder title(final Title title) {
@@ -132,7 +125,7 @@ public class Album extends BaseEntity {
         }
 
         public Album build() {
-            return new Album(this.id, this.title, this.familyMotto, this.thumbnail);
+            return new Album(this.title, this.familyMotto, this.thumbnail);
         }
     }
 }
