@@ -16,7 +16,7 @@ public enum ResponseMessage {
     COMMENT_CREATE_SUCCESS(HttpStatus.CREATED, "댓글 생성 성공"),
     ALBUM_CREATE_SUCCESS(HttpStatus.CREATED, "앨범 생성 성공"),
     ALBUM_READ_SUCCESS(HttpStatus.OK, "앨범 제목 및 가훈 조회 성공"),
-    BOOKMARK_CHECK_SUCCESS(HttpStatus.OK, "일기 북마크 체크/언체크"),
+    BOOKMARK_MARK_SUCCESS(HttpStatus.OK, "일기 북마크 체크/언체크"),
 
     ;
 

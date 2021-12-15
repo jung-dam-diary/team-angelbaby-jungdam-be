@@ -63,14 +63,14 @@ public class DiaryFacade {
     }
 
     @Transactional
-    public CheckBookmarkResponse check(CheckBookmarkBundle bundle) {
+    public CheckBookmarkResponse mark(CheckBookmarkBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
         participantService.checkNotExists(album, member);
 
         Diary diary = diaryService.findById(bundle.getDiaryId());
-        diary.checkingBookmark();
+        diary.mark();
 
         return diaryConverter.toCheckBookmarkResponse(diary);
     }

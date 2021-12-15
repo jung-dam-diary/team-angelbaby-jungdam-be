@@ -16,11 +16,7 @@ public class Bookmark {
         return bookmark;
     }
 
-    public void check() {
-        if (bookmark) {
-            bookmark = false;
-            return;
-        }
-        bookmark = true;
+    public void mark() {
+        bookmark = !bookmark;
     }
 }

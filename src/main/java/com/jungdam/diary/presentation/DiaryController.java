@@ -69,7 +69,7 @@ public class DiaryController {
 
     @ApiOperation("북마크 생성/삭제")
     @PutMapping("/{diaryId}/bookmark")
-    public ResponseEntity<ResponseDto<CheckBookmarkResponse>> checkBookmark(
+    public ResponseEntity<ResponseDto<CheckBookmarkResponse>> markBookmark(
         @PathVariable Long albumId,
         @PathVariable Long diaryId) {
         Long memberId = SecurityUtils.getCurrentUsername();
@@ -80,8 +80,8 @@ public class DiaryController {
             .diaryId(diaryId)
             .build();
 
-        CheckBookmarkResponse response = diaryFacade.check(bundle);
+        CheckBookmarkResponse response = diaryFacade.mark(bundle);
 
-        return ResponseDto.of(ResponseMessage.BOOKMARK_CHECK_SUCCESS, response);
+        return ResponseDto.of(ResponseMessage.BOOKMARK_MARK_SUCCESS, response);
     }
 }
