@@ -1,6 +1,8 @@
 package com.jungdam.participant.application;
 
 import com.jungdam.album.domain.Album;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.infrastructure.ParticipantRepository;
 import org.springframework.stereotype.Service;
@@ -19,5 +21,16 @@ public class ParticipantService {
     @Transactional(readOnly = true)
     public boolean notExistsByAlbumAndMember(Album album, Member member) {
         return !participantRepository.existsByAlbumAndMember(album, member);
+    }
+
+    @Transactional(readOnly = true)
+    public void checkNotExists(Album album, Member member) {
+        if (!existsByAlbumAndMember(album, member)) {
+            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
+        }
+    }
+
+    private boolean existsByAlbumAndMember(Album album, Member member) {
+        return participantRepository.existsByAlbumAndMember(album, member);
     }
 }
