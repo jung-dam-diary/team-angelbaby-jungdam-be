@@ -1,13 +1,13 @@
 package com.jungdam.participant.dto.response;
 
-public class ReadParticipantResponse {
+public class ReadAllParticipant {
 
     private final String participantEmail;
     private final String participantNickname;
     private final String participantAvatar;
     private final String participantRole;
 
-    public ReadParticipantResponse(String participantEmail, String participantNickname,
+    public ReadAllParticipant(String participantEmail, String participantNickname,
         String participantAvatar, String participantRole) {
         this.participantEmail = participantEmail;
         this.participantNickname = participantNickname;
@@ -66,8 +66,8 @@ public class ReadParticipantResponse {
             return this;
         }
 
-        public ReadParticipantResponse build() {
-            return new ReadParticipantResponse(this.participantEmail, this.participantNickname,
+        public ReadAllParticipant build() {
+            return new ReadAllParticipant(this.participantEmail, this.participantNickname,
                 this.participantAvatar, this.participantRole
             );
         }

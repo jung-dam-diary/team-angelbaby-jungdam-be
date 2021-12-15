@@ -4,14 +4,14 @@ import java.util.List;
 
 public class ReadAllParticipantResponse {
 
-    private final List<ReadParticipantResponse> participants;
+    private final List<ReadAllParticipant> participants;
 
     public ReadAllParticipantResponse(
-        List<ReadParticipantResponse> participants) {
+        List<ReadAllParticipant> participants) {
         this.participants = participants;
     }
 
-    public List<ReadParticipantResponse> getParticipants() {
+    public List<ReadAllParticipant> getParticipants() {
         return participants;
     }
 }
