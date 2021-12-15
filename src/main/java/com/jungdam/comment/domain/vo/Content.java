@@ -20,6 +20,7 @@ public class Content {
     }
 
     public Content(String content) {
+        validate(content);
         this.content = content;
     }
 

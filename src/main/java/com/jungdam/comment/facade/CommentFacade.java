@@ -39,7 +39,7 @@ public class CommentFacade {
     }
 
     @Transactional
-    public CreateCommentResponse create(CreateCommentBundle bundle) {
+    public CreateCommentResponse insert(CreateCommentBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
         Diary diary = diaryService.findById(bundle.getDiaryId());

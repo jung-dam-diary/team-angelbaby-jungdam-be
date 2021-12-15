@@ -40,7 +40,7 @@ public class CommentController {
             .request(request)
             .build();
 
-        CreateCommentResponse response = commentFacade.create(bundle);
+        CreateCommentResponse response = commentFacade.insert(bundle);
 
         return ResponseDto.of(ResponseMessage.COMMENT_CREATE_SUCCESS, response);
     }
