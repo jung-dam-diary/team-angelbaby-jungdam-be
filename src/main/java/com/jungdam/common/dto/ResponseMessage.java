@@ -14,6 +14,7 @@ public enum ResponseMessage {
     PARTICIPANT_READ_SUCCESS(HttpStatus.OK, "멤버 리스트 조회 성공"),
     DIARY_READ_SUCCESS(HttpStatus.OK, "일기 조회 성공"),
 
+    ALBUM_CREATE_SUCCESS(HttpStatus.CREATED, "앨범 생성 성공"),
     ;
 
     private final HttpStatus status;

@@ -19,7 +19,10 @@ public enum ErrorMessage {
     NOT_EXIST_DIARY(HttpStatus.BAD_REQUEST, "존재하지 않는 일기입니다."),
     DUPLICATION_PARTICIPANT_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원이 존재합니다."),
     DUPLICATION_INVITATION_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원을 초대 후 대기 상태입니다."),
-  
+
+    INVALID_ALBUM_TITLE(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 제목입니다."),
+    INVALID_ALBUM_FAMILY_MOTTO(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 가훈입니다."),
+    INVALID_ALBUM_THUMBNAIL(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 썸네일입니다."),
     ;
 
     private final HttpStatus status;
