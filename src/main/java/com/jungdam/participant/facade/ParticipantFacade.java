@@ -38,7 +38,7 @@ public class ParticipantFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        if (!participantService.existsByAlbumAndMember(album, member)) {
+        if (participantService.notExistsByAlbumAndMember(album, member)) {
             throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
         }
 
