@@ -21,12 +21,18 @@ public class Comments {
     }
 
     public void remove(Long id, Member member) {
-        for (Comment cmt : comments) {
-            if (cmt.isCreator(id, member)) {
-                comments.remove(cmt);
-                return;
-            }
-        }
-        throw new NotExistException(ErrorMessage.NOT_EXIST_COMMENT);
+        Comment comment = find(id, member);
+        remove(comment);
+    }
+
+    private Comment find(Long id, Member member) {
+        return comments.stream()
+            .filter(c -> c.isCreator(id, member))
+            .findFirst()
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_COMMENT));
+    }
+
+    private void remove(Comment comment) {
+        comments.remove(comment);
     }
 }
