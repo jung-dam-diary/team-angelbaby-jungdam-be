@@ -14,12 +14,12 @@ import com.jungdam.album.dto.response.ReadAllMomentResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.album.dto.response.UpdateAlbumResponse;
 import com.jungdam.diary.application.DiaryService;
-import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
-import java.util.List;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,8 +98,10 @@ public class AlbumFacade {
 
         participantService.checkNotExists(album, member); // TODO: 공통 로직
         Bookmark bookmark = new Bookmark(true);
-        List<Diary> diaries = diaryService.findByAlbumAndBookmark(album, bookmark);
 
-        return albumConverter.toReadAllMomentResponse(diaries);
+        Pageable page = PageRequest.of(0, bundle.getSize());
+        return diaryService.findByAlbumAndBookmarkByCursor(
+            album, bookmark,
+            bundle.getCursorId(), page);
     }
 }

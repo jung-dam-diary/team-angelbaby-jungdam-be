@@ -7,6 +7,7 @@ import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.member.domain.Member;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,5 +19,11 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     @Override
     Optional<Diary> findById(Long id);
 
-    List<Diary> findAllByAlbumAndBookmark(Album album, Bookmark bookmark);
+    List<Diary> findAllByAlbumAndBookmarkOrderByIdDesc(Album album, Bookmark bookmark,
+        Pageable page);
+
+    List<Diary> findAllByAlbumAndBookmarkAndIdLessThanOrderByIdDesc(Album album, Bookmark bookmark,
+        Long id, Pageable page);
+
+    Boolean existsByAlbumAndBookmarkAndIdLessThan(Album album, Bookmark bookmark, Long id);
 }

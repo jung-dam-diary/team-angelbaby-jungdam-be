@@ -54,7 +54,7 @@ public class AlbumConverter {
             .build();
     }
 
-    public ReadAllMomentResponse toReadAllMomentResponse(List<Diary> diaries) {
-        return new ReadAllMomentResponse(diaries);
+    public ReadAllMomentResponse toReadAllMomentResponse(List<Diary> diaries, Boolean hasNext) {
+        return new ReadAllMomentResponse(diaries, hasNext);
     }
 }

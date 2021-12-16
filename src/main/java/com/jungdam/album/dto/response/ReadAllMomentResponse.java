@@ -10,9 +10,11 @@ public class ReadAllMomentResponse {
     private static final String EMPTY_STRING = "";
 
     private final List<Moment> moments;
+    private final Boolean hasNext;
 
     public ReadAllMomentResponse(
-        List<Diary> diaries) {
+        List<Diary> diaries, Boolean hasNext) {
+        this.hasNext = hasNext;
         this.moments = diaries.stream()
             .map(d -> {
                 String thumbnail = d.getDiaryPhotosValue().stream()
