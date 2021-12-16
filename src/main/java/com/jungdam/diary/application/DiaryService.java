@@ -2,7 +2,6 @@ package com.jungdam.diary.application;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.album.dto.response.ReadAllMomentResponse;
-import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Bookmark;
