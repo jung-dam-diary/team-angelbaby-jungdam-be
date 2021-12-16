@@ -13,8 +13,4 @@ public class SearchMemberBundle {
     public Email getEmail() {
         return email;
     }
-
-    public String getEmailValue() {
-        return email.getEmail();
-    }
 }
