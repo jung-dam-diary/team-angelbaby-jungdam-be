@@ -58,6 +58,8 @@ public class AlbumFacade {
 
         participantService.checkMemberIsOwnerRole(album, member);
 
+        albumService.delete(album);
+
         return albumConverter.toDeleteAlbumResponse(album, member);
     }
 }

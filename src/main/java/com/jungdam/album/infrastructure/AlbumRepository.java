@@ -13,4 +13,7 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Override
     Optional<Album> findById(Long id);
+
+    @Override
+    void delete(Album entity);
 }

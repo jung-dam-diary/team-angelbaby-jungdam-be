@@ -32,4 +32,9 @@ public class AlbumService {
         return albumRepository.findById(id)
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_ALBUM));
     }
+
+    @Transactional
+    public void delete(Album album) {
+        albumRepository.delete(album);
+    }
 }
