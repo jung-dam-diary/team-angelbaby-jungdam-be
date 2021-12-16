@@ -20,7 +20,7 @@ public class Comments {
         comments.add(comment);
     }
 
-    public void remove(Long id, Member member) {
+    public void delete(Long id, Member member) {
         Comment comment = find(id, member);
         remove(comment);
     }

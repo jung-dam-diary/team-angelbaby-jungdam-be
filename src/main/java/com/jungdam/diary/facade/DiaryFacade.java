@@ -7,9 +7,11 @@ import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
+import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
+import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
@@ -73,5 +75,17 @@ public class DiaryFacade {
         diary.mark();
 
         return diaryConverter.toCheckBookmarkResponse(diary);
+    }
+
+    @Transactional
+    public DeleteDiaryResponse delete(DeleteDiaryBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        participantService.checkNotExists(album, member);
+
+        album.deleteDiary(bundle.getDiaryId(), member);
+
+        return diaryConverter.toDeleteDiaryResponse(album);
     }
 }

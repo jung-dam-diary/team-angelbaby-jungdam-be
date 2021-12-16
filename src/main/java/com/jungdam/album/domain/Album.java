@@ -9,6 +9,7 @@ import com.jungdam.album.domain.vo.Title;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.invitation.domain.Invitation;
+import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -70,6 +71,10 @@ public class Album extends BaseEntity {
     public void addInvitation(Invitation invitation) {
         invitations.add(invitation);
         invitation.register(this);
+    }
+
+    public void deleteDiary(Long id, Member member) {
+        diaries.delete(id, member);
     }
 
     public Long getId() {

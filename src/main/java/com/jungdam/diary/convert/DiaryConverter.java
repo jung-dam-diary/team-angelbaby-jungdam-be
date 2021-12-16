@@ -1,9 +1,11 @@
 package com.jungdam.diary.convert;
 
+import com.jungdam.album.domain.Album;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
+import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.member.domain.Member;
 import org.springframework.stereotype.Component;
@@ -38,5 +40,9 @@ public class DiaryConverter {
             .recordedAt(bundle.getRecordedAt())
             .member(member)
             .build();
+    }
+
+    public DeleteDiaryResponse toDeleteDiaryResponse(Album album) {
+        return new DeleteDiaryResponse(album.getId());
     }
 }

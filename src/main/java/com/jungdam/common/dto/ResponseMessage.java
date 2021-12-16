@@ -20,6 +20,7 @@ public enum ResponseMessage {
     ALBUM_READ_SUCCESS(HttpStatus.OK, "앨범 제목 및 가훈 조회 성공"),
     BOOKMARK_MARK_SUCCESS(HttpStatus.OK, "일기 북마크 체크/언체크"),
     COMMENT_DELETE_SUCCESS(HttpStatus.OK, "댓글 삭제 성공"),
+    DIARY_DELETE_SUCCESS(HttpStatus.OK, "일기 삭제 성공"),
 
     ;
 

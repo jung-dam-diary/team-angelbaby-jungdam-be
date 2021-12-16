@@ -15,6 +15,7 @@ import com.jungdam.emoji.domain.Emoji;
 import com.jungdam.member.domain.Member;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -138,7 +139,11 @@ public class Diary extends BaseEntity {
     }
 
     public void deleteContent(Long id, Member member) {
-        comments.remove(id, member);
+        comments.delete(id, member);
+    }
+
+    public boolean isCreator(Long id, Member member) {
+        return Objects.equals(this.id, id) && this.member.equals(member);
     }
 
     public Long getId() {
