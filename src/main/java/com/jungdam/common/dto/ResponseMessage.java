@@ -25,6 +25,7 @@ public enum ResponseMessage {
     COMMENT_DELETE_SUCCESS(HttpStatus.OK, "댓글 삭제 성공"),
     DIARY_DELETE_SUCCESS(HttpStatus.OK, "일기 삭제 성공"),
     DIARY_RECORDED_AT_CHECK_SUCCESS(HttpStatus.OK, "일기 생성날짜 검사 성공"),
+    COMMENT_READ_SUCCESS(HttpStatus.OK, "댓글 조회 성공"),
 
     ;
 

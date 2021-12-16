@@ -26,7 +26,7 @@ public class Diaries {
         remove(diary);
     }
 
-    public boolean find(RecordedAt recordedAt, Member member) {
+    public boolean isExists(RecordedAt recordedAt, Member member) {
         return diaries.stream()
             .anyMatch(d -> d.isWritten(recordedAt, member));
     }

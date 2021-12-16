@@ -49,7 +49,7 @@ public class AlbumController {
         return ResponseDto.of(ResponseMessage.ALBUM_CREATE_SUCCESS, response);
     }
 
-    @ApiOperation("앨점 제목 및 가훈 조회")
+    @ApiOperation("앨범 제목 및 가훈 조회")
     @GetMapping("/{albumId}")
     public ResponseEntity<ResponseDto<ReadOneAlbumResponse>> getOne(@PathVariable Long albumId) {
         Long memberId = SecurityUtils.getCurrentUsername();

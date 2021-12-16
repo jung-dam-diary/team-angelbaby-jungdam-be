@@ -57,4 +57,8 @@ public class Comment extends BaseEntity {
     public String getContentValue() {
         return content.getContent();
     }
+
+    public String getMemberNicknameValue() {
+        return member.getNicknameValue();
+    }
 }

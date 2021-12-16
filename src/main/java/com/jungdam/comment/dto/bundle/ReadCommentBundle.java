@@ -1,21 +1,20 @@
 package com.jungdam.comment.dto.bundle;
 
-import com.jungdam.comment.domain.vo.Content;
-import com.jungdam.comment.dto.request.CreateCommentRequest;
-
-public class CreateCommentBundle {
+public class ReadCommentBundle {
 
     private final Long memberId;
     private final Long albumId;
     private final Long diaryId;
-    private final Content content;
+    private final Long cursorId;
+    private final Integer pageSize;
 
-    public CreateCommentBundle(Long memberId, Long albumId, Long diaryId,
-        CreateCommentRequest request) {
+    public ReadCommentBundle(Long memberId, Long albumId, Long diaryId, Long cursorId,
+        Integer pageSize) {
         this.memberId = memberId;
         this.albumId = albumId;
         this.diaryId = diaryId;
-        this.content = new Content(request.getCommentContent());
+        this.cursorId = cursorId;
+        this.pageSize = pageSize;
     }
 
     public static CreateCommentBundleBuilder builder() {
@@ -34,8 +33,12 @@ public class CreateCommentBundle {
         return diaryId;
     }
 
-    public Content getContent() {
-        return content;
+    public Long getCursorId() {
+        return cursorId;
+    }
+
+    public int getPageSize() {
+        return pageSize;
     }
 
     public static class CreateCommentBundleBuilder {
@@ -43,7 +46,8 @@ public class CreateCommentBundle {
         private Long memberId;
         private Long albumId;
         private Long diaryId;
-        private CreateCommentRequest request;
+        private Long cursorId;
+        private Integer pageSize;
 
         private CreateCommentBundleBuilder() {
 
@@ -64,13 +68,19 @@ public class CreateCommentBundle {
             return this;
         }
 
-        public CreateCommentBundleBuilder request(final CreateCommentRequest request) {
-            this.request = request;
+        public CreateCommentBundleBuilder cusorId(final Long cusorId) {
+            this.cursorId = cusorId;
             return this;
         }
 
-        public CreateCommentBundle build() {
-            return new CreateCommentBundle(this.memberId, this.albumId, this.diaryId, this.request);
+        public CreateCommentBundleBuilder pageSize(final int pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        }
+
+        public ReadCommentBundle build() {
+            return new ReadCommentBundle(this.memberId, this.albumId, this.diaryId, this.cursorId,
+                this.pageSize);
         }
     }
 }

@@ -79,7 +79,7 @@ public class Album extends BaseEntity {
     }
 
     public boolean checkRecordedAt(RecordedAt recordedAt, Member member) {
-        return diaries.find(recordedAt, member);
+        return diaries.isExists(recordedAt, member);
     }
 
     public Long getId() {
