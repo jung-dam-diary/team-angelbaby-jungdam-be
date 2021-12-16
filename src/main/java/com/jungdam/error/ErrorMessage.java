@@ -26,6 +26,7 @@ public enum ErrorMessage {
     INVALID_ALBUM_FAMILY_MOTTO(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 가훈입니다."),
     INVALID_ALBUM_THUMBNAIL(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 썸네일입니다."),
     INVALID_DIARY_RECORDED_AT(HttpStatus.BAD_REQUEST, "작성되는 날짜가 현재 날짜보다 미래입니다."),
+    NOT_EXIST_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
 
     ;
 
