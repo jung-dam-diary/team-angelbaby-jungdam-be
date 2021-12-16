@@ -9,10 +9,13 @@ import com.jungdam.invitation.converter.InvitationConverter;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
+import com.jungdam.invitation.dto.bundle.ReadAllInvitationBundle;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
+import com.jungdam.invitation.dto.response.ReadAllInvitationResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +62,14 @@ public class InvitationFacade {
         album.addInvitation(invitation);
 
         return invitationConverter.toCreateInvitationResponse(invitation);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadAllInvitationResponse> findAllWithPendingStatus(ReadAllInvitationBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+
+        List<Invitation> invitationList = invitationService.findAllByTargetMemberAndStatus(member);
+
+        return invitationConverter.toReadAllInvitationResponse(invitationList);
     }
 }
