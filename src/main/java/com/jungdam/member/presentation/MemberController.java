@@ -27,14 +27,12 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @ApiOperation("사용자 조회")
+    @ApiOperation("프로필 조회")
     @GetMapping
-    public ResponseEntity<ResponseDto<ReadMemberResponse>> getOne() {
-
+    public ResponseEntity<ResponseDto<ReadMemberResponse>> getProfile() {
         Long memberId = SecurityUtils.getCurrentUsername();
 
         ReadMemberBundle bundle = new ReadMemberBundle(memberId);
-
         ReadMemberResponse response = memberService.find(bundle);
 
         return ResponseDto.of(ResponseMessage.MEMBER_READ_SUCCESS, response);

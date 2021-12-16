@@ -32,16 +32,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
+    }
+
+    @Transactional(readOnly = true)
     public SearchMemberResponse findByEmail(SearchMemberBundle bundle) {
         Member member = memberRepository.findByEmail(bundle.getEmail())
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
 
         return memberConverter.toSearchMemberResponse(member);
-    }
-
-    @Transactional(readOnly = true)
-    public Member findById(Long id) {
-        return memberRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 }

@@ -43,7 +43,6 @@ public class ReadMemberResponse {
         private String role;
 
         private ReadMemberResponseBuilder() {
-
         }
 
         public ReadMemberResponseBuilder email(final String email) {
