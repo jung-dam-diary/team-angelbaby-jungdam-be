@@ -4,6 +4,7 @@ import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.domain.Member;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -43,6 +44,10 @@ public class Comment extends BaseEntity {
 
     public void register(Diary diary) {
         this.diary = diary;
+    }
+
+    public boolean isCreator(Long id, Member member) {
+        return Objects.equals(this.id, id) && this.member.equals(member);
     }
 
     public Long getId() {

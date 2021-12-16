@@ -137,6 +137,10 @@ public class Diary extends BaseEntity {
         bookmark.mark();
     }
 
+    public void deleteContent(Long id, Member member) {
+        comments.remove(id, member);
+    }
+
     public Long getId() {
         return id;
     }

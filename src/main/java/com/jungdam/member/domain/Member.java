@@ -7,6 +7,7 @@ import com.jungdam.member.domain.vo.Nickname;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.domain.vo.Role;
 import com.jungdam.member.domain.vo.Status;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -121,6 +122,28 @@ public class Member extends BaseEntity {
 
     public String getOauthPermission() {
         return oauthPermission;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Member member = (Member) o;
+        return Objects.equals(id, member.id) && Objects.equals(email, member.email)
+            && Objects.equals(nickname, member.nickname) && Objects.equals(avatar,
+            member.avatar) && role == member.role && status == member.status
+            && providerType == member.providerType && Objects.equals(oauthPermission,
+            member.oauthPermission);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email, nickname, avatar, role, status, providerType,
+            oauthPermission);
     }
 
     public static class MemberBuilder {

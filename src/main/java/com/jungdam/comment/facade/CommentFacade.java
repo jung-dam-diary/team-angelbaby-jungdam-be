@@ -6,7 +6,9 @@ import com.jungdam.comment.application.CommentService;
 import com.jungdam.comment.converter.CommentConverter;
 import com.jungdam.comment.domain.Comment;
 import com.jungdam.comment.dto.bundle.CreateCommentBundle;
+import com.jungdam.comment.dto.bundle.DeleteCommentBundle;
 import com.jungdam.comment.dto.response.CreateCommentResponse;
+import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
@@ -49,5 +51,17 @@ public class CommentFacade {
         Comment comment = commentService.save(bundle.getContent(), member, diary);
 
         return commentConverter.toCreateCommentResponse(comment);
+    }
+
+    @Transactional
+    public DeleteCommentResponse delete(DeleteCommentBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+        Album album = albumService.findById(bundle.getAlbumId());
+        Diary diary = diaryService.findById(bundle.getDiaryId());
+
+        participantService.checkNotExists(album, member);
+        diary.deleteContent(bundle.getCommentId(), member);
+
+        return commentConverter.toDeleteCommentResponse(diary);
     }
 }

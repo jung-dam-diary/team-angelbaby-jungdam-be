@@ -16,6 +16,8 @@ public class Nickname {
         this.nickname = nickname;
     }
 
+    //TODO 추후 Validate 로직 추가
+
     public String getNickname() {
         return nickname;
     }

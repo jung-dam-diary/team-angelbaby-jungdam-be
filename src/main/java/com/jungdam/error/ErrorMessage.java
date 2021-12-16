@@ -4,8 +4,9 @@ import org.springframework.http.HttpStatus;
 
 public enum ErrorMessage {
 
+    NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다."),
-    NOT_EXIST_MEMBER(HttpStatus.BAD_REQUEST, "존재하지 않는 회원입니다."),
     NOT_EXIST_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 제공자 타입입니다."),
     FAIL_TO_GENERATE_TOKEN(HttpStatus.BAD_REQUEST, "토큰 생성 실패"),
     NOT_EXPIRED_TOKEN_YET(HttpStatus.BAD_REQUEST, "토큰 만료일이 지나지 않았습니다."),
@@ -26,6 +27,8 @@ public enum ErrorMessage {
     INVALID_ALBUM_THUMBNAIL(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 썸네일입니다."),
     INVALID_DIARY_RECORDED_AT(HttpStatus.BAD_REQUEST, "작성되는 날짜가 현재 날짜보다 미래입니다."),
     NON_PERMISSION_ALBUM(HttpStatus.BAD_REQUEST, "앨범에 대한 권한이 없습니다."),
+    NOT_EXIST_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
+
     ;
 
     private final HttpStatus status;

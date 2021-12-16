@@ -67,7 +67,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             if (providerType != member.getProviderType()) {
                 throw new OAuthProviderMissMatchException(ErrorMessage.NOT_EXIST_PROVIDER_TYPE);
             }
-            update(member, oAuth2MemberInfo);
+            //TODO OAuth 닉네임, 아바타 업데이트
+//            update(member, oAuth2MemberInfo);
         } else {
             member = createUser(oAuth2MemberInfo, providerType);
         }
