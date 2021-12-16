@@ -43,6 +43,7 @@ public class ParticipantService {
         return participantRepository.existsByAlbumAndMember(album, member);
     }
 
+    // TODO: 어노테이션 리펙토링
     @Transactional(readOnly = true)
     public void checkMemberIsOwnerRole(Album album, Member member) {
         if (!existsByAlbumAndOwnerMember(album, member)) {

@@ -73,8 +73,12 @@ public class AlbumFacade {
 
         participantService.checkMemberIsOwnerRole(album, member);
 
-        Album modifiedAlbum = albumService.update(album, bundle);
+        album.update(
+            bundle.getTitle(),
+            bundle.getFamilyMotto(),
+            bundle.getThumbnail()
+        );
 
-        return albumConverter.toUpdateAlbumResponse(modifiedAlbum);
+        return albumConverter.toUpdateAlbumResponse(album);
     }
 }
