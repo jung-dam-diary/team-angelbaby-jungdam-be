@@ -50,6 +50,10 @@ public class Comment extends BaseEntity {
         return Objects.equals(this.id, id) && this.member.equals(member);
     }
 
+    public void update(Content content) {
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,5 +64,9 @@ public class Comment extends BaseEntity {
 
     public String getMemberNicknameValue() {
         return member.getNicknameValue();
+    }
+
+    public Long getDiaryValue() {
+        return diary.getId();
     }
 }

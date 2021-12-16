@@ -3,10 +3,13 @@ package com.jungdam.comment.presentation;
 import com.jungdam.comment.dto.bundle.CreateCommentBundle;
 import com.jungdam.comment.dto.bundle.DeleteCommentBundle;
 import com.jungdam.comment.dto.bundle.ReadCommentBundle;
+import com.jungdam.comment.dto.bundle.UpdateCommentBundle;
 import com.jungdam.comment.dto.request.CreateCommentRequest;
+import com.jungdam.comment.dto.request.UpdateCommentRequest;
 import com.jungdam.comment.dto.response.CreateCommentResponse;
 import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
+import com.jungdam.comment.dto.response.UpdateCommentResponse;
 import com.jungdam.comment.facade.CommentFacade;
 import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -97,5 +101,25 @@ public class CommentController {
         ReadCommentAllResponse response = commentFacade.find(bundle);
 
         return ResponseDto.of(ResponseMessage.COMMENT_READ_SUCCESS, response);
+    }
+
+    @ApiOperation("댓글 수정")
+    @PutMapping("/{commentId}")
+    public ResponseEntity<ResponseDto<UpdateCommentResponse>> update(@PathVariable Long albumId,
+        @PathVariable Long diaryId, @PathVariable Long commentId,
+        @RequestBody UpdateCommentRequest request) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        UpdateCommentBundle bundle = UpdateCommentBundle.builder()
+            .memberId(memberId)
+            .albumId(albumId)
+            .diaryId(diaryId)
+            .request(request)
+            .commentId(commentId)
+            .build();
+
+        UpdateCommentResponse response = commentFacade.update(bundle);
+
+        return ResponseDto.of(ResponseMessage.COMMENT_UPDATE_SUCCESS, response);
     }
 }

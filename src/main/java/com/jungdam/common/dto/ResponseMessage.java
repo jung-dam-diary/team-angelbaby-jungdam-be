@@ -28,6 +28,7 @@ public enum ResponseMessage {
     DIARY_RECORDED_AT_CHECK_SUCCESS(HttpStatus.OK, "일기 생성날짜 검사 성공"),
     COMMENT_READ_SUCCESS(HttpStatus.OK, "댓글 조회 성공"),
     PARTICIPANT_CHECK_SUCCESS(HttpStatus.OK, "참여인원 확인"),
+    COMMENT_UPDATE_SUCCESS(HttpStatus.OK, "댓글 수정 성공"),
 
     ;
 
