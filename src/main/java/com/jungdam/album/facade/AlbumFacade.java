@@ -99,7 +99,7 @@ public class AlbumFacade {
         participantService.checkNotExists(album, member); // TODO: 공통 로직
         Bookmark bookmark = new Bookmark(true);
 
-        Pageable page = PageRequest.of(0, bundle.getSize());
+        Pageable page = PageRequest.of(0, bundle.getPageSize());
         return diaryService.findByAlbumAndBookmarkByCursor(
             album, bookmark,
             bundle.getCursorId(), page);

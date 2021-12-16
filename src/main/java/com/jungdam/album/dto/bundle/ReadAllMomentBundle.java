@@ -5,14 +5,14 @@ public class ReadAllMomentBundle {
     private final Long memberId;
     private final Long albumId;
     private final Long cursorId;
-    private final Integer size;
+    private final Integer pageSize;
 
     public ReadAllMomentBundle(final Long memberId, final Long albumId, final Long cursorId,
-        final Integer size) {
+        final Integer pageSize) {
         this.memberId = memberId;
         this.albumId = albumId;
         this.cursorId = cursorId;
-        this.size = size;
+        this.pageSize = pageSize;
     }
 
     public Long getMemberId() {
@@ -27,7 +27,7 @@ public class ReadAllMomentBundle {
         return cursorId;
     }
 
-    public Integer getSize() {
-        return size;
+    public Integer getPageSize() {
+        return pageSize;
     }
 }
