@@ -1,7 +1,9 @@
 package com.jungdam.diary.application;
 
+import com.jungdam.album.domain.Album;
 import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.infrastructure.DiaryRepository;
@@ -9,6 +11,7 @@ import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +40,11 @@ public class DiaryService {
 
     private boolean existsByRecordedAtAndMember(RecordedAt recordedAt, Member member) {
         return diaryRepository.existsByRecordedAtAndMember(recordedAt, member);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Diary> findByAlbumAndBookmark(Album album, Bookmark bookmark) {
+        return diaryRepository.findAllByAlbumAndBookmark(album, bookmark);
     }
 
     @Transactional(readOnly = true)

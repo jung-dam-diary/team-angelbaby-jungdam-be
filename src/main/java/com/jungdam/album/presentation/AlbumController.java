@@ -2,12 +2,14 @@ package com.jungdam.album.presentation;
 
 import com.jungdam.album.dto.bundle.CreateAlbumBundle;
 import com.jungdam.album.dto.bundle.DeleteAlbumBundle;
+import com.jungdam.album.dto.bundle.ReadAllMomentBundle;
 import com.jungdam.album.dto.bundle.ReadOneAlbumBundle;
 import com.jungdam.album.dto.bundle.UpdateAlbumBundle;
 import com.jungdam.album.dto.request.CreateAlbumRequest;
 import com.jungdam.album.dto.request.UpdateAlbumRequest;
 import com.jungdam.album.dto.response.CreateAlbumResponse;
 import com.jungdam.album.dto.response.DeleteAlbumResponse;
+import com.jungdam.album.dto.response.ReadAllMomentResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.album.dto.response.UpdateAlbumResponse;
 import com.jungdam.album.facade.AlbumFacade;
@@ -59,6 +61,19 @@ public class AlbumController {
         ReadOneAlbumResponse response = albumFacade.find(bundle);
 
         return ResponseDto.of(ResponseMessage.ALBUM_READ_SUCCESS, response);
+    }
+
+    @ApiOperation("특별한 순간 조회")
+    @GetMapping("/{albumId}/moments")
+    public ResponseEntity<ResponseDto<ReadAllMomentResponse>> getMoments(
+        @PathVariable final Long albumId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        ReadAllMomentBundle bundle = new ReadAllMomentBundle(memberId, albumId);
+
+        ReadAllMomentResponse response = albumFacade.findAllMoment(bundle);
+
+        return ResponseDto.of(ResponseMessage.MOMENT_READ_ALL_SUCCESS, response);
     }
 
     @ApiOperation("앨범 수정")

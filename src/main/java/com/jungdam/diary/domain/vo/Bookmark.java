@@ -12,6 +12,10 @@ public class Bookmark {
     public Bookmark() {
     }
 
+    public Bookmark(Boolean bookmark) {
+        this.bookmark = bookmark;
+    }
+
     public Boolean getBookmark() {
         return bookmark;
     }
