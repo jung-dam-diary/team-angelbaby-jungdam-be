@@ -23,7 +23,7 @@ public class Invitation extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "invitation_status")
+    @Column(name = "invitation_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -53,6 +53,22 @@ public class Invitation extends BaseEntity {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public Member getSubjectMember() {
+        return subjectMember;
+    }
+
+    public Member getTargetMember() {
+        return targetMember;
     }
 }
