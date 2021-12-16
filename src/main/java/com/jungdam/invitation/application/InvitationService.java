@@ -1,6 +1,8 @@
 package com.jungdam.invitation.application;
 
 import com.jungdam.album.domain.Album;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.infrastructure.InvitationRepository;
@@ -26,14 +28,16 @@ public class InvitationService {
         return invitationRepository.save(invitation);
     }
 
-    @Transactional
-    public boolean existsByAlbumAndTargetMemberAndStatus(Album album, Member member,
-        Status status) {
-        return invitationRepository.existsByAlbumAndTargetMemberAndStatus(album, member, status);
-    }
-
     @Transactional(readOnly = true)
     public List<Invitation> findAllByTargetMemberAndPendingStatus(Member member) {
         return invitationRepository.findAllByTargetMemberAndStatus(member, Status.PENDING);
+    }
+
+    @Transactional(readOnly = true)
+    public void checkExistsInPendingStatus(Album album, Member member) {
+        if (invitationRepository.existsByAlbumAndTargetMemberAndStatus(album, member,
+            Status.PENDING)) {
+            throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM);
+        }
     }
 }

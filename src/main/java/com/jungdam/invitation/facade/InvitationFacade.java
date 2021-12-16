@@ -2,12 +2,9 @@ package com.jungdam.invitation.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
-import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.invitation.application.InvitationService;
 import com.jungdam.invitation.converter.InvitationConverter;
 import com.jungdam.invitation.domain.Invitation;
-import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
 import com.jungdam.invitation.dto.bundle.ReadAllInvitationBundle;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
@@ -45,14 +42,9 @@ public class InvitationFacade {
         Member targetMember = memberService.findById(bundle.getTargetMemberId());
         Member subjectMember = memberService.findById(bundle.getSubjectMemberId());
 
-        if (invitationService.existsByAlbumAndTargetMemberAndStatus(album, targetMember,
-            Status.PENDING)) {
-            throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM);
-        }
+        invitationService.checkExistsInPendingStatus(album, targetMember);
 
-        if (participantService.notExistsByAlbumAndMember(album, targetMember)) {
-            throw new DuplicationException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
-        }
+        participantService.checkExists(album, targetMember);
 
         Invitation invitation = invitationService.save(
             targetMember,
@@ -65,10 +57,12 @@ public class InvitationFacade {
     }
 
     @Transactional(readOnly = true)
-    public List<ReadAllInvitationResponse> findAllWithPendingStatus(ReadAllInvitationBundle bundle) {
+    public List<ReadAllInvitationResponse> findAllWithPendingStatus(
+        ReadAllInvitationBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
 
-        List<Invitation> invitationList = invitationService.findAllByTargetMemberAndPendingStatus(member);
+        List<Invitation> invitationList = invitationService.findAllByTargetMemberAndPendingStatus(
+            member);
 
         return invitationConverter.toReadAllInvitationResponse(invitationList);
     }
