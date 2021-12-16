@@ -1,6 +1,11 @@
 package com.jungdam.member.converter;
 
+import com.jungdam.auth.oauth2.OAuth2MemberInfo;
 import com.jungdam.member.domain.Member;
+import com.jungdam.member.domain.vo.Avatar;
+import com.jungdam.member.domain.vo.Email;
+import com.jungdam.member.domain.vo.Nickname;
+import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.dto.response.ReadMemberResponse;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +18,16 @@ public class MemberConverter {
             .nickname(member.getNicknameValue())
             .avatar(member.getAvatarValue())
             .role(member.getRoleValue())
+            .build();
+    }
+
+    public Member toMember(OAuth2MemberInfo userInfo, ProviderType providerType) {
+        return Member.builder()
+            .oauthPermission(userInfo.getOauthPermission())
+            .nickname(new Nickname(userInfo.getNickname()))
+            .email(new Email(userInfo.getEmail()))
+            .avatar(new Avatar(userInfo.getAvatar()))
+            .providerType(providerType)
             .build();
     }
 }
