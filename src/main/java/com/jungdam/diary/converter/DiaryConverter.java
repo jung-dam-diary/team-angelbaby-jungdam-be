@@ -9,6 +9,7 @@ import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
+import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.domain.Member;
 import org.springframework.stereotype.Component;
 
@@ -56,5 +57,9 @@ public class DiaryConverter {
             .recordedAt(recordedAt.getRecordedAt())
             .existence(existence)
             .build();
+    }
+
+    public UpdateDiaryResponse toUpdateDiaryResponse(Diary diary) {
+        return new UpdateDiaryResponse(diary.getAlbumValue(), diary.getId());
     }
 }

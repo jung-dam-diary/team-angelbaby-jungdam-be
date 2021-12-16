@@ -8,10 +8,13 @@ import com.jungdam.album.domain.vo.Thumbnail;
 import com.jungdam.album.domain.vo.Title;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary.domain.vo.Content;
 import com.jungdam.diary.domain.vo.RecordedAt;
+import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -114,6 +117,15 @@ public class Album extends BaseEntity {
         this.title = title;
         this.familyMotto = familyMotto;
         this.thumbnail = thumbnail;
+    }
+
+    public Diary updateDiary(Long id, Member member, com.jungdam.diary.domain.vo.Title title,
+        Content content,
+        List<DiaryPhoto> diaryPhotos) {
+        Diary diary = diaries.find(id, member);
+        diary.update(title, content, diaryPhotos);
+
+        return diary;
     }
 
     public static class AlbumBuilder {

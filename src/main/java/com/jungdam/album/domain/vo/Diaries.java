@@ -31,7 +31,7 @@ public class Diaries {
             .anyMatch(d -> d.isWritten(recordedAt, member));
     }
 
-    private Diary find(Long id, Member member) {
+    public Diary find(Long id, Member member) {
         return diaries.stream()
             .filter(d -> d.isCreator(id, member))
             .findFirst()

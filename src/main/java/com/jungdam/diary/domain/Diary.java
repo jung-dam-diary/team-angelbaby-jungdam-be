@@ -155,6 +155,13 @@ public class Diary extends BaseEntity {
         comments.update(id, member, content);
     }
 
+    public void update(Title title, Content content, List<DiaryPhoto> diaryPhotos) {
+        this.title = title;
+        this.content = content;
+        this.diaryPhotos.removeAll();
+        addDiaryPhotos(diaryPhotos);
+    }
+
     public Long getId() {
         return id;
     }
