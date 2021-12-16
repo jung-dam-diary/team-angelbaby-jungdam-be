@@ -6,6 +6,8 @@ public enum ErrorMessage {
 
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
 
+    NO_PERMISSION_INVITATION_UPDATE(HttpStatus.FORBIDDEN, "초대 수정 권한이 없습니다."),
+
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다."),
     NOT_EXIST_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 제공자 타입입니다."),
     FAIL_TO_GENERATE_TOKEN(HttpStatus.BAD_REQUEST, "토큰 생성 실패"),
