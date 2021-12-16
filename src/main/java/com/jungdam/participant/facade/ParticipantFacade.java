@@ -9,7 +9,9 @@ import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.converter.ParticipantConverter;
 import com.jungdam.participant.domain.Participant;
+import com.jungdam.participant.dto.bundle.CheckParticipantBundle;
 import com.jungdam.participant.dto.bundle.ReadAllParticipantBundle;
+import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -45,5 +47,15 @@ public class ParticipantFacade {
         List<Participant> participants = participantService.findAllByAlbum(album);
 
         return participantConverter.toReadAllParticipantResponse(participants);
+    }
+
+    @Transactional(readOnly = true)
+    public CheckParticipantResponse check(CheckParticipantBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        boolean check = participantService.existsByAlbumAndMember(album, member);
+
+        return participantConverter.toCheckParticipantResponse(album, check);
     }
 }

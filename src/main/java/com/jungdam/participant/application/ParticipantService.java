@@ -46,7 +46,7 @@ public class ParticipantService {
         }
     }
 
-    private boolean existsByAlbumAndMember(Album album, Member member) {
+    public boolean existsByAlbumAndMember(Album album, Member member) {
         return participantRepository.existsByAlbumAndMember(album, member);
     }
 
