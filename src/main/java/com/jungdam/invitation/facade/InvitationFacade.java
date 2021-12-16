@@ -7,8 +7,10 @@ import com.jungdam.invitation.converter.InvitationConverter;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
 import com.jungdam.invitation.dto.bundle.ReadAllInvitationBundle;
+import com.jungdam.invitation.dto.bundle.UpdateInvitationBundle;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
 import com.jungdam.invitation.dto.response.ReadAllInvitationResponse;
+import com.jungdam.invitation.dto.response.UpdateInvitationResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
@@ -66,4 +68,16 @@ public class InvitationFacade {
 
         return invitationConverter.toReadAllInvitationResponse(invitationList);
     }
+
+    @Transactional
+    public UpdateInvitationResponse update(UpdateInvitationBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+        Invitation invitation = invitationService.findByIdAndTargetMemberAndPendingStatus(
+            bundle.getInvitationId(), member);
+
+        invitation.updateStatus(bundle.getStatus());
+
+        return invitationConverter.toUpdateInvitationResponse(invitation);
+    }
 }
+
