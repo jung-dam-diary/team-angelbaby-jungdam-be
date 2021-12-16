@@ -100,13 +100,25 @@ public class Album extends BaseEntity {
         return thumbnail.getThumbnail();
     }
 
+    public void update(Title title, FamilyMotto familyMotto, Thumbnail thumbnail) {
+        this.title = title;
+        this.familyMotto = familyMotto;
+        this.thumbnail = thumbnail;
+    }
+
     public static class AlbumBuilder {
 
+        private Long id;
         private Title title;
         private FamilyMotto familyMotto;
         private Thumbnail thumbnail;
 
         private AlbumBuilder() {
+        }
+
+        public AlbumBuilder id(final Long id) {
+            this.id = id;
+            return this;
         }
 
         public AlbumBuilder title(final Title title) {

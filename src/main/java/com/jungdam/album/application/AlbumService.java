@@ -1,6 +1,7 @@
 package com.jungdam.album.application;
 
 import com.jungdam.album.domain.Album;
+import com.jungdam.album.dto.bundle.UpdateAlbumBundle;
 import com.jungdam.album.infrastructure.AlbumRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
@@ -36,5 +37,15 @@ public class AlbumService {
     @Transactional
     public void delete(Album album) {
         albumRepository.delete(album);
+    }
+
+    @Transactional
+    public Album update(Album album, UpdateAlbumBundle bundle) {
+        album.update(
+            bundle.getTitle(),
+            bundle.getFamilyMotto(),
+            bundle.getThumbnail()
+        );
+        return album;
     }
 }

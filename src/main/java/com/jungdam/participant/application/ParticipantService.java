@@ -46,7 +46,7 @@ public class ParticipantService {
     @Transactional(readOnly = true)
     public void checkMemberIsOwnerRole(Album album, Member member) {
         if (!existsByAlbumAndOwnerMember(album, member)) {
-            throw new NoPermissionException(ErrorMessage.NON_PERMISSION_DELETE_ALBUM);
+            throw new NoPermissionException(ErrorMessage.NON_PERMISSION_ALBUM);
         }
     }
 
