@@ -53,15 +53,15 @@ public class Member extends BaseEntity {
 
     public Member(
         String oauthPermission,
-        String nickname,
-        String email,
-        String avatar,
+        Nickname nickname,
+        Email email,
+        Avatar avatar,
         ProviderType providerType
     ) {
         this.oauthPermission = oauthPermission;
-        this.nickname = new Nickname(nickname);
-        this.email = new Email(email);
-        this.avatar = new Avatar(avatar);
+        this.nickname = nickname;
+        this.email = email;
+        this.avatar = avatar;
         this.providerType = providerType;
         this.role = Role.USER;
         this.status = Status.FREE;
@@ -115,7 +115,6 @@ public class Member extends BaseEntity {
         return providerType;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -127,9 +126,9 @@ public class Member extends BaseEntity {
     public static class MemberBuilder {
 
         private String oauthPermission;
-        private String nickname;
-        private String email;
-        private String avatar;
+        private Nickname nickname;
+        private Email email;
+        private Avatar avatar;
         private ProviderType providerType;
 
         private MemberBuilder() {
@@ -140,17 +139,17 @@ public class Member extends BaseEntity {
             return this;
         }
 
-        public MemberBuilder nickname(final String nickname) {
+        public MemberBuilder nickname(final Nickname nickname) {
             this.nickname = nickname;
             return this;
         }
 
-        public MemberBuilder email(final String email) {
+        public MemberBuilder email(final Email email) {
             this.email = email;
             return this;
         }
 
-        public MemberBuilder avatar(final String avatar) {
+        public MemberBuilder avatar(final Avatar avatar) {
             this.avatar = avatar;
             return this;
         }

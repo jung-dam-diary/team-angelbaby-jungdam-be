@@ -6,6 +6,7 @@ import com.jungdam.auth.oauth2.OAuth2MemberInfo;
 import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.OAuthProviderMissMatchException;
+import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.infrastructure.MemberRepository;
@@ -23,9 +24,12 @@ import org.springframework.stereotype.Service;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
+    private final MemberConverter memberConverter;
 
-    public CustomOAuth2UserService(MemberRepository memberRepository) {
+    public CustomOAuth2UserService(MemberRepository memberRepository,
+        MemberConverter memberConverter) {
         this.memberRepository = memberRepository;
+        this.memberConverter = memberConverter;
     }
 
     @Override
@@ -72,14 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private Member createUser(OAuth2MemberInfo userInfo, ProviderType providerType) {
-        Member member = Member.builder()
-            .oauthPermission(userInfo.getOauthPermission())
-            .nickname(userInfo.getNickname())
-            .email(userInfo.getEmail())
-            .avatar(userInfo.getAvatar())
-            .providerType(providerType)
-            .build();
-
+        Member member = memberConverter.toMember(userInfo, providerType);
         return memberRepository.saveAndFlush(member);
     }
 
