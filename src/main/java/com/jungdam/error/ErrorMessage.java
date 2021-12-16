@@ -25,7 +25,7 @@ public enum ErrorMessage {
     INVALID_ALBUM_FAMILY_MOTTO(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 가훈입니다."),
     INVALID_ALBUM_THUMBNAIL(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 썸네일입니다."),
     INVALID_DIARY_RECORDED_AT(HttpStatus.BAD_REQUEST, "작성되는 날짜가 현재 날짜보다 미래입니다."),
-
+    NON_PERMISSION_DELETE_ALBUM(HttpStatus.BAD_REQUEST, "앨범 삭제에 대한 권한이 없습니다."),
     ;
 
     private final HttpStatus status;

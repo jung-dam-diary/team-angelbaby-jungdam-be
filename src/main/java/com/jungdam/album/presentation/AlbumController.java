@@ -1,9 +1,11 @@
 package com.jungdam.album.presentation;
 
 import com.jungdam.album.dto.bundle.CreateAlbumBundle;
+import com.jungdam.album.dto.bundle.DeleteAlbumBundle;
 import com.jungdam.album.dto.bundle.ReadOneAlbumBundle;
 import com.jungdam.album.dto.request.CreateAlbumRequest;
 import com.jungdam.album.dto.response.CreateAlbumResponse;
+import com.jungdam.album.dto.response.DeleteAlbumResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.album.facade.AlbumFacade;
 import com.jungdam.common.dto.ResponseDto;
@@ -12,6 +14,7 @@ import com.jungdam.common.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +55,17 @@ public class AlbumController {
         ReadOneAlbumResponse response = albumFacade.find(bundle);
 
         return ResponseDto.of(ResponseMessage.ALBUM_READ_SUCCESS, response);
+    }
+
+    @ApiOperation("앨범 삭제")
+    @DeleteMapping("/{albumId}")
+    public ResponseEntity<ResponseDto<DeleteAlbumResponse>> delete(@PathVariable Long albumId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        DeleteAlbumBundle bundle = new DeleteAlbumBundle(memberId, albumId);
+
+        DeleteAlbumResponse response = albumFacade.delete(bundle);
+
+        return ResponseDto.of(ResponseMessage.ALBUM_DELETE_SUCCESS, response);
     }
 }

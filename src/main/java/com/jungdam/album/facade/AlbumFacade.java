@@ -4,8 +4,10 @@ import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.converter.AlbumConverter;
 import com.jungdam.album.domain.Album;
 import com.jungdam.album.dto.bundle.CreateAlbumBundle;
+import com.jungdam.album.dto.bundle.DeleteAlbumBundle;
 import com.jungdam.album.dto.bundle.ReadOneAlbumBundle;
 import com.jungdam.album.dto.response.CreateAlbumResponse;
+import com.jungdam.album.dto.response.DeleteAlbumResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
@@ -48,5 +50,14 @@ public class AlbumFacade {
         participantService.checkNotExists(album, member);
 
         return albumConverter.toReadOneAlbumResponse(album);
+    }
+
+    public DeleteAlbumResponse delete(DeleteAlbumBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        participantService.checkMemberIsOwnerRole(album, member);
+
+        return albumConverter.toDeleteAlbumResponse(album, member);
     }
 }
