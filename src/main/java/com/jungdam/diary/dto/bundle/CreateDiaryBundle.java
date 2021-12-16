@@ -68,7 +68,6 @@ public class CreateDiaryBundle {
         private CreateDiaryRequest request;
 
         private CreateDiaryBundleBuilder() {
-
         }
 
         public CreateDiaryBundleBuilder memberId(final Long memberId) {

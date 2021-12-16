@@ -15,4 +15,8 @@ public class Bookmark {
     public Boolean getBookmark() {
         return bookmark;
     }
+
+    public void mark() {
+        bookmark = !bookmark;
+    }
 }

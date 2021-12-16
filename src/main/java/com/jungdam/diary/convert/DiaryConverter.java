@@ -2,6 +2,7 @@ package com.jungdam.diary.convert;
 
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
+import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.member.domain.Member;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DiaryConverter {
+
+    public CheckBookmarkResponse toCheckBookmarkResponse(Diary diary) {
+        return new CheckBookmarkResponse(diary.getId(), diary.getBookmarkValue());
+    }
 
     public CreateDiaryResponse toCreateDiaryResponse(Diary diary) {
         return new CreateDiaryResponse(diary.getAlbumValue(), diary.getId());
