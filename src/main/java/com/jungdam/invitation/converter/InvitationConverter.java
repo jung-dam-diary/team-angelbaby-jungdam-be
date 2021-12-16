@@ -4,6 +4,7 @@ import com.jungdam.album.domain.Album;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
 import com.jungdam.invitation.dto.response.ReadAllInvitationResponse;
+import com.jungdam.invitation.dto.response.UpdateInvitationResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -25,5 +26,9 @@ public class InvitationConverter {
                     .albumTitle(album.getTitleValue())
                     .build();
             }).collect(Collectors.toList());
+    }
+
+    public UpdateInvitationResponse toUpdateInvitationResponse(Invitation invitation) {
+        return new UpdateInvitationResponse(invitation.getId(), invitation.getStatus());
     }
 }

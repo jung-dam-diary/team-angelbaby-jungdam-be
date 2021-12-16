@@ -8,12 +8,15 @@ import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
+import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.request.CreateDiaryRequest;
+import com.jungdam.diary.dto.request.UpdateDiaryRequest;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
+import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.diary.facade.DiaryFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -126,5 +129,24 @@ public class DiaryController {
         DeleteDiaryResponse response = diaryFacade.delete(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_DELETE_SUCCESS, response);
+    }
+
+    @ApiOperation("일기 수정")
+    @PutMapping("/{diaryId}")
+    public ResponseEntity<ResponseDto<UpdateDiaryResponse>> update(
+        @PathVariable Long albumId, @PathVariable Long diaryId,
+        @RequestBody UpdateDiaryRequest request) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        UpdateDiaryBundle bundle = UpdateDiaryBundle.builder()
+            .memberId(memberId)
+            .albumId(albumId)
+            .diaryId(diaryId)
+            .request(request)
+            .build();
+
+        UpdateDiaryResponse response = diaryFacade.update(bundle);
+
+        return ResponseDto.of(ResponseMessage.DIARY_UPDATE_SUCCESS, response);
     }
 }

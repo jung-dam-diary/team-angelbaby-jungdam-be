@@ -1,6 +1,7 @@
 package com.jungdam.diary.domain.vo;
 
 import com.jungdam.comment.domain.Comment;
+import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
@@ -18,6 +19,11 @@ public class Comments {
 
     public void add(Comment comment) {
         comments.add(comment);
+    }
+
+    public void update(Long id, Member member, Content content) {
+        Comment comment = find(id, member);
+        comment.update(content);
     }
 
     public void delete(Long id, Member member) {

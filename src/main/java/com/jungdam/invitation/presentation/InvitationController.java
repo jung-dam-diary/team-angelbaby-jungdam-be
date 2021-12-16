@@ -5,9 +5,12 @@ import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
 import com.jungdam.invitation.dto.bundle.ReadAllInvitationBundle;
+import com.jungdam.invitation.dto.bundle.UpdateInvitationBundle;
 import com.jungdam.invitation.dto.request.CreateInvitationRequest;
+import com.jungdam.invitation.dto.request.UpdateInvitationRequest;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
 import com.jungdam.invitation.dto.response.ReadAllInvitationResponse;
+import com.jungdam.invitation.dto.response.UpdateInvitationResponse;
 import com.jungdam.invitation.facade.InvitationFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,5 +61,21 @@ public class InvitationController {
         List<ReadAllInvitationResponse> responseList = invitationFacade.findAllWithPendingStatus(bundle);
 
         return ResponseDto.of(ResponseMessage.INVITATION_READ_ALL_SUCCESS, responseList);
+    }
+
+    @ApiOperation("초대 수락/거절")
+    @PutMapping("/invitations/{invitationId}")
+    public ResponseEntity<ResponseDto<UpdateInvitationResponse>> update(
+        @PathVariable Long invitationId, @RequestBody UpdateInvitationRequest request) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        UpdateInvitationBundle bundle = UpdateInvitationBundle.builder()
+            .memberId(memberId)
+            .invitationId(invitationId)
+            .request(request)
+            .build();
+        UpdateInvitationResponse response = invitationFacade.update(bundle);
+
+        return ResponseDto.of(ResponseMessage.INVITATION_UPDATE_SUCCESS, response);
     }
 }

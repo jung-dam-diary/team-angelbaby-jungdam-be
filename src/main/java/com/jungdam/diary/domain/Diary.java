@@ -150,6 +150,18 @@ public class Diary extends BaseEntity {
         return this.recordedAt.equals(recordedAt) && this.member.equals(member);
     }
 
+    public void updateComment(Long id, Member member,
+        com.jungdam.comment.domain.vo.Content content) {
+        comments.update(id, member, content);
+    }
+
+    public void update(Title title, Content content, List<DiaryPhoto> diaryPhotos) {
+        this.title = title;
+        this.content = content;
+        this.diaryPhotos.removeAll();
+        addDiaryPhotos(diaryPhotos);
+    }
+
     public Long getId() {
         return id;
     }

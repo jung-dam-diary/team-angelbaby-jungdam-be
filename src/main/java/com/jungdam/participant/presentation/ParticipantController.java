@@ -3,7 +3,9 @@ package com.jungdam.participant.presentation;
 import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
+import com.jungdam.participant.dto.bundle.CheckParticipantBundle;
 import com.jungdam.participant.dto.bundle.ReadAllParticipantBundle;
+import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
 import com.jungdam.participant.facade.ParticipantFacade;
 import io.swagger.annotations.Api;
@@ -36,5 +38,17 @@ public class ParticipantController {
         ReadAllParticipantResponse response = participantFacade.findAll(bundle);
 
         return ResponseDto.of(ResponseMessage.PARTICIPANT_READ_SUCCESS, response);
+    }
+
+    @ApiOperation("참여인원 확인")
+    @GetMapping("/me")
+    public ResponseEntity<ResponseDto<CheckParticipantResponse>> check(@PathVariable Long albumId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        CheckParticipantBundle bundle = new CheckParticipantBundle(memberId, albumId);
+
+        CheckParticipantResponse response = participantFacade.check(bundle);
+
+        return ResponseDto.of(ResponseMessage.PARTICIPANT_CHECK_SUCCESS, response);
     }
 }

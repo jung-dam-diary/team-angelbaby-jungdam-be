@@ -26,4 +26,8 @@ public class DiaryPhotos {
             .map(DiaryPhoto::getImageValue)
             .collect(Collectors.toList());
     }
+
+    public void removeAll() {
+        diaryPhotos.clear();
+    }
 }

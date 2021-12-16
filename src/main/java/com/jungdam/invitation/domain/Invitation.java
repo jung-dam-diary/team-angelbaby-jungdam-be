@@ -52,6 +52,10 @@ public class Invitation extends BaseEntity {
         this.album = album;
     }
 
+    public void updateStatus(Status status) {
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }

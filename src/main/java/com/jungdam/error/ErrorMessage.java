@@ -6,6 +6,8 @@ public enum ErrorMessage {
 
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
 
+    NO_PERMISSION_INVITATION_UPDATE(HttpStatus.FORBIDDEN, "초대 수정 권한이 없습니다."),
+
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다."),
     NOT_EXIST_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 제공자 타입입니다."),
     FAIL_TO_GENERATE_TOKEN(HttpStatus.BAD_REQUEST, "토큰 생성 실패"),
@@ -20,6 +22,7 @@ public enum ErrorMessage {
     NOT_EXIST_DIARY(HttpStatus.BAD_REQUEST, "존재하지 않는 일기입니다."),
     DUPLICATION_PARTICIPANT_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원이 존재합니다."),
     DUPLICATION_INVITATION_IN_ALBUM(HttpStatus.BAD_REQUEST, "해당 앨범에 회원을 초대 후 대기 상태입니다."),
+    INVALID_INVITATION_STATUS(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 초대 상태입니다."),
     INVALID_COMMENT_CONTENT(HttpStatus.BAD_REQUEST, "댓글의 형식이 잘못되었습니다."),
     INVALID_DIARY_PHOTO_IMAGE(HttpStatus.BAD_REQUEST, "이미지 정보가 잘못되었습니다."),
     INVALID_ALBUM_TITLE(HttpStatus.BAD_REQUEST, "형식에 맞지 않는 앨범 제목입니다."),

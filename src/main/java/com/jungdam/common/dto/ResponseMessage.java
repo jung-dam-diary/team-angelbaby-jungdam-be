@@ -13,6 +13,7 @@ public enum ResponseMessage {
     DIARY_CREATE_SUCCESS(HttpStatus.CREATED, "일기 생성 성공"),
     INVITATION_CREATE_SUCCESS(HttpStatus.CREATED, "초대 생성 성공"),
     INVITATION_READ_ALL_SUCCESS(HttpStatus.OK, "초대 목록 조회 성공"),
+    INVITATION_UPDATE_SUCCESS(HttpStatus.OK, "초대 수락/거절 성공"),
     PARTICIPANT_READ_SUCCESS(HttpStatus.OK, "멤버 리스트 조회 성공"),
     DIARY_READ_SUCCESS(HttpStatus.OK, "일기 조회 성공"),
     COMMENT_CREATE_SUCCESS(HttpStatus.CREATED, "댓글 생성 성공"),
@@ -26,6 +27,10 @@ public enum ResponseMessage {
     DIARY_DELETE_SUCCESS(HttpStatus.OK, "일기 삭제 성공"),
     DIARY_RECORDED_AT_CHECK_SUCCESS(HttpStatus.OK, "일기 생성날짜 검사 성공"),
     MOMENT_READ_ALL_SUCCESS(HttpStatus.OK, "특별한 순간 조회 성공"),
+    COMMENT_READ_SUCCESS(HttpStatus.OK, "댓글 조회 성공"),
+    PARTICIPANT_CHECK_SUCCESS(HttpStatus.OK, "참여인원 확인"),
+    COMMENT_UPDATE_SUCCESS(HttpStatus.OK, "댓글 수정 성공"),
+    DIARY_UPDATE_SUCCESS(HttpStatus.OK, "일기 수정 성공"),
 
     ;
 

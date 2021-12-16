@@ -39,7 +39,14 @@ public class ParticipantService {
         }
     }
 
-    private boolean existsByAlbumAndMember(Album album, Member member) {
+    @Transactional(readOnly = true)
+    public void checkExists(Album album, Member member) {
+        if (existsByAlbumAndMember(album, member)) {
+            throw new NotExistException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
+        }
+    }
+
+    public boolean existsByAlbumAndMember(Album album, Member member) {
         return participantRepository.existsByAlbumAndMember(album, member);
     }
 
