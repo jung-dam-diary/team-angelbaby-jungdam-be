@@ -3,7 +3,7 @@ package com.jungdam.diary.facade;
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
 import com.jungdam.diary.application.DiaryService;
-import com.jungdam.diary.convert.DiaryConverter;
+import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
 import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;

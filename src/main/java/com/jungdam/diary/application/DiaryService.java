@@ -1,6 +1,6 @@
 package com.jungdam.diary.application;
 
-import com.jungdam.diary.convert.DiaryConverter;
+import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;

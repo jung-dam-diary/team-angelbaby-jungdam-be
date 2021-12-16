@@ -1,4 +1,4 @@
-package com.jungdam.diary.convert;
+package com.jungdam.diary.converter;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.diary.domain.Diary;
