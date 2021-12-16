@@ -1,5 +1,6 @@
 package com.jungdam.common.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -16,4 +17,8 @@ public abstract class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    public LocalDate getCreatedAt() {
+        return createdAt.toLocalDate();
+    }
 }
