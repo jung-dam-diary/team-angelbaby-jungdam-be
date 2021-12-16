@@ -13,6 +13,7 @@ public enum ResponseMessage {
     DIARY_CREATE_SUCCESS(HttpStatus.CREATED, "일기 생성 성공"),
     INVITATION_CREATE_SUCCESS(HttpStatus.CREATED, "초대 생성 성공"),
     INVITATION_READ_ALL_SUCCESS(HttpStatus.OK, "초대 목록 조회 성공"),
+    INVITATION_UPDATE_SUCCESS(HttpStatus.OK, "초대 수락/거절 성공"),
     PARTICIPANT_READ_SUCCESS(HttpStatus.OK, "멤버 리스트 조회 성공"),
     DIARY_READ_SUCCESS(HttpStatus.OK, "일기 조회 성공"),
     COMMENT_CREATE_SUCCESS(HttpStatus.CREATED, "댓글 생성 성공"),
