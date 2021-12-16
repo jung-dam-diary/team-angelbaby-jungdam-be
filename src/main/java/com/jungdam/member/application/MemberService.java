@@ -4,10 +4,14 @@ import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
+import com.jungdam.member.domain.vo.Avatar;
+import com.jungdam.member.domain.vo.Nickname;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
 import com.jungdam.member.dto.bundle.SearchMemberBundle;
+import com.jungdam.member.dto.bundle.UpdateMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
 import com.jungdam.member.dto.response.SearchMemberResponse;
+import com.jungdam.member.dto.response.UpdateMemberResponse;
 import com.jungdam.member.infrastructure.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,16 +36,30 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member findById(Long id) {
-        return memberRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
-    }
-
-    @Transactional(readOnly = true)
     public SearchMemberResponse findByEmail(SearchMemberBundle bundle) {
         Member member = memberRepository.findByEmail(bundle.getEmail())
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
 
         return memberConverter.toSearchMemberResponse(member);
+    }
+
+    @Transactional
+    public UpdateMemberResponse update(UpdateMemberBundle bundle) {
+        Member member = findById(bundle.getMemberId());
+
+        //TODO 시큐리티 부분이랑 엮여 있어서 추후 수정 예정
+        Nickname nickname = bundle.getNickname();
+        Avatar avatar = bundle.getAvatar();
+
+        member.updateNickname(nickname.getNickname());
+        member.updateAvatar(avatar.getAvatar());
+
+        return memberConverter.toUpdateMemberResponse(member);
+    }
+
+    @Transactional(readOnly = true)
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
     }
 }
