@@ -5,6 +5,7 @@ import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.infrastructure.InvitationRepository;
 import com.jungdam.member.domain.Member;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +30,10 @@ public class InvitationService {
     public boolean existsByAlbumAndTargetMemberAndStatus(Album album, Member member,
         Status status) {
         return invitationRepository.existsByAlbumAndTargetMemberAndStatus(album, member, status);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Invitation> findAllByTargetMemberAndStatus(Member member) {
+        return invitationRepository.findAllByTargetMemberAndStatus(member, Status.PENDING);
     }
 }
