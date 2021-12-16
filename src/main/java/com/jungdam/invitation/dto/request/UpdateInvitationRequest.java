@@ -1,15 +1,13 @@
 package com.jungdam.invitation.dto.request;
 
-import com.jungdam.invitation.domain.vo.Status;
-
 public class UpdateInvitationRequest {
 
-    private Status status;
+    private String status;
 
     protected UpdateInvitationRequest() {
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 }

@@ -12,7 +12,7 @@ public class UpdateInvitationBundle {
     public UpdateInvitationBundle(Long memberId, Long invitationId, UpdateInvitationRequest request) {
         this.memberId = memberId;
         this.invitationId = invitationId;
-        this.status = request.getStatus();
+        this.status = Status.from(request.getStatus());
     }
 
     public static UpdateInvitationResponseBuilder builder() {
