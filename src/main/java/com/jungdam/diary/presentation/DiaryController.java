@@ -4,17 +4,21 @@ import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
+import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.request.CreateDiaryRequest;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
+import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.diary.facade.DiaryFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api("Diary")
@@ -34,6 +39,24 @@ public class DiaryController {
 
     public DiaryController(DiaryFacade diaryFacade) {
         this.diaryFacade = diaryFacade;
+    }
+
+    @ApiOperation("특정 날자에 일기가 작성되었는지")
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDto<CheckRecordedAtDiaryResponse>> check(
+        @PathVariable Long albumId, @RequestParam(value = "q") String q) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        CheckRecordedAtDiaryBundle bundle = CheckRecordedAtDiaryBundle.builder()
+            .memberId(memberId)
+            .albumId(albumId)
+            .recordedAt(LocalDate.parse(q, DateTimeFormatter.ISO_DATE))
+            .build();
+
+        CheckRecordedAtDiaryResponse response = diaryFacade.checkRecordedAt(
+            bundle);
+
+        return ResponseDto.of(ResponseMessage.DIARY_RECORDED_AT_CHECK_SUCCESS, response);
     }
 
     @ApiOperation("일기 생성")

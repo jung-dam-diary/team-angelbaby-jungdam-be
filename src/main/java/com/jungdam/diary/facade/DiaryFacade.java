@@ -6,10 +6,12 @@ import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.convert.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
+import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
+import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
@@ -87,5 +89,18 @@ public class DiaryFacade {
         album.deleteDiary(bundle.getDiaryId(), member);
 
         return diaryConverter.toDeleteDiaryResponse(album);
+    }
+
+    @Transactional(readOnly = true)
+    public CheckRecordedAtDiaryResponse checkRecordedAt(CheckRecordedAtDiaryBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        participantService.checkNotExists(album, member);
+
+        boolean existDiaryStatus = album.checkRecordedAt(bundle.getRecordedAt(), member);
+
+        return diaryConverter.toCheckRecordedAtDiaryResponse(album, bundle.getRecordedAt(),
+            existDiaryStatus);
     }
 }

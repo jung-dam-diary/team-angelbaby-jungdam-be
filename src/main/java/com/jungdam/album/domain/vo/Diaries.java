@@ -1,6 +1,7 @@
 package com.jungdam.album.domain.vo;
 
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.domain.Member;
@@ -23,6 +24,11 @@ public class Diaries {
     public void delete(Long id, Member member) {
         Diary diary = find(id, member);
         remove(diary);
+    }
+
+    public boolean find(RecordedAt recordedAt, Member member) {
+        return diaries.stream()
+            .anyMatch(d -> d.isWritten(recordedAt, member));
     }
 
     private Diary find(Long id, Member member) {

@@ -8,6 +8,7 @@ import com.jungdam.album.domain.vo.Thumbnail;
 import com.jungdam.album.domain.vo.Title;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
@@ -75,6 +76,10 @@ public class Album extends BaseEntity {
 
     public void deleteDiary(Long id, Member member) {
         diaries.delete(id, member);
+    }
+
+    public boolean checkRecordedAt(RecordedAt recordedAt, Member member) {
+        return diaries.find(recordedAt, member);
     }
 
     public Long getId() {

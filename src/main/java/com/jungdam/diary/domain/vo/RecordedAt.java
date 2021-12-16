@@ -3,6 +3,7 @@ package com.jungdam.diary.domain.vo;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.InvalidArgumentException;
 import java.time.LocalDate;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -28,5 +29,22 @@ public class RecordedAt {
 
     public LocalDate getRecordedAt() {
         return recordedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RecordedAt that = (RecordedAt) o;
+        return Objects.equals(recordedAt, that.recordedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(recordedAt);
     }
 }

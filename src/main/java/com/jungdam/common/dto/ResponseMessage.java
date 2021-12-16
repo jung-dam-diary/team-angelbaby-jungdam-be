@@ -22,6 +22,7 @@ public enum ResponseMessage {
     BOOKMARK_MARK_SUCCESS(HttpStatus.OK, "일기 북마크 체크/언체크"),
     COMMENT_DELETE_SUCCESS(HttpStatus.OK, "댓글 삭제 성공"),
     DIARY_DELETE_SUCCESS(HttpStatus.OK, "일기 삭제 성공"),
+    DIARY_RECORDED_AT_CHECK_SUCCESS(HttpStatus.OK, "일기 생성날짜 검사 성공"),
 
     ;
 

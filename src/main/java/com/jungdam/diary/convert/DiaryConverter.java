@@ -2,8 +2,10 @@ package com.jungdam.diary.convert;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
+import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
@@ -44,5 +46,15 @@ public class DiaryConverter {
 
     public DeleteDiaryResponse toDeleteDiaryResponse(Album album) {
         return new DeleteDiaryResponse(album.getId());
+    }
+
+    public CheckRecordedAtDiaryResponse toCheckRecordedAtDiaryResponse(Album album,
+        RecordedAt recordedAt,
+        boolean existence) {
+        return CheckRecordedAtDiaryResponse.builder()
+            .albumId(album.getId())
+            .recordedAt(recordedAt.getRecordedAt())
+            .existence(existence)
+            .build();
     }
 }

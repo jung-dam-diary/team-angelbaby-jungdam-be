@@ -146,6 +146,10 @@ public class Diary extends BaseEntity {
         return Objects.equals(this.id, id) && this.member.equals(member);
     }
 
+    public boolean isWritten(RecordedAt recordedAt, Member member) {
+        return this.recordedAt.equals(recordedAt) && this.member.equals(member);
+    }
+
     public Long getId() {
         return id;
     }
