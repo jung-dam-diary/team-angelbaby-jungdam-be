@@ -68,7 +68,7 @@ public class InvitationFacade {
     public List<ReadAllInvitationResponse> findAllWithPendingStatus(ReadAllInvitationBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
 
-        List<Invitation> invitationList = invitationService.findAllByTargetMemberAndStatus(member);
+        List<Invitation> invitationList = invitationService.findAllByTargetMemberAndPendingStatus(member);
 
         return invitationConverter.toReadAllInvitationResponse(invitationList);
     }

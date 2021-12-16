@@ -33,7 +33,7 @@ public class InvitationService {
     }
 
     @Transactional(readOnly = true)
-    public List<Invitation> findAllByTargetMemberAndStatus(Member member) {
+    public List<Invitation> findAllByTargetMemberAndPendingStatus(Member member) {
         return invitationRepository.findAllByTargetMemberAndStatus(member, Status.PENDING);
     }
 }
