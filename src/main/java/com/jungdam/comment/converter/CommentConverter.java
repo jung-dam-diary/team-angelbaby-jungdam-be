@@ -16,7 +16,12 @@ import org.springframework.stereotype.Component;
 public class CommentConverter {
 
     public CreateCommentResponse toCreateCommentResponse(Comment comment) {
-        return new CreateCommentResponse(comment.getDiaryValue(), comment.getContentValue());
+        return CreateCommentResponse.builder()
+            .commentId(comment.getId())
+            .commentContent(comment.getContentValue())
+            .nickname(comment.getParticipantNicknameValue())
+            .avatar(comment.getAvatar())
+            .build();
     }
 
     public DeleteCommentResponse toDeleteCommentResponse(Diary diary) {
