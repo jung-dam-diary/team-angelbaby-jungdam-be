@@ -56,6 +56,10 @@ public class Invitation extends BaseEntity {
         this.status = status;
     }
 
+    public boolean isAccept() {
+        return Status.ACCEPT.equals(this.status);
+    }
+
     public Long getId() {
         return id;
     }
