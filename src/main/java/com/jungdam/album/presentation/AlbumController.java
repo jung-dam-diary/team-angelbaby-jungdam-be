@@ -2,6 +2,7 @@ package com.jungdam.album.presentation;
 
 import com.jungdam.album.dto.bundle.CreateAlbumBundle;
 import com.jungdam.album.dto.bundle.DeleteAlbumBundle;
+import com.jungdam.album.dto.bundle.ReadAllAlbumBundle;
 import com.jungdam.album.dto.bundle.ReadAllMomentBundle;
 import com.jungdam.album.dto.bundle.ReadOneAlbumBundle;
 import com.jungdam.album.dto.bundle.UpdateAlbumBundle;
@@ -9,6 +10,7 @@ import com.jungdam.album.dto.request.CreateAlbumRequest;
 import com.jungdam.album.dto.request.UpdateAlbumRequest;
 import com.jungdam.album.dto.response.CreateAlbumResponse;
 import com.jungdam.album.dto.response.DeleteAlbumResponse;
+import com.jungdam.album.dto.response.ReadAllAlbumResponse;
 import com.jungdam.album.dto.response.ReadAllMomentResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.album.dto.response.UpdateAlbumResponse;
@@ -18,6 +20,7 @@ import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,6 +56,17 @@ public class AlbumController {
         CreateAlbumResponse response = albumFacade.insert(bundle);
 
         return ResponseDto.of(ResponseMessage.ALBUM_CREATE_SUCCESS, response);
+    }
+
+    @ApiOperation("앨범 목록 조회")
+    @GetMapping
+    public ResponseEntity<ResponseDto<List<ReadAllAlbumResponse>>> getAll() {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        ReadAllAlbumBundle bundle = new ReadAllAlbumBundle(memberId);
+        List<ReadAllAlbumResponse> responses = albumFacade.findAll(bundle);
+
+        return ResponseDto.of(ResponseMessage.ALBUM_READ_ALL_SUCCESS, responses);
     }
 
     @ApiOperation("앨범 제목 및 가훈 조회")
