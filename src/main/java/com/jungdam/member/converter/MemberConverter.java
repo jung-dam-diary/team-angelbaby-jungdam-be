@@ -35,6 +35,7 @@ public class MemberConverter {
 
     public SearchMemberResponse toSearchMemberResponse(Member member) {
         return SearchMemberResponse.builder()
+            .memberId(member.getId())
             .email(member.getEmailValue())
             .nickname(member.getNicknameValue())
             .avatar(member.getAvatarValue())

@@ -2,11 +2,14 @@ package com.jungdam.member.dto.response;
 
 public class SearchMemberResponse {
 
+    private final Long memberId;
     private final String email;
     private final String nickname;
     private final String avatar;
 
-    public SearchMemberResponse(String email, String nickname, String avatar) {
+    public SearchMemberResponse(Long memberId, String email, String nickname,
+        String avatar) {
+        this.memberId = memberId;
         this.email = email;
         this.nickname = nickname;
         this.avatar = avatar;
@@ -14,6 +17,10 @@ public class SearchMemberResponse {
 
     public static SearchMemberResponseBuilder builder() {
         return new SearchMemberResponseBuilder();
+    }
+
+    public Long getMemberId() {
+        return memberId;
     }
 
     public String getEmail() {
@@ -30,11 +37,17 @@ public class SearchMemberResponse {
 
     public static class SearchMemberResponseBuilder {
 
+        private Long memberId;
         private String email;
         private String nickname;
         private String avatar;
 
         private SearchMemberResponseBuilder() {
+        }
+
+        public SearchMemberResponseBuilder memberId(final Long memberId) {
+            this.memberId = memberId;
+            return this;
         }
 
         public SearchMemberResponseBuilder email(final String email) {
@@ -53,7 +66,7 @@ public class SearchMemberResponse {
         }
 
         public SearchMemberResponse build() {
-            return new SearchMemberResponse(this.email, this.nickname, this.avatar);
+            return new SearchMemberResponse(this.memberId, this.email, this.nickname, this.avatar);
         }
     }
 }
