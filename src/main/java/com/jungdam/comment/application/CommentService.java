@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
     private final static int DEFAULT_PAGE = 0;
+    private final static long NOT_EXISTS_COMMENT_NUMBER = -1;
 
     private final CommentRepository commentRepository;
     private final CommentConverter commentConverter;
@@ -35,6 +36,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    // TODO
     @Transactional(readOnly = true)
     public ReadCommentAllResponse find(Participant participant, Diary diary,
         Long id, int size) {
@@ -42,18 +44,24 @@ public class CommentService {
             id, pageSetup(size));
 
         if (comments.isEmpty()) {
-            return commentConverter.toReadCommentsResponse(false, Long.valueOf(-1), comments);
+            return commentConverter.toReadAllCommentResponse(false, NOT_EXISTS_COMMENT_NUMBER,
+                comments);
         }
         final Comment lastDiaryOfList = comments.get(comments.size() - 1);
 
-        final Boolean check = hasNext(diary, participant, lastDiaryOfList.getId());
-
         Long finalNumber = lastDiaryOfList.getId();
 
-        if (check) {
-            return commentConverter.toReadCommentsResponse(check, finalNumber, comments);
+        return makeReadCommentAllResponse(participant, diary, comments, lastDiaryOfList,
+            finalNumber);
+    }
+
+    private ReadCommentAllResponse makeReadCommentAllResponse(Participant participant, Diary diary,
+        List<Comment> comments, Comment lastDiaryOfList, Long finalNumber) {
+        if (hasNext(diary, participant, lastDiaryOfList.getId())) {
+            return commentConverter.toReadAllCommentResponse(true, finalNumber, comments);
         }
-        return commentConverter.toReadCommentsResponse(check, Long.valueOf(-1), comments);
+        return commentConverter.toReadAllCommentResponse(false, NOT_EXISTS_COMMENT_NUMBER,
+            comments);
     }
 
     private Boolean hasNext(Diary diary, Participant participant, Long id) {

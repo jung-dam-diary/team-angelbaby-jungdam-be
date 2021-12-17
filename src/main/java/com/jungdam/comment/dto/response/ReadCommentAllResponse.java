@@ -15,6 +15,10 @@ public class ReadCommentAllResponse {
         this.comments = comments;
     }
 
+    public static ReadCommentAllResponseBuilder builder() {
+        return new ReadCommentAllResponseBuilder();
+    }
+
     public boolean isHasNext() {
         return hasNext;
     }
@@ -25,5 +29,34 @@ public class ReadCommentAllResponse {
 
     public List<ReadCommentResponse> getComments() {
         return comments;
+    }
+
+    public static class ReadCommentAllResponseBuilder {
+
+        private boolean hasNext;
+        private Long lastCommentId;
+        private List<ReadCommentResponse> comments;
+
+        private ReadCommentAllResponseBuilder() {
+        }
+
+        public ReadCommentAllResponseBuilder hasNext(final boolean hasNext) {
+            this.hasNext = hasNext;
+            return this;
+        }
+
+        public ReadCommentAllResponseBuilder lastCommentId(final Long lastCommentId) {
+            this.lastCommentId = lastCommentId;
+            return this;
+        }
+
+        public ReadCommentAllResponseBuilder comments(final List<ReadCommentResponse> comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public ReadCommentAllResponse build() {
+            return new ReadCommentAllResponse(this.hasNext, this.lastCommentId, this.comments);
+        }
     }
 }

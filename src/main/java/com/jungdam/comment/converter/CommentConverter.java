@@ -23,9 +23,9 @@ public class CommentConverter {
         return new DeleteCommentResponse(diary.getAlbumValue(), diary.getId());
     }
 
-    public ReadCommentAllResponse toReadCommentsResponse(boolean hasNext, Long finalNumber,
+    public ReadCommentAllResponse toReadAllCommentResponse(boolean hasNext, Long lastCommentId,
         List<Comment> comments) {
-        List<ReadCommentResponse> collect = comments.stream()
+        List<ReadCommentResponse> all = comments.stream()
             .map(c -> ReadCommentResponse.builder()
                 .commentId(c.getId())
                 .commentContent(c.getContentValue())
@@ -33,7 +33,11 @@ public class CommentConverter {
                 .avatar(c.getAvatar())
                 .build()).collect(Collectors.toList());
 
-        return new ReadCommentAllResponse(hasNext, finalNumber, collect);
+        return ReadCommentAllResponse.builder()
+            .hasNext(hasNext)
+            .lastCommentId(lastCommentId)
+            .comments(all)
+            .build();
     }
 
     public UpdateCommentResponse toUpdateCommentResponse(Long id, Content content) {
