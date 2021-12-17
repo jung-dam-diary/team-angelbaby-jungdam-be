@@ -32,11 +32,15 @@ public class Emoji extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
-    
+
     protected Emoji() {
     }
 
     public void register(Diary diary) {
         this.diary = diary;
+    }
+
+    public boolean isEquals(Participant participant, Content content) {
+        return this.participant.equals(participant) && this.content.equals(content);
     }
 }

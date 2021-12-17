@@ -16,4 +16,8 @@ public class Emojis {
     public void add(Emoji emoji) {
         emojis.add(emoji);
     }
+
+    public void remove(Emoji emoji) {
+        emojis.remove(emoji);
+    }
 }

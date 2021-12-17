@@ -31,6 +31,7 @@ public enum ErrorMessage {
     INVALID_DIARY_RECORDED_AT(HttpStatus.BAD_REQUEST, "작성되는 날짜가 현재 날짜보다 미래입니다."),
     NON_PERMISSION_ALBUM(HttpStatus.BAD_REQUEST, "앨범에 대한 권한이 없습니다."),
     NOT_EXIST_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
+    INVALID_EMOJI_CONTENT(HttpStatus.NOT_FOUND, "존재하지 않는 이모지입니다."),
 
     ;
 
