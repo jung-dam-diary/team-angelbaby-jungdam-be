@@ -33,6 +33,11 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
+    public List<Participant> findAllByMember(Member member) {
+        return participantRepository.findAllByMember(member);
+    }
+
+    @Transactional(readOnly = true)
     public void checkNotExists(Album album, Member member) {
         if (!existsByAlbumAndMember(album, member)) {
             throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);

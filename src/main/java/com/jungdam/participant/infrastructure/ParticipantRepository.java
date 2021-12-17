@@ -13,6 +13,8 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
 
     boolean existsByAlbumAndMember(Album album, Member member);
 
+    List<Participant> findAllByMember(Member member);
+
     List<Participant> findAllByAlbum(Album album);
 
     boolean existsByAlbumAndMemberAndRole(Album album, Member member, Role owner);
