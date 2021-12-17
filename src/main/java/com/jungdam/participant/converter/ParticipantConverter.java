@@ -5,6 +5,7 @@ import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipant;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
+import com.jungdam.participant.dto.response.UpdateNicknameParticipantResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -28,5 +29,11 @@ public class ParticipantConverter {
 
     public CheckParticipantResponse toCheckParticipantResponse(Album album, boolean existence) {
         return new CheckParticipantResponse(album.getId(), existence);
+    }
+
+    public UpdateNicknameParticipantResponse toUpdateNicknameParticipantResponse(
+        Participant participant) {
+        return new UpdateNicknameParticipantResponse(participant.getId(),
+            participant.getNicknameValue());
     }
 }

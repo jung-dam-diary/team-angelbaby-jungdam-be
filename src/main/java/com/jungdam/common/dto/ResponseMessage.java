@@ -32,6 +32,7 @@ public enum ResponseMessage {
     PARTICIPANT_CHECK_SUCCESS(HttpStatus.OK, "참여인원 확인"),
     COMMENT_UPDATE_SUCCESS(HttpStatus.OK, "댓글 수정 성공"),
     DIARY_UPDATE_SUCCESS(HttpStatus.OK, "일기 수정 성공"),
+    PARTICIPANT_UPDATE_NICKNAME_SUCCESS(HttpStatus.OK, "참여자 닉네임 수정 성공"),
 
     ;
 

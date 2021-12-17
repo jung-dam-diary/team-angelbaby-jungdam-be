@@ -60,8 +60,16 @@ public class Participant extends BaseEntity {
         this.member = member;
     }
 
+    public void updateNickname(Nickname nickname) {
+        this.nickname = nickname;
+    }
+
     public boolean isEquals(Member member, Album album) {
         return this.member.equals(member) && this.album.equals(album);
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getRoleValue() {
