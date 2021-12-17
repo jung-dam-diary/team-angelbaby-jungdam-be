@@ -11,11 +11,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
 
-    boolean existsByAlbumAndMember(Album album, Member member);
+    @Override
+    <S extends Participant> S save(S entity);
 
     List<Participant> findAllByMember(Member member);
 
     List<Participant> findAllByAlbum(Album album);
+
+    boolean existsByAlbumAndMember(Album album, Member member);
 
     boolean existsByAlbumAndMemberAndRole(Album album, Member member, Role owner);
 }

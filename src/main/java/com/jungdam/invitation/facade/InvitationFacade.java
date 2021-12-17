@@ -76,6 +76,9 @@ public class InvitationFacade {
             bundle.getInvitationId(), member);
 
         invitation.updateStatus(bundle.getStatus());
+        if (invitation.isAccept()) {
+            participantService.saveAlbumMemberRole(member, invitation.getAlbum());
+        }
 
         return invitationConverter.toUpdateInvitationResponse(invitation);
     }

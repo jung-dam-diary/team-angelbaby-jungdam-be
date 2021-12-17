@@ -22,6 +22,13 @@ public class ParticipantService {
         this.participantRepository = participantRepository;
     }
 
+    @Transactional
+    public void saveAlbumMemberRole(Member member, Album album) {
+        Participant participant = new Participant(member, Role.MEMBER);
+        participant.register(album);
+        participantRepository.save(participant);
+    }
+
     @Transactional(readOnly = true)
     public boolean notExistsByAlbumAndMember(Album album, Member member) {
         return !participantRepository.existsByAlbumAndMember(album, member);
