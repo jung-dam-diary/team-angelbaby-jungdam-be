@@ -17,7 +17,6 @@ import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
-import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.domain.Participant;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,19 +27,16 @@ public class CommentFacade {
     private final MemberService memberService;
     private final AlbumService albumService;
     private final DiaryService diaryService;
-    private final ParticipantService participantService;
     private final CommentConverter commentConverter;
     private final CommentService commentService;
 
     public CommentFacade(MemberService memberService,
         AlbumService albumService, DiaryService diaryService,
-        ParticipantService participantService,
         CommentConverter commentConverter,
         CommentService commentService) {
         this.memberService = memberService;
         this.albumService = albumService;
         this.diaryService = diaryService;
-        this.participantService = participantService;
         this.commentConverter = commentConverter;
         this.commentService = commentService;
     }
@@ -49,7 +45,8 @@ public class CommentFacade {
     public CreateCommentResponse insert(CreateCommentBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
-        Diary diary = diaryService.findById(bundle.getDiaryId());
+
+        Diary diary = album.findDiary(bundle.getDiaryId());
 
         Participant participant = album.belong(member);
 
@@ -62,7 +59,8 @@ public class CommentFacade {
     public DeleteCommentResponse delete(DeleteCommentBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
-        Diary diary = diaryService.findById(bundle.getDiaryId());
+
+        Diary diary = album.findDiary(bundle.getDiaryId());
 
         Participant participant = album.belong(member);
 
@@ -75,7 +73,8 @@ public class CommentFacade {
     public ReadCommentAllResponse find(ReadCommentBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
-        Diary diary = diaryService.findById(bundle.getDiaryId());
+
+        Diary diary = album.findDiary(bundle.getDiaryId());
 
         Participant participant = album.belong(member);
 
@@ -91,6 +90,7 @@ public class CommentFacade {
         Participant participant = album.belong(member);
 
         Diary diary = diaryService.findById(bundle.getDiaryId());
+
         diary.updateComment(bundle.getCommentId(), participant, bundle.getContent());
 
         return commentConverter.toUpdateCommentResponse(diary.getId(), bundle.getContent());
