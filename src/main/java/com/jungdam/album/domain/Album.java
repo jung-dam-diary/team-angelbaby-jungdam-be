@@ -86,6 +86,10 @@ public class Album extends BaseEntity {
         return diaries.isExists(recordedAt, participant);
     }
 
+    public Diary findDiary(Long id) {
+        return diaries.findById(id);
+    }
+
     public Participant belong(Member member) {
         return participants.find(member, this);
     }

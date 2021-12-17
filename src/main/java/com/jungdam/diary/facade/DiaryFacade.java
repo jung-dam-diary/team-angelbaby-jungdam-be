@@ -62,11 +62,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        Participant participant = album.belong(member);
+        album.belong(member);
 
-        // TODO
-        Diary diary = diaryService.findById(bundle.getDiaryId());
-
+        Diary diary = album.findDiary(bundle.getDiaryId());
         return diaryConverter.toReadDiaryResponse(diary);
     }
 
@@ -75,10 +73,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        Participant participant = album.belong(member);
+        album.belong(member);
 
-        // TODO
-        Diary diary = diaryService.findById(bundle.getDiaryId());
+        Diary diary = album.findDiary(bundle.getDiaryId());
         diary.mark();
 
         return diaryConverter.toCheckBookmarkResponse(diary);

@@ -41,4 +41,11 @@ public class Diaries {
     private void remove(Diary diary) {
         diaries.remove(diary);
     }
+
+    public Diary findById(Long id) {
+        return diaries.stream()
+            .filter(d -> d.isEquals(id))
+            .findFirst()
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
+    }
 }

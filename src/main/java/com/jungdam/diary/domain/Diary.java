@@ -162,6 +162,10 @@ public class Diary extends BaseEntity {
         addDiaryPhotos(diaryPhotos);
     }
 
+    public boolean isEquals(Long id) {
+        return this.id.equals(id);
+    }
+
     public Long getId() {
         return id;
     }
