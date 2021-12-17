@@ -42,13 +42,18 @@ public class CommentService {
             id, pageSetup(size));
 
         if (comments.isEmpty()) {
-            return commentConverter.toReadCommentsResponse(false, comments);
+            return commentConverter.toReadCommentsResponse(false, Long.valueOf(-1), comments);
         }
         final Comment lastDiaryOfList = comments.get(comments.size() - 1);
 
         final Boolean check = hasNext(diary, participant, lastDiaryOfList.getId());
 
-        return commentConverter.toReadCommentsResponse(check, comments);
+        Long finalNumber = lastDiaryOfList.getId();
+
+        if (check) {
+            return commentConverter.toReadCommentsResponse(check, finalNumber, comments);
+        }
+        return commentConverter.toReadCommentsResponse(check, Long.valueOf(-1), comments);
     }
 
     private Boolean hasNext(Diary diary, Participant participant, Long id) {
