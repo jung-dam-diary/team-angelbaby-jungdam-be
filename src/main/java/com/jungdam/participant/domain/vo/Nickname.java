@@ -6,7 +6,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Nickname {
 
-    @Column(name = "member_nickname")
+    @Column(name = "participant_nickname")
     private String nickname;
 
     protected Nickname() {
