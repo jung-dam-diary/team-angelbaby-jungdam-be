@@ -5,11 +5,13 @@ import com.jungdam.album.converter.AlbumConverter;
 import com.jungdam.album.domain.Album;
 import com.jungdam.album.dto.bundle.CreateAlbumBundle;
 import com.jungdam.album.dto.bundle.DeleteAlbumBundle;
+import com.jungdam.album.dto.bundle.ReadAllAlbumBundle;
 import com.jungdam.album.dto.bundle.ReadAllMomentBundle;
 import com.jungdam.album.dto.bundle.ReadOneAlbumBundle;
 import com.jungdam.album.dto.bundle.UpdateAlbumBundle;
 import com.jungdam.album.dto.response.CreateAlbumResponse;
 import com.jungdam.album.dto.response.DeleteAlbumResponse;
+import com.jungdam.album.dto.response.ReadAllAlbumResponse;
 import com.jungdam.album.dto.response.ReadAllMomentResponse;
 import com.jungdam.album.dto.response.ReadOneAlbumResponse;
 import com.jungdam.album.dto.response.UpdateAlbumResponse;
@@ -18,6 +20,8 @@ import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
+import com.jungdam.participant.domain.Participant;
+import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -51,6 +55,15 @@ public class AlbumFacade {
         Album saveAlbum = albumService.save(album, member);
 
         return albumConverter.toCreateAlbumResponse(saveAlbum);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadAllAlbumResponse> findAll(ReadAllAlbumBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+
+        List<Participant> participants = participantService.findAllByMember(member);
+
+        return albumConverter.toReadAllAlbumResponse(participants);
     }
 
     @Transactional(readOnly = true)
