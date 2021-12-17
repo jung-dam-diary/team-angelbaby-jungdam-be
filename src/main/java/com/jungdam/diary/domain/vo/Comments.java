@@ -4,7 +4,7 @@ import com.jungdam.comment.domain.Comment;
 import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,19 +21,19 @@ public class Comments {
         comments.add(comment);
     }
 
-    public void update(Long id, Member member, Content content) {
-        Comment comment = find(id, member);
+    public void update(Long id, Participant participant, Content content) {
+        Comment comment = find(id, participant);
         comment.update(content);
     }
 
-    public void delete(Long id, Member member) {
-        Comment comment = find(id, member);
+    public void delete(Long id, Participant participant) {
+        Comment comment = find(id, participant);
         remove(comment);
     }
 
-    private Comment find(Long id, Member member) {
+    private Comment find(Long id, Participant participant) {
         return comments.stream()
-            .filter(c -> c.isCreator(id, member))
+            .filter(c -> c.isCreator(id, participant))
             .findFirst()
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_COMMENT));
     }

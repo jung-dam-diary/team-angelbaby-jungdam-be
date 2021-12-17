@@ -4,7 +4,7 @@ import com.jungdam.album.domain.Album;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.diary.domain.vo.RecordedAt;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
-    boolean existsByRecordedAtAndMember(RecordedAt recordedAt, Member member);
+    boolean existsByRecordedAtAndParticipant(RecordedAt recordedAt, Participant participant);
 
     @Override
     Optional<Diary> findById(Long id);

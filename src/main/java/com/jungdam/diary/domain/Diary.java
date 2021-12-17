@@ -12,7 +12,7 @@ import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.domain.vo.Title;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.emoji.domain.Emoji;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -47,10 +47,6 @@ public class Diary extends BaseEntity {
     private RecordedAt recordedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "album_id")
     private Album album;
 
@@ -63,14 +59,18 @@ public class Diary extends BaseEntity {
     @Embedded
     private Emojis emojis;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participant_id")
+    private Participant participant;
+
     protected Diary() {
     }
 
-    public Diary(Title title, Content content, RecordedAt recordedAt, Member member) {
+    public Diary(Title title, Content content, RecordedAt recordedAt, Participant participant) {
         this.title = title;
         this.content = content;
         this.recordedAt = recordedAt;
-        this.member = member;
+        this.participant = participant;
         this.bookmark = new Bookmark();
         this.diaryPhotos = new DiaryPhotos();
     }
@@ -138,21 +138,21 @@ public class Diary extends BaseEntity {
         bookmark.mark();
     }
 
-    public void deleteContent(Long id, Member member) {
-        comments.delete(id, member);
+    public void deleteContent(Long id, Participant participant) {
+        comments.delete(id, participant);
     }
 
-    public boolean isCreator(Long id, Member member) {
-        return Objects.equals(this.id, id) && this.member.equals(member);
+    public boolean isCreator(Long id, Participant participant) {
+        return Objects.equals(this.id, id) && this.participant.equals(participant);
     }
 
-    public boolean isWritten(RecordedAt recordedAt, Member member) {
-        return this.recordedAt.equals(recordedAt) && this.member.equals(member);
+    public boolean isWritten(RecordedAt recordedAt, Participant participant) {
+        return this.recordedAt.equals(recordedAt) && this.participant.equals(participant);
     }
 
-    public void updateComment(Long id, Member member,
+    public void updateComment(Long id, Participant participant,
         com.jungdam.comment.domain.vo.Content content) {
-        comments.update(id, member, content);
+        comments.update(id, participant, content);
     }
 
     public void update(Title title, Content content, List<DiaryPhoto> diaryPhotos) {
@@ -171,7 +171,7 @@ public class Diary extends BaseEntity {
         private Title title;
         private Content content;
         private RecordedAt recordedAt;
-        private Member member;
+        private Participant participant;
 
         private DiaryBuilder() {
 
@@ -192,13 +192,13 @@ public class Diary extends BaseEntity {
             return this;
         }
 
-        public DiaryBuilder member(final Member member) {
-            this.member = member;
+        public DiaryBuilder participant(final Participant participant) {
+            this.participant = participant;
             return this;
         }
 
         public Diary build() {
-            return new Diary(this.title, this.content, this.recordedAt, this.member);
+            return new Diary(this.title, this.content, this.recordedAt, this.participant);
         }
     }
 }

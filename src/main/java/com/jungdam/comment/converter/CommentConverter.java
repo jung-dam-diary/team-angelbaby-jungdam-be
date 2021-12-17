@@ -28,7 +28,8 @@ public class CommentConverter {
             .map(c -> ReadCommentResponse.builder()
                 .commentId(c.getId())
                 .commentContent(c.getContentValue())
-                .nickname(c.getMemberNicknameValue())
+                .nickname(c.getParticipantNicknameValue())
+                .avatar(c.getAvatar())
                 .build()).collect(Collectors.toList());
 
         return new ReadCommentAllResponse(hasNext, collect);

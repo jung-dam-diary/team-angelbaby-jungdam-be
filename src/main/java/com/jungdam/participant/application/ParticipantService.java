@@ -73,4 +73,9 @@ public class ParticipantService {
     private boolean existsByAlbumAndOwnerMember(Album album, Member member) {
         return participantRepository.existsByAlbumAndMemberAndRole(album, member, Role.OWNER);
     }
+
+    public Participant findByMemberAndAlbum(Member member, Album album) {
+        return participantRepository.findByMemberAndAlbum(member, album)
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+    }
 }

@@ -4,7 +4,7 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,19 +21,19 @@ public class Diaries {
         diaries.add(diary);
     }
 
-    public void delete(Long id, Member member) {
-        Diary diary = find(id, member);
+    public void delete(Long id, Participant participant) {
+        Diary diary = find(id, participant);
         remove(diary);
     }
 
-    public boolean isExists(RecordedAt recordedAt, Member member) {
+    public boolean isExists(RecordedAt recordedAt, Participant participant) {
         return diaries.stream()
-            .anyMatch(d -> d.isWritten(recordedAt, member));
+            .anyMatch(d -> d.isWritten(recordedAt, participant));
     }
 
-    public Diary find(Long id, Member member) {
+    public Diary find(Long id, Participant participant) {
         return diaries.stream()
-            .filter(d -> d.isCreator(id, member))
+            .filter(d -> d.isCreator(id, participant))
             .findFirst()
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
     }

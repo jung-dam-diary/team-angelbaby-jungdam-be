@@ -20,6 +20,7 @@ import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
+import com.jungdam.participant.domain.Participant;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +48,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        Diary diary = diaryService.save(bundle, member);
+        Diary diary = diaryService.save(bundle, participant);
 
         album.addDiary(diary);
 
@@ -61,8 +62,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
+        // TODO
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
         return diaryConverter.toReadDiaryResponse(diary);
@@ -73,8 +75,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
+        // TODO
         Diary diary = diaryService.findById(bundle.getDiaryId());
         diary.mark();
 
@@ -86,9 +89,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        album.deleteDiary(bundle.getDiaryId(), member);
+        album.deleteDiary(bundle.getDiaryId(), participant);
 
         return diaryConverter.toDeleteDiaryResponse(album);
     }
@@ -98,9 +101,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        boolean existDiaryStatus = album.checkRecordedAt(bundle.getRecordedAt(), member);
+        boolean existDiaryStatus = album.checkRecordedAt(bundle.getRecordedAt(), participant);
 
         return diaryConverter.toCheckRecordedAtDiaryResponse(album, bundle.getRecordedAt(),
             existDiaryStatus);
@@ -111,9 +114,9 @@ public class DiaryFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        Diary diary = album.updateDiary(bundle.getDiaryId(), member, bundle.getTitle(),
+        Diary diary = album.updateDiary(bundle.getDiaryId(), participant, bundle.getTitle(),
             bundle.getContent(),
             bundle.getDiaryPhotos());
 

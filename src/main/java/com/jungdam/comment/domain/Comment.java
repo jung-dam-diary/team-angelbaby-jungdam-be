@@ -3,7 +3,7 @@ package com.jungdam.comment.domain;
 import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -27,31 +27,35 @@ public class Comment extends BaseEntity {
     private Content content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participant_id")
+    private Participant participant;
 
     protected Comment() {
     }
 
-    public Comment(Content content, Member member) {
+    public Comment(Content content, Participant participant) {
         this.content = content;
-        this.member = member;
+        this.participant = participant;
     }
 
     public void register(Diary diary) {
         this.diary = diary;
     }
 
-    public boolean isCreator(Long id, Member member) {
-        return Objects.equals(this.id, id) && this.member.equals(member);
+    public boolean isCreator(Long id, Participant participant) {
+        return Objects.equals(this.id, id) && this.participant.equals(participant);
     }
 
     public void update(Content content) {
         this.content = content;
+    }
+
+    public String getAvatar() {
+        return participant.getMemberAvatar();
     }
 
     public Long getId() {
@@ -62,8 +66,8 @@ public class Comment extends BaseEntity {
         return content.getContent();
     }
 
-    public String getMemberNicknameValue() {
-        return member.getNicknameValue();
+    public String getParticipantNicknameValue() {
+        return participant.getNicknameValue();
     }
 
     public Long getDiaryValue() {

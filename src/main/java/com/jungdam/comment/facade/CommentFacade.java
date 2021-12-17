@@ -18,6 +18,7 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
+import com.jungdam.participant.domain.Participant;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,9 +51,9 @@ public class CommentFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        Comment comment = commentService.save(bundle.getContent(), member, diary);
+        Comment comment = commentService.save(bundle.getContent(), participant, diary);
 
         return commentConverter.toCreateCommentResponse(comment);
     }
@@ -63,8 +64,9 @@ public class CommentFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
-        participantService.checkNotExists(album, member);
-        diary.deleteContent(bundle.getCommentId(), member);
+        Participant participant = album.belong(member);
+
+        diary.deleteContent(bundle.getCommentId(), participant);
 
         return commentConverter.toDeleteCommentResponse(diary);
     }
@@ -75,9 +77,9 @@ public class CommentFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Diary diary = diaryService.findById(bundle.getDiaryId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
-        return commentService.find(diary, bundle.getCursorId(),
+        return commentService.find(participant, diary, bundle.getCursorId(),
             bundle.getPageSize());
     }
 
@@ -86,10 +88,10 @@ public class CommentFacade {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
 
-        participantService.checkNotExists(album, member);
+        Participant participant = album.belong(member);
 
         Diary diary = diaryService.findById(bundle.getDiaryId());
-        diary.updateComment(bundle.getCommentId(), member, bundle.getContent());
+        diary.updateComment(bundle.getCommentId(), participant, bundle.getContent());
 
         return commentConverter.toUpdateCommentResponse(diary.getId(), bundle.getContent());
     }

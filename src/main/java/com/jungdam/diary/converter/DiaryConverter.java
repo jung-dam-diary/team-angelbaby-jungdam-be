@@ -10,7 +10,7 @@ import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,12 +36,12 @@ public class DiaryConverter {
             .build();
     }
 
-    public Diary toDiary(CreateDiaryBundle bundle, Member member) {
+    public Diary toDiary(CreateDiaryBundle bundle, Participant participant) {
         return Diary.builder()
             .title(bundle.getTitle())
             .content(bundle.getContent())
             .recordedAt(bundle.getRecordedAt())
-            .member(member)
+            .participant(participant)
             .build();
     }
 

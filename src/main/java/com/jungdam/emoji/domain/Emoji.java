@@ -3,7 +3,7 @@ package com.jungdam.emoji.domain;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.emoji.domain.vo.Content;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -26,13 +26,13 @@ public class Emoji extends BaseEntity {
     private Content content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "participant_id")
+    private Participant participant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
-
+    
     protected Emoji() {
     }
 

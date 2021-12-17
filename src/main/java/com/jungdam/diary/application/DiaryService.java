@@ -11,7 +11,7 @@ import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.error.exception.NotExistException;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.Pageable;
@@ -30,19 +30,20 @@ public class DiaryService {
     }
 
     @Transactional
-    public Diary save(CreateDiaryBundle bundle, Member member) {
-        if (existsByRecordedAtAndMember(bundle.getRecordedAt(), member)) {
+    public Diary save(CreateDiaryBundle bundle, Participant participant) {
+        if (existsByRecordedAtAndParticipant(bundle.getRecordedAt(), participant)) {
             throw new DuplicationException(ErrorMessage.DUPLICATION_DIARY_RECORDED_AT);
         }
 
-        Diary diary = diaryConverter.toDiary(bundle, member);
+        Diary diary = diaryConverter.toDiary(bundle, participant);
         diary.addDiaryPhotos(bundle.getDiaryPhotos());
 
         return diaryRepository.save(diary);
     }
 
-    private boolean existsByRecordedAtAndMember(RecordedAt recordedAt, Member member) {
-        return diaryRepository.existsByRecordedAtAndMember(recordedAt, member);
+    private boolean existsByRecordedAtAndParticipant(RecordedAt recordedAt,
+        Participant participant) {
+        return diaryRepository.existsByRecordedAtAndParticipant(recordedAt, participant);
     }
 
     @Transactional(readOnly = true)

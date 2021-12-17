@@ -2,6 +2,7 @@ package com.jungdam.comment.infrastructure;
 
 import com.jungdam.comment.domain.Comment;
 import com.jungdam.diary.domain.Diary;
+import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Override
     Optional<Comment> findById(Long id);
+
+    Boolean existsByDiaryAndParticipantAndIdLessThan(Diary diary, Participant participant, Long id);
 }

@@ -15,6 +15,7 @@ import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -77,12 +78,16 @@ public class Album extends BaseEntity {
         invitation.register(this);
     }
 
-    public void deleteDiary(Long id, Member member) {
-        diaries.delete(id, member);
+    public void deleteDiary(Long id, Participant participant) {
+        diaries.delete(id, participant);
     }
 
-    public boolean checkRecordedAt(RecordedAt recordedAt, Member member) {
-        return diaries.isExists(recordedAt, member);
+    public boolean checkRecordedAt(RecordedAt recordedAt, Participant participant) {
+        return diaries.isExists(recordedAt, participant);
+    }
+
+    public Participant belong(Member member) {
+        return participants.find(member, this);
     }
 
     public Long getId() {
@@ -119,13 +124,35 @@ public class Album extends BaseEntity {
         this.thumbnail = thumbnail;
     }
 
-    public Diary updateDiary(Long id, Member member, com.jungdam.diary.domain.vo.Title title,
+    public Diary updateDiary(Long id, Participant participant,
+        com.jungdam.diary.domain.vo.Title title,
         Content content,
         List<DiaryPhoto> diaryPhotos) {
-        Diary diary = diaries.find(id, member);
+        Diary diary = diaries.find(id, participant);
         diary.update(title, content, diaryPhotos);
 
         return diary;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Album album = (Album) o;
+        return Objects.equals(id, album.id) && Objects.equals(title, album.title)
+            && Objects.equals(familyMotto, album.familyMotto) && Objects.equals(
+            thumbnail, album.thumbnail) && Objects.equals(participants, album.participants)
+            && Objects.equals(invitations, album.invitations) && Objects.equals(
+            diaries, album.diaries);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, familyMotto, thumbnail, participants, invitations, diaries);
     }
 
     public static class AlbumBuilder {

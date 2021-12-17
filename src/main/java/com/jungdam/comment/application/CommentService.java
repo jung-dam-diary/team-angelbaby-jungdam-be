@@ -6,7 +6,7 @@ import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
 import com.jungdam.comment.infrastructure.CommentRepository;
 import com.jungdam.diary.domain.Diary;
-import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.data.domain.PageRequest;
@@ -29,14 +29,14 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment save(Content content, Member member, Diary diary) {
-        Comment comment = new Comment(content, member);
+    public Comment save(Content content, Participant participant, Diary diary) {
+        Comment comment = new Comment(content, participant);
         diary.addComment(comment);
         return commentRepository.save(comment);
     }
 
     @Transactional(readOnly = true)
-    public ReadCommentAllResponse find(Diary diary,
+    public ReadCommentAllResponse find(Participant participant, Diary diary,
         Long id, int size) {
         List<Comment> comments = findByDiaryAndId(diary,
             id, pageSetup(size));
@@ -44,7 +44,15 @@ public class CommentService {
         if (comments.isEmpty()) {
             return commentConverter.toReadCommentsResponse(false, comments);
         }
-        return commentConverter.toReadCommentsResponse(true, comments);
+        final Comment lastDiaryOfList = comments.get(comments.size() - 1);
+
+        final Boolean check = hasNext(diary, participant, lastDiaryOfList.getId());
+
+        return commentConverter.toReadCommentsResponse(check, comments);
+    }
+
+    private Boolean hasNext(Diary diary, Participant participant, Long id) {
+        return commentRepository.existsByDiaryAndParticipantAndIdLessThan(diary, participant, id);
     }
 
     private List<Comment> findByDiaryAndId(Diary diary, Long cursorId,

@@ -5,11 +5,14 @@ public class ReadCommentResponse {
     private final Long commentId;
     private final String commentContent;
     private final String nickname;
+    private final String avatar;
 
-    public ReadCommentResponse(Long commentId, String commentContent, String nickname) {
+    public ReadCommentResponse(Long commentId, String commentContent, String nickname,
+        String avatar) {
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.nickname = nickname;
+        this.avatar = avatar;
     }
 
     public static ReadCommentResponseBuilder builder() {
@@ -28,11 +31,16 @@ public class ReadCommentResponse {
         return nickname;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
     public static class ReadCommentResponseBuilder {
 
         private Long commentId;
         private String commentContent;
         private String nickname;
+        private String avatar;
 
         private ReadCommentResponseBuilder() {
         }
@@ -52,8 +60,14 @@ public class ReadCommentResponse {
             return this;
         }
 
+        public ReadCommentResponseBuilder avatar(final String avatar) {
+            this.avatar = avatar;
+            return this;
+        }
+
         public ReadCommentResponse build() {
-            return new ReadCommentResponse(this.commentId, this.commentContent, this.nickname);
+            return new ReadCommentResponse(this.commentId, this.commentContent, this.nickname,
+                this.avatar);
         }
     }
 }

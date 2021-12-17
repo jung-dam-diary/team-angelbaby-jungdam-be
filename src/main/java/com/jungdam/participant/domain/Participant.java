@@ -3,6 +3,9 @@ package com.jungdam.participant.domain;
 import com.jungdam.album.domain.Album;
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.member.domain.Member;
+import com.jungdam.participant.domain.vo.Comments;
+import com.jungdam.participant.domain.vo.Diaries;
+import com.jungdam.participant.domain.vo.Emojis;
 import com.jungdam.participant.domain.vo.Nickname;
 import com.jungdam.participant.domain.vo.Role;
 import javax.persistence.Column;
@@ -39,6 +42,15 @@ public class Participant extends BaseEntity {
     @JoinColumn(name = "album_id")
     private Album album;
 
+    @JoinColumn(name = "diaries_id")
+    private Diaries diaries;
+
+    @JoinColumn(name = "comment_id")
+    private Comments comments;
+
+    @JoinColumn(name = "emojis_id")
+    private Emojis emojis;
+
     protected Participant() {
     }
 
@@ -48,12 +60,20 @@ public class Participant extends BaseEntity {
         this.member = member;
     }
 
+    public boolean isEquals(Member member, Album album) {
+        return this.member.equals(member) && this.album.equals(album);
+    }
+
     public String getRoleValue() {
         return role.getRole();
     }
 
     public String getNicknameValue() {
         return nickname.getNickname();
+    }
+
+    public String getMemberAvatar() {
+        return member.getAvatarValue();
     }
 
     public Role getRole() {
