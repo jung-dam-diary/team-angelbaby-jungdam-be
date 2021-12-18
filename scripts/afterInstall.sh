@@ -1,5 +1,7 @@
 docker pull dlfdyd96/spring-cicd:latest
 docker run --publish 8080:8080 \
+    --memory 300m --memory-swap 1g \
+    --restart unless-stopped \
     -it --detach \
     --name spring-cicd dlfdyd96/spring-cicd:latest /bin/bash
 

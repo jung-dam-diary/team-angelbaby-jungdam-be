@@ -1,0 +1,4 @@
+[submodule "secret-keys"]
+	path = src/main/resources/secret-keys
+	url = https://github.com/jung-dam-diary/secret-keys.git
+	branch = main
