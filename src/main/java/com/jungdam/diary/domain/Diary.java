@@ -166,10 +166,15 @@ public class Diary extends BaseEntity {
         return this.id.equals(id);
     }
 
+    public boolean register(Participant participant,
+        com.jungdam.emoji.domain.vo.Content content) {
+        return emojis.register(participant, this, content);
+    }
+
     public Long getId() {
         return id;
     }
-
+    
     public static class DiaryBuilder {
 
         private Title title;

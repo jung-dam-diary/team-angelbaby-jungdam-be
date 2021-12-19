@@ -36,11 +36,50 @@ public class Emoji extends BaseEntity {
     protected Emoji() {
     }
 
+    public Emoji(Content content, Participant participant, Diary diary) {
+        this.content = content;
+        this.participant = participant;
+        this.diary = diary;
+    }
+
+    public static EmojiBuilder builder() {
+        return new EmojiBuilder();
+    }
+
     public void register(Diary diary) {
         this.diary = diary;
     }
 
     public boolean isEquals(Participant participant, Content content) {
-        return this.participant.equals(participant) && this.content.equals(content);
+        return this.content.equals(content) && this.participant.equals(participant);
+    }
+
+    public static class EmojiBuilder {
+
+        private Content content;
+        private Participant participant;
+        private Diary diary;
+
+        protected EmojiBuilder() {
+        }
+
+        public EmojiBuilder content(final Content content) {
+            this.content = content;
+            return this;
+        }
+
+        public EmojiBuilder participant(final Participant participant) {
+            this.participant = participant;
+            return this;
+        }
+
+        public EmojiBuilder diary(final Diary diary) {
+            this.diary = diary;
+            return this;
+        }
+
+        public Emoji build() {
+            return new Emoji(this.content, this.participant, this.diary);
+        }
     }
 }

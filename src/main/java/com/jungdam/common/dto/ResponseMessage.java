@@ -33,6 +33,7 @@ public enum ResponseMessage {
     COMMENT_UPDATE_SUCCESS(HttpStatus.OK, "댓글 수정 성공"),
     DIARY_UPDATE_SUCCESS(HttpStatus.OK, "일기 수정 성공"),
     PARTICIPANT_UPDATE_NICKNAME_SUCCESS(HttpStatus.OK, "참여자 닉네임 수정 성공"),
+    EMOJI_CREATE_AND_DELETE_SUCCESS(HttpStatus.OK, "이모지 생성 및 삭제 성공"),
 
     ;
 
