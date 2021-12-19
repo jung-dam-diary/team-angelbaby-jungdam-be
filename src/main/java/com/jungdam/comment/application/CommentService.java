@@ -51,13 +51,12 @@ public class CommentService {
 
         Long finalNumber = lastDiaryOfList.getId();
 
-        return makeReadCommentAllResponse(participant, diary, comments, lastDiaryOfList,
-            finalNumber);
+        return makeReadCommentAllResponse(participant, diary, comments, finalNumber);
     }
 
     private ReadCommentAllResponse makeReadCommentAllResponse(Participant participant, Diary diary,
-        List<Comment> comments, Comment lastDiaryOfList, Long finalNumber) {
-        if (hasNext(diary, participant, lastDiaryOfList.getId())) {
+        List<Comment> comments, Long finalNumber) {
+        if (hasNext(diary, participant, finalNumber)) {
             return commentConverter.toReadAllCommentResponse(true, finalNumber, comments);
         }
         return commentConverter.toReadAllCommentResponse(false, NOT_EXISTS_COMMENT_NUMBER,
