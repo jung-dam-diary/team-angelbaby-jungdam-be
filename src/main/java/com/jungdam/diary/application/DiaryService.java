@@ -7,19 +7,28 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
+import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.participant.domain.Participant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class DiaryService {
+
+    private final static int DEFAULT_PAGE = 0;
+    private final static String NOT_EXISTS_NEXT_DIARY = "NOT_EXISTS_NEXT_DIARY";
+
 
     private final DiaryRepository diaryRepository;
     private final DiaryConverter diaryConverter;
@@ -78,5 +87,61 @@ public class DiaryService {
         }
         return diaryRepository.findAllByAlbumAndBookmarkAndIdLessThanOrderByIdDesc(album, bookmark,
             cursorId, page);
+    }
+
+    // TODO : 리펙토링 필요
+    @Transactional(readOnly = true)
+    public ReadAllFeedDiaryResponse findAllFeed(Album album, String cursorId, int size) {
+        final List<Diary> diaries = findByAlbumAndRecordedAt(album, cursorId,
+            pageSetup(size));
+
+        if (diaries.isEmpty()) {
+            return diaryConverter.toReadAllFeedDiaryResponse(false, NOT_EXISTS_NEXT_DIARY,
+                diaries);
+        }
+
+        final Diary diary = diaries.get(diaries.size() - 1);
+
+        RecordedAt recordedAt = diary.getRecordedAt();
+
+        return makeReadAllFeedDiaryResponse(album, diaries, recordedAt);
+    }
+
+    private ReadAllFeedDiaryResponse makeReadAllFeedDiaryResponse(Album album,
+        List<Diary> diaries, RecordedAt recordedAt) {
+        if (hasNext(album, recordedAt)) {
+            return diaryConverter.toReadAllFeedDiaryResponse(true,
+                recordedAt.getRecordedAt().toString(),
+                diaries);
+        }
+        return diaryConverter.toReadAllFeedDiaryResponse(false, NOT_EXISTS_NEXT_DIARY,
+            diaries);
+    }
+
+    private Boolean hasNext(Album album, RecordedAt recordedAt) {
+        return diaryRepository.existsByAlbumAndRecordedAtLessThan(album, recordedAt);
+    }
+
+    private List<Diary> findByAlbumAndRecordedAt(Album album, String recordedAt,
+        Pageable pageable) {
+        if (!StringUtils.hasText(recordedAt)) {
+            return findAllByAlbumOrderByRecordedAtDesc(album, pageable);
+        }
+        RecordedAt date = new RecordedAt(LocalDate.parse(recordedAt, DateTimeFormatter.ISO_DATE));
+        return findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(album, date, pageable);
+    }
+
+    private List<Diary> findAllByAlbumOrderByRecordedAtDesc(Album album, Pageable pageable) {
+        return diaryRepository.findAllByAlbumOrderByRecordedAtDesc(album, pageable);
+    }
+
+    private List<Diary> findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(Album album,
+        RecordedAt recordedAt, Pageable pageable) {
+        return diaryRepository.findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(album,
+            recordedAt, pageable);
+    }
+
+    private Pageable pageSetup(int size) {
+        return PageRequest.of(DEFAULT_PAGE, size);
     }
 }

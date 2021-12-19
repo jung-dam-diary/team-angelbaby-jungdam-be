@@ -9,13 +9,15 @@ import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
 import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
-import com.jungdam.diary.dto.response.ReadDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
@@ -55,7 +57,7 @@ public class DiaryFacade {
     }
 
     @Transactional(readOnly = true)
-    public ReadDiaryResponse find(ReadDiaryBundle bundle) {
+    public ReadDetailDiaryResponse find(ReadDiaryBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
@@ -115,5 +117,15 @@ public class DiaryFacade {
             bundle.getDiaryPhotos());
 
         return diaryConverter.toUpdateDiaryResponse(diary);
+    }
+
+    @Transactional
+    public ReadAllFeedDiaryResponse findAll(ReadAllDiaryBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        album.belong(member);
+
+        return diaryService.findAllFeed(album, bundle.getCursorId(), bundle.getPageSize());
     }
 }

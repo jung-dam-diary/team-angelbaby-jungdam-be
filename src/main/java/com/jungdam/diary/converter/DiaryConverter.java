@@ -8,9 +8,15 @@ import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
-import com.jungdam.diary.dto.response.ReadDiaryResponse;
+import com.jungdam.diary.dto.response.DiaryInfoResponse;
+import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
+import com.jungdam.diary.dto.response.ReadFeedDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.participant.domain.Participant;
+import com.jungdam.participant.dto.response.ParticipantInfoResponse;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,8 +30,8 @@ public class DiaryConverter {
         return new CreateDiaryResponse(diary.getAlbumValue(), diary.getId());
     }
 
-    public ReadDiaryResponse toReadDiaryResponse(Diary diary) {
-        return ReadDiaryResponse.builder()
+    public ReadDetailDiaryResponse toReadDiaryResponse(Diary diary) {
+        return ReadDetailDiaryResponse.builder()
             .albumId(diary.getAlbumValue())
             .diaryId(diary.getId())
             .title(diary.getTitleValue())
@@ -61,5 +67,28 @@ public class DiaryConverter {
 
     public UpdateDiaryResponse toUpdateDiaryResponse(Diary diary) {
         return new UpdateDiaryResponse(diary.getAlbumValue(), diary.getId());
+    }
+
+    public ReadAllFeedDiaryResponse toReadAllFeedDiaryResponse(boolean hasNext,
+        String nextRecordedAt, List<Diary> diaries) {
+        List<ReadFeedDiaryResponse> all = diaries.stream()
+            .map(d ->
+                new ReadFeedDiaryResponse(
+                    DiaryInfoResponse.builder()
+                        .diaryId(d.getId())
+                        .title(d.getTitleValue())
+                        .bookmark(d.getBookmarkValue())
+                        .diaryPhotos(d.getDiaryPhotosValue())
+                        .recordedAt(d.getRecordedAtValue())
+                        .build(),
+                    new ParticipantInfoResponse(d.getNicknameValue(), d.getAvatarValue())
+                ))
+            .collect(Collectors.toList());
+
+        return ReadAllFeedDiaryResponse.builder()
+            .hasNext(hasNext)
+            .lastCommentId(nextRecordedAt)
+            .diaries(all)
+            .build();
     }
 }

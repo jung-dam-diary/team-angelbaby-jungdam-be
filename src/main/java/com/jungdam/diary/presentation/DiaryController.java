@@ -7,6 +7,7 @@ import com.jungdam.diary.dto.bundle.CheckBookmarkBundle;
 import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.request.CreateDiaryRequest;
@@ -15,13 +16,15 @@ import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
-import com.jungdam.diary.dto.response.ReadDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.diary.facade.DiaryFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/albums/{albumId}/diaries")
 public class DiaryController {
+
+    private final static int DEFAULT_PAGE_SIZE = 10;
 
     private final DiaryFacade diaryFacade;
 
@@ -81,7 +86,7 @@ public class DiaryController {
 
     @ApiOperation("일기 조회")
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ResponseDto<ReadDiaryResponse>> read(@PathVariable Long albumId,
+    public ResponseEntity<ResponseDto<ReadDetailDiaryResponse>> read(@PathVariable Long albumId,
         @PathVariable Long diaryId) {
         Long memberId = SecurityUtils.getCurrentUsername();
 
@@ -91,7 +96,7 @@ public class DiaryController {
             .diaryId(diaryId)
             .build();
 
-        ReadDiaryResponse response = diaryFacade.find(bundle);
+        ReadDetailDiaryResponse response = diaryFacade.find(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_READ_SUCCESS, response);
     }
@@ -148,5 +153,28 @@ public class DiaryController {
         UpdateDiaryResponse response = diaryFacade.update(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_UPDATE_SUCCESS, response);
+    }
+
+    @ApiOperation("일기 스크롤 조회")
+    @GetMapping
+    public ResponseEntity<ResponseDto<ReadAllFeedDiaryResponse>> getAll(@PathVariable Long albumId,
+        @RequestParam(value = "cursorId", required = false) String cursorId,
+        @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        if (Objects.isNull(pageSize)) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        ReadAllDiaryBundle bundle = ReadAllDiaryBundle.builder()
+            .memberId(memberId)
+            .albumId(albumId)
+            .cursorId(cursorId)
+            .pageSize(pageSize)
+            .build();
+
+        ReadAllFeedDiaryResponse response = diaryFacade.findAll(bundle);
+
+        return ResponseDto.of(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
     }
 }

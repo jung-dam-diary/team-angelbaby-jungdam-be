@@ -79,6 +79,18 @@ public class Diary extends BaseEntity {
         return new DiaryBuilder();
     }
 
+    public RecordedAt getRecordedAt() {
+        return recordedAt;
+    }
+
+    public String getNicknameValue() {
+        return participant.getNicknameValue();
+    }
+
+    public String getAvatarValue() {
+        return participant.getMemberAvatar();
+    }
+
     public Long getAlbumValue() {
         return album.getId();
     }
@@ -174,7 +186,7 @@ public class Diary extends BaseEntity {
     public Long getId() {
         return id;
     }
-    
+
     public static class DiaryBuilder {
 
         private Title title;
