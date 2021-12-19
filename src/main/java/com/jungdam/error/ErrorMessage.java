@@ -32,7 +32,10 @@ public enum ErrorMessage {
     NON_PERMISSION_ALBUM(HttpStatus.BAD_REQUEST, "앨범에 대한 권한이 없습니다."),
     NOT_EXIST_COMMENT(HttpStatus.NOT_FOUND, "존재하지 않는 댓글입니다."),
     INVALID_EMOJI_CONTENT(HttpStatus.NOT_FOUND, "존재하지 않는 이모지입니다."),
-    INVALID_MEMBER_NICKNAME(HttpStatus.BAD_REQUEST, "사용자 닉네임 정보가 잘못되었습니다.");
+    INVALID_MEMBER_NICKNAME(HttpStatus.BAD_REQUEST, "사용자 닉네임 정보가 잘못되었습니다."),
+    FAIL_TO_LOGIN_OAUTH2(HttpStatus.UNAUTHORIZED, "OAUTH2 로그인을 실패했습니다."),
+    UNAUTHORIZED_REDIRECT_URI(HttpStatus.UNAUTHORIZED,
+        "Unauthorized Redirect URI and can't proceed with the authentication");;
 
     private final HttpStatus status;
     private final String message;
