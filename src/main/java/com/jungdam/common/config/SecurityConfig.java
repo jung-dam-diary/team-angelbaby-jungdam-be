@@ -40,6 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/v3/api-docs/**",
         "/swagger-ui/**"
     };
+    private static final String USER_PERMISSION_URL = "/api/**";
+    private static final String ADMIN_PERMISSION_URL = "/api/**/admin/**";
+    private static final String OAUTH2_AUTHORIZATION_ENDPOINT = "/oauth2/authorization";
+    private static final String OAUTH2_REDIRECT_ENDPOINT = "/*/oauth2/code/*";
+    private static final String CORS_SPLIT_REGEX = ",";
+    private static final String CORS_ALL_URL = "/**";
 
     private final CorsProperties corsProperties;
     private final AuthProperties authProperties;
@@ -87,18 +93,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(AUTH_WHITELIST).permitAll()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-            .antMatchers("/api/**").hasAnyAuthority(Role.USER.getRole())
-            .antMatchers("/api/**/admin/**").hasAnyAuthority(Role.ADMIN.getRole())
+            .antMatchers(USER_PERMISSION_URL).hasAnyAuthority(Role.USER.getRole())
+            .antMatchers(ADMIN_PERMISSION_URL).hasAnyAuthority(Role.ADMIN.getRole())
             .anyRequest().authenticated();
 
         http
             .oauth2Login()
             .authorizationEndpoint()
-            .baseUri("/oauth2/authorization")
+            .baseUri(OAUTH2_AUTHORIZATION_ENDPOINT)
             .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
             .and()
             .redirectionEndpoint()
-            .baseUri("/*/oauth2/code/*")
+            .baseUri(OAUTH2_REDIRECT_ENDPOINT)
             .and()
             .userInfoEndpoint()
             .userService(oAuth2UserService)
@@ -146,16 +152,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
-
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
-        corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
-        corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+        corsConfig.setAllowedHeaders(
+            Arrays.asList(corsProperties.getAllowedHeaders().split(CORS_SPLIT_REGEX))
+        );
+        corsConfig.setAllowedMethods(
+            Arrays.asList(corsProperties.getAllowedMethods().split(CORS_SPLIT_REGEX))
+        );
+        corsConfig.setAllowedOrigins(
+            Arrays.asList(corsProperties.getAllowedOrigins().split(CORS_SPLIT_REGEX))
+        );
+
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 
-        corsConfigSource.registerCorsConfiguration("/**", corsConfig);
+        UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
+        corsConfigSource.registerCorsConfiguration(CORS_ALL_URL, corsConfig);
         return corsConfigSource;
     }
 }
