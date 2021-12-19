@@ -72,12 +72,9 @@ public class Member extends BaseEntity {
         return new Member.MemberBuilder();
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = new Nickname(nickname);
-    }
-
-    public void updateAvatar(String profileImageUrl) {
-        this.avatar = new Avatar(profileImageUrl);
+    public void update(Nickname nickname, Avatar avatar) {
+        this.nickname = nickname;
+        this.avatar = avatar;
     }
 
     public String getEmailValue() {

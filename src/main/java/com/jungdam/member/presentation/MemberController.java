@@ -47,7 +47,6 @@ public class MemberController {
     @GetMapping("/search")
     public ResponseEntity<ResponseDto<SearchMemberResponse>> getMemberByEmail(
         @RequestParam("email") String email) {
-
         SearchMemberBundle bundle = new SearchMemberBundle(email);
 
         SearchMemberResponse response = memberService.findByEmail(bundle);
@@ -57,7 +56,8 @@ public class MemberController {
 
     @ApiOperation("프로필 수정")
     @PutMapping
-    public ResponseEntity<ResponseDto<UpdateMemberResponse>> update(@RequestBody UpdateMemberRequest request) {
+    public ResponseEntity<ResponseDto<UpdateMemberResponse>> update(
+        @RequestBody UpdateMemberRequest request) {
         Long memberId = SecurityUtils.getCurrentUsername();
 
         UpdateMemberBundle bundle = new UpdateMemberBundle(memberId, request);

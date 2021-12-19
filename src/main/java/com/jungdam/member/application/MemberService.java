@@ -4,8 +4,6 @@ import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.NotExistException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
-import com.jungdam.member.domain.vo.Avatar;
-import com.jungdam.member.domain.vo.Nickname;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
 import com.jungdam.member.dto.bundle.SearchMemberBundle;
 import com.jungdam.member.dto.bundle.UpdateMemberBundle;
@@ -46,13 +44,7 @@ public class MemberService {
     @Transactional
     public UpdateMemberResponse update(UpdateMemberBundle bundle) {
         Member member = findById(bundle.getMemberId());
-
-        //TODO 시큐리티 부분이랑 엮여 있어서 추후 수정 예정
-        Nickname nickname = bundle.getNickname();
-        Avatar avatar = bundle.getAvatar();
-
-        member.updateNickname(nickname.getNickname());
-        member.updateAvatar(avatar.getAvatar());
+        member.update(bundle.getNickname(), bundle.getAvatar());
 
         return memberConverter.toUpdateMemberResponse(member);
     }
