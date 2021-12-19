@@ -3,7 +3,7 @@ package com.jungdam.diary.dto.response;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ReadDiaryResponse {
+public class ReadDetailDiaryResponse {
 
     private final Long albumId;
     private final Long diaryId;
@@ -13,7 +13,7 @@ public class ReadDiaryResponse {
     private final List<String> diaryPhotos;
     private final LocalDate recordedAt;
 
-    public ReadDiaryResponse(Long albumId, Long diaryId, String title, String content,
+    public ReadDetailDiaryResponse(Long albumId, Long diaryId, String title, String content,
         boolean bookmark,
         List<String> diaryPhotos, LocalDate recordedAt) {
         this.albumId = albumId;
@@ -25,8 +25,8 @@ public class ReadDiaryResponse {
         this.recordedAt = recordedAt;
     }
 
-    public static ReadDiaryResponseBuilder builder() {
-        return new ReadDiaryResponseBuilder();
+    public static ReadDetailDiaryResponseBuilder builder() {
+        return new ReadDetailDiaryResponseBuilder();
     }
 
     public Long getAlbumId() {
@@ -57,7 +57,7 @@ public class ReadDiaryResponse {
         return recordedAt;
     }
 
-    public static class ReadDiaryResponseBuilder {
+    public static class ReadDetailDiaryResponseBuilder {
 
         private Long albumId;
         private Long diaryId;
@@ -67,47 +67,47 @@ public class ReadDiaryResponse {
         private List<String> diaryPhotos;
         private LocalDate recordedAt;
 
-        private ReadDiaryResponseBuilder() {
+        private ReadDetailDiaryResponseBuilder() {
 
         }
 
-        public ReadDiaryResponseBuilder albumId(final Long albumId) {
+        public ReadDetailDiaryResponseBuilder albumId(final Long albumId) {
             this.albumId = albumId;
             return this;
         }
 
-        public ReadDiaryResponseBuilder diaryId(final Long diaryId) {
+        public ReadDetailDiaryResponseBuilder diaryId(final Long diaryId) {
             this.diaryId = diaryId;
             return this;
         }
 
-        public ReadDiaryResponseBuilder title(final String title) {
+        public ReadDetailDiaryResponseBuilder title(final String title) {
             this.title = title;
             return this;
         }
 
-        public ReadDiaryResponseBuilder content(final String content) {
+        public ReadDetailDiaryResponseBuilder content(final String content) {
             this.content = content;
             return this;
         }
 
-        public ReadDiaryResponseBuilder bookmark(final boolean bookmark) {
+        public ReadDetailDiaryResponseBuilder bookmark(final boolean bookmark) {
             this.bookmark = bookmark;
             return this;
         }
 
-        public ReadDiaryResponseBuilder diaryPhotos(final List<String> diaryPhotos) {
+        public ReadDetailDiaryResponseBuilder diaryPhotos(final List<String> diaryPhotos) {
             this.diaryPhotos = diaryPhotos;
             return this;
         }
 
-        public ReadDiaryResponseBuilder recordedAt(final LocalDate recordedAt) {
+        public ReadDetailDiaryResponseBuilder recordedAt(final LocalDate recordedAt) {
             this.recordedAt = recordedAt;
             return this;
         }
 
-        public ReadDiaryResponse build() {
-            return new ReadDiaryResponse(this.albumId, this.albumId, this.title, this.content,
+        public ReadDetailDiaryResponse build() {
+            return new ReadDetailDiaryResponse(this.albumId, this.albumId, this.title, this.content,
                 this.bookmark, this.diaryPhotos, this.recordedAt);
         }
     }
