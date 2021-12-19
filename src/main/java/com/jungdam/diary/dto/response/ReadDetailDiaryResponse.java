@@ -1,5 +1,6 @@
 package com.jungdam.diary.dto.response;
 
+import com.jungdam.participant.dto.response.ParticipantInfosResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,10 +13,11 @@ public class ReadDetailDiaryResponse {
     private final boolean bookmark;
     private final List<String> diaryPhotos;
     private final LocalDate recordedAt;
+    private final ParticipantInfosResponse participant;
 
     public ReadDetailDiaryResponse(Long albumId, Long diaryId, String title, String content,
         boolean bookmark,
-        List<String> diaryPhotos, LocalDate recordedAt) {
+        List<String> diaryPhotos, LocalDate recordedAt, ParticipantInfosResponse participant) {
         this.albumId = albumId;
         this.diaryId = diaryId;
         this.title = title;
@@ -23,6 +25,7 @@ public class ReadDetailDiaryResponse {
         this.bookmark = bookmark;
         this.diaryPhotos = diaryPhotos;
         this.recordedAt = recordedAt;
+        this.participant = participant;
     }
 
     public static ReadDetailDiaryResponseBuilder builder() {
@@ -57,6 +60,10 @@ public class ReadDetailDiaryResponse {
         return recordedAt;
     }
 
+    public ParticipantInfosResponse getParticipant() {
+        return participant;
+    }
+
     public static class ReadDetailDiaryResponseBuilder {
 
         private Long albumId;
@@ -66,6 +73,7 @@ public class ReadDetailDiaryResponse {
         private boolean bookmark;
         private List<String> diaryPhotos;
         private LocalDate recordedAt;
+        private ParticipantInfosResponse info;
 
         private ReadDetailDiaryResponseBuilder() {
 
@@ -106,9 +114,14 @@ public class ReadDetailDiaryResponse {
             return this;
         }
 
+        public ReadDetailDiaryResponseBuilder info(final ParticipantInfosResponse info) {
+            this.info = info;
+            return this;
+        }
+
         public ReadDetailDiaryResponse build() {
             return new ReadDetailDiaryResponse(this.albumId, this.albumId, this.title, this.content,
-                this.bookmark, this.diaryPhotos, this.recordedAt);
+                this.bookmark, this.diaryPhotos, this.recordedAt, this.info);
         }
     }
 }

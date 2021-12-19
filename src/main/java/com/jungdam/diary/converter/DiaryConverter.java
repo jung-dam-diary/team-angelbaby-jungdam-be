@@ -13,8 +13,10 @@ import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.ReadFeedDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
+import com.jungdam.member.domain.vo.Email;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.dto.response.ParticipantInfoResponse;
+import com.jungdam.participant.dto.response.ParticipantInfosResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -30,7 +32,13 @@ public class DiaryConverter {
         return new CreateDiaryResponse(diary.getAlbumValue(), diary.getId());
     }
 
-    public ReadDetailDiaryResponse toReadDiaryResponse(Diary diary) {
+    public ReadDetailDiaryResponse toReadDiaryResponse(Email email, Diary diary) {
+        ParticipantInfosResponse participant = ParticipantInfosResponse.builder()
+            .email(email.getEmail())
+            .nickname(diary.getNicknameValue())
+            .avatar(diary.getAvatarValue())
+            .build();
+        
         return ReadDetailDiaryResponse.builder()
             .albumId(diary.getAlbumValue())
             .diaryId(diary.getId())
@@ -39,6 +47,7 @@ public class DiaryConverter {
             .bookmark(diary.getBookmarkValue())
             .diaryPhotos(diary.getDiaryPhotosValue())
             .recordedAt(diary.getRecordedAtValue())
+            .info(participant)
             .build();
     }
 
