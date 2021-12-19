@@ -31,12 +31,15 @@ public class CommentConverter {
     public ReadCommentAllResponse toReadAllCommentResponse(boolean hasNext, Long lastCommentId,
         List<Comment> comments) {
         List<ReadCommentResponse> all = comments.stream()
-            .map(c -> ReadCommentResponse.builder()
-                .commentId(c.getId())
-                .commentContent(c.getContentValue())
-                .nickname(c.getParticipantNicknameValue())
-                .avatar(c.getAvatar())
-                .build()).collect(Collectors.toList());
+            .map(c ->
+                ReadCommentResponse.builder()
+                    .commentId(c.getId())
+                    .commentContent(c.getContentValue())
+                    .email(c.getEmail())
+                    .nickname(c.getParticipantNicknameValue())
+                    .avatar(c.getAvatar())
+                    .build())
+            .collect(Collectors.toList());
 
         return ReadCommentAllResponse.builder()
             .hasNext(hasNext)

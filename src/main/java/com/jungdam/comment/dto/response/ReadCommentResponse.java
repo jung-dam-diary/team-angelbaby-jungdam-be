@@ -4,13 +4,15 @@ public class ReadCommentResponse {
 
     private final Long commentId;
     private final String commentContent;
+    private final String email;
     private final String nickname;
     private final String avatar;
 
-    public ReadCommentResponse(Long commentId, String commentContent, String nickname,
-        String avatar) {
+    public ReadCommentResponse(Long commentId, String commentContent, String email,
+        String nickname, String avatar) {
         this.commentId = commentId;
         this.commentContent = commentContent;
+        this.email = email;
         this.nickname = nickname;
         this.avatar = avatar;
     }
@@ -27,6 +29,10 @@ public class ReadCommentResponse {
         return commentContent;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getNickname() {
         return nickname;
     }
@@ -39,6 +45,7 @@ public class ReadCommentResponse {
 
         private Long commentId;
         private String commentContent;
+        private String email;
         private String nickname;
         private String avatar;
 
@@ -55,6 +62,11 @@ public class ReadCommentResponse {
             return this;
         }
 
+        public ReadCommentResponseBuilder email(final String email) {
+            this.email = email;
+            return this;
+        }
+
         public ReadCommentResponseBuilder nickname(final String nickname) {
             this.nickname = nickname;
             return this;
@@ -66,7 +78,8 @@ public class ReadCommentResponse {
         }
 
         public ReadCommentResponse build() {
-            return new ReadCommentResponse(this.commentId, this.commentContent, this.nickname,
+            return new ReadCommentResponse(this.commentId, this.commentContent, this.email,
+                this.nickname,
                 this.avatar);
         }
     }

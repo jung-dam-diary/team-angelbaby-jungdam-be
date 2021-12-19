@@ -84,6 +84,10 @@ public class Participant extends BaseEntity {
         return member.getAvatarValue();
     }
 
+    public String getMemberEmail() {
+        return member.getEmailValue();
+    }
+
     public Role getRole() {
         return role;
     }

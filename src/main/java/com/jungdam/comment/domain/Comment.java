@@ -70,6 +70,10 @@ public class Comment extends BaseEntity {
         return participant.getNicknameValue();
     }
 
+    public String getEmail() {
+        return participant.getMemberEmail();
+    }
+
     public Long getDiaryValue() {
         return diary.getId();
     }
