@@ -10,6 +10,8 @@ import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.properties.AuthProperties;
 import com.jungdam.common.utils.CookieUtil;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.auth.FailAuthenticationException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;
 import com.jungdam.member.domain.vo.ProviderType;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
@@ -33,7 +36,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
-// TODO : 리펙토링 진행
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -75,63 +77,31 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) {
 
-        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-            .map(Cookie::getValue);
+        String targetUrl = bringTargetUrl(request);
 
-        if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
-            throw new IllegalArgumentException(
-                "Sorry! We've got an Unauthorized Redirect URI and can't proceed with the authentication");
-        }
+        OAuth2MemberInfo oAuth2MemberInfo = bringOAuth2MemberInfo(authentication);
 
-        String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-
-        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
-        ProviderType providerType = ProviderType.valueOf(
-            authToken.getAuthorizedClientRegistrationId().toUpperCase()
-        );
-
-        OidcUser oidcUser = ((OidcUser) authentication.getPrincipal());
-        OAuth2MemberInfo oAuth2MemberInfo = OAuth2MemberInfoFactory.of(
-            providerType,
-            oidcUser.getAttributes());
-        Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
-
-        Role role = hasAuthority(authorities, Role.ADMIN.getRole()) ? Role.ADMIN : Role.USER;
+        Role role = bringRole(authentication);
 
         Date now = new Date();
 
-        Member member = memberRepository.findByOauthPermission(
-            oAuth2MemberInfo.getOauthPermission());
+        AuthToken accessToken = makeAccessToken(oAuth2MemberInfo, role, now);
 
-        AuthToken accessToken = tokenProvider.createAuthToken(
-            String.valueOf(member.getId()),
-            role.getRole(),
-            new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
-        );
+        AuthToken refreshToken = makeRefreshToken(now, getRefreshTokenExpiry());
 
-        long refreshTokenExpiry = authProperties.getOauth().getRefreshTokenExpiry();
+        MemberRefreshToken memberRefreshToken = findByOauthPermission(oAuth2MemberInfo);
+        updateOrCreateRefreshToken(oAuth2MemberInfo, refreshToken, memberRefreshToken);
 
-        AuthToken refreshToken = tokenProvider.createAuthToken(
-            authProperties.getOauth().getTokenSecret(),
-            new Date(now.getTime() + refreshTokenExpiry)
-        );
+        updateCookieInfo(request, response, (int) getRefreshTokenExpiry(), refreshToken);
 
-        MemberRefreshToken memberRefreshToken = memberRefreshTokenRepository.findByOauthPermission(
-            oAuth2MemberInfo.getOauthPermission());
-        if (!Objects.isNull(memberRefreshToken)) {
-            memberRefreshToken.updateRefreshToken(refreshToken.getToken());
-        } else {
-            memberRefreshToken = new MemberRefreshToken(
-                oAuth2MemberInfo.getOauthPermission(),
-                refreshToken.getToken()
-            );
-            memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
-        }
+        return makeURI(targetUrl, accessToken);
+    }
 
-        int cookieMaxAge = calculateRefreshTokenExpiry((int) refreshTokenExpiry);
+    private long getRefreshTokenExpiry() {
+        return authProperties.getOauth().getRefreshTokenExpiry();
+    }
 
-        updateCookie(request, response, refreshToken, cookieMaxAge);
-
+    private String makeURI(String targetUrl, AuthToken accessToken) {
         return UriComponentsBuilder.fromUriString(targetUrl)
             .queryParam(
                 QUERY_PARAM_FOR_TOKEN,
@@ -139,6 +109,86 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             )
             .build()
             .toUriString();
+    }
+
+    private void updateCookieInfo(HttpServletRequest request, HttpServletResponse response,
+        int refreshTokenExpiry, AuthToken refreshToken) {
+        int cookieMaxAge = calculateRefreshTokenExpiry(refreshTokenExpiry);
+        updateCookie(request, response, refreshToken, cookieMaxAge);
+    }
+
+    private MemberRefreshToken findByOauthPermission(OAuth2MemberInfo oAuth2MemberInfo) {
+        return memberRefreshTokenRepository.findByOauthPermission(
+            oAuth2MemberInfo.getOauthPermission());
+    }
+
+    private void updateOrCreateRefreshToken(OAuth2MemberInfo oAuth2MemberInfo,
+        AuthToken refreshToken,
+        MemberRefreshToken memberRefreshToken) {
+        if (!Objects.isNull(memberRefreshToken)) {
+            memberRefreshToken.updateRefreshToken(refreshToken.getToken());
+            return;
+        }
+        memberRefreshToken = new MemberRefreshToken(
+            oAuth2MemberInfo.getOauthPermission(),
+            refreshToken.getToken()
+        );
+        memberRefreshTokenRepository.saveAndFlush(memberRefreshToken);
+    }
+
+    private AuthToken makeRefreshToken(Date now, long refreshTokenExpiry) {
+        return tokenProvider.createAuthToken(
+            authProperties.getOauth().getTokenSecret(),
+            new Date(now.getTime() + refreshTokenExpiry)
+        );
+    }
+
+    private AuthToken makeAccessToken(OAuth2MemberInfo oAuth2MemberInfo, Role role, Date now) {
+        Member member = memberRepository.findByOauthPermission(
+            oAuth2MemberInfo.getOauthPermission());
+
+        return tokenProvider.createAuthToken(
+            String.valueOf(member.getId()),
+            role.getRole(),
+            new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
+        );
+    }
+
+    private Role bringRole(Authentication authentication) {
+        Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
+
+        if (hasAuthority(authorities, Role.ADMIN.getRole())) {
+            return Role.ADMIN;
+        }
+        return Role.USER;
+    }
+
+    private OAuth2MemberInfo bringOAuth2MemberInfo(Authentication authentication) {
+        OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
+        ProviderType providerType = bringProviderType(authToken);
+
+        OidcUser oidcUser = ((OidcUser) authentication.getPrincipal());
+
+        return OAuth2MemberInfoFactory.of(
+            providerType,
+            oidcUser.getAttributes()
+        );
+    }
+
+    private String bringTargetUrl(HttpServletRequest request) {
+        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+            .map(Cookie::getValue);
+
+        if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+            throw new FailAuthenticationException(ErrorMessage.UNAUTHORIZED_REDIRECT_URI);
+        }
+
+        return redirectUri.orElse(getDefaultTargetUrl());
+    }
+
+    private ProviderType bringProviderType(OAuth2AuthenticationToken authToken) {
+        String provider = authToken.getAuthorizedClientRegistrationId().toUpperCase();
+        return ProviderType.of(provider);
     }
 
     private int calculateRefreshTokenExpiry(int refreshTokenExpiry) {
@@ -163,26 +213,33 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             return false;
         }
 
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (authority.equals(grantedAuthority.getAuthority())) {
-                return true;
-            }
-        }
-        return false;
+        return authorities.stream()
+            .anyMatch(g -> Objects.equals(authority, g.getAuthority()));
     }
 
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
 
-        return authProperties.getOauth2().getAuthorizedRedirectUris()
+        return authorizedRedirectUris()
             .stream()
             .anyMatch(authorizedRedirectUri -> {
-                URI authorizedURI = URI.create(authorizedRedirectUri);
-                if (authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost())
-                    && authorizedURI.getPort() == clientRedirectUri.getPort()) {
-                    return true;
-                }
-                return false;
+                URI authorizedUri = URI.create(authorizedRedirectUri);
+
+                return isEqualsUrl(clientRedirectUri, authorizedUri)
+                    && isEqualsPort(clientRedirectUri, authorizedUri);
             });
+    }
+
+    private List<String> authorizedRedirectUris() {
+        return authProperties.getOauth2()
+            .getAuthorizedRedirectUris();
+    }
+
+    private boolean isEqualsUrl(URI clientRedirectUri, URI authorizedURI) {
+        return authorizedURI.getHost().equalsIgnoreCase(clientRedirectUri.getHost());
+    }
+
+    private boolean isEqualsPort(URI clientRedirectUri, URI authorizedURI) {
+        return authorizedURI.getPort() == clientRedirectUri.getPort();
     }
 }

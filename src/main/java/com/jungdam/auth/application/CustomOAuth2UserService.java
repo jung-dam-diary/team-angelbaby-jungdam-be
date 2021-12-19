@@ -5,21 +5,21 @@ import com.jungdam.auth.domain.AuthPrincipal;
 import com.jungdam.auth.oauth2.OAuth2MemberInfo;
 import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.OAuthProviderMissMatchException;
+import com.jungdam.error.exception.auth.FailAuthenticationException;
+import com.jungdam.error.exception.auth.InternalAuthenticationException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.infrastructure.MemberRepository;
 import java.util.Objects;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-// TODO : 리펙토링 진행
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -41,18 +41,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         try {
             return this.process(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException exception) {
-            throw exception;
+            throw new FailAuthenticationException(ErrorMessage.FAIL_TO_LOGIN_OAUTH2);
         } catch (Exception exception) {
-            exception.printStackTrace();
-            throw new InternalAuthenticationServiceException(exception.getMessage(),
-                exception.getCause());
+            throw new InternalAuthenticationException(ErrorMessage.FAIL_TO_LOGIN_OAUTH2);
         }
     }
 
     private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        ProviderType providerType = ProviderType.valueOf(
-            oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase()
-        );
+        ProviderType providerType = bringProviderType(oAuth2UserRequest.getClientRegistration());
 
         OAuth2MemberInfo oAuth2MemberInfo = OAuth2MemberInfoFactory.of(
             providerType,
@@ -63,35 +59,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             oAuth2MemberInfo.getOauthPermission()
         );
 
-        if (!Objects.isNull(member)) {
-            if (providerType != member.getProviderType()) {
-                throw new OAuthProviderMissMatchException(ErrorMessage.NOT_EXIST_PROVIDER_TYPE);
-            }
-            //TODO OAuth 닉네임, 아바타 업데이트
-//            update(member, oAuth2MemberInfo);
-        } else {
-            member = createUser(oAuth2MemberInfo, providerType);
+        if (Objects.isNull(member)) {
+            member = create(oAuth2MemberInfo, providerType);
         }
-
         return AuthPrincipal.create(member, oAuth2User.getAttributes());
     }
 
-    private Member createUser(OAuth2MemberInfo userInfo, ProviderType providerType) {
-        Member member = memberConverter.toMember(userInfo, providerType);
-        return memberRepository.saveAndFlush(member);
+    private ProviderType bringProviderType(ClientRegistration clientRegistration) {
+        String provider = clientRegistration.getRegistrationId()
+            .toUpperCase();
+        return ProviderType.of(provider);
     }
 
-    private Member update(Member member, OAuth2MemberInfo oAuth2MemberInfo) {
-        if (!Objects.isNull(oAuth2MemberInfo.getNickname()) &&
-            !member.getNickname().isEquals(oAuth2MemberInfo.getNickname())) {
-            member.updateNickname(oAuth2MemberInfo.getNickname());
-        }
-
-        if (!Objects.isNull(oAuth2MemberInfo.getAvatar()) &&
-            !member.getAvatar().isEquals(oAuth2MemberInfo.getAvatar())) {
-            member.updateAvatar(oAuth2MemberInfo.getAvatar());
-        }
-
-        return member;
+    private Member create(OAuth2MemberInfo userInfo, ProviderType providerType) {
+        Member member = memberConverter.toMember(userInfo, providerType);
+        return memberRepository.save(member);
     }
 }

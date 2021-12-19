@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-// TODO : 리펙토링 진행
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
@@ -40,6 +39,7 @@ public class AuthController {
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
     private final static String TOKEN_TITLE = "token";
+    private final static String CLAIMS_ROLE = "role";
     private final AuthProperties authProperties;
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
@@ -68,21 +68,13 @@ public class AuthController {
     @GetMapping("/refresh")
     public ResponseEntity<ResponseDto<Map<String, String>>> refreshToken(HttpServletRequest request,
         HttpServletResponse response) {
-        String accessToken = HeaderUtil.getAccessToken(request);
-        AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
-        if (!authToken.validate()) {
-            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
-        }
-
-        Claims claims = makeClaims(authToken);
+        Claims claims = getClaimsInAuthToken(request);
 
         Long memberId = Long.parseLong(claims.getSubject());
 
-        Role roleType = Role.of(claims.get("role", String.class));
+        Role roleType = Role.of(claims.get(CLAIMS_ROLE, String.class));
 
-        String refreshToken = CookieUtil.getCookie(request, REFRESH_TOKEN)
-            .map(Cookie::getValue)
-            .orElse((null));
+        String refreshToken = toStringCookie(request);
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (authRefreshToken.validate()) {
@@ -100,15 +92,29 @@ public class AuthController {
 
         Date now = new Date();
 
-        long validTime =
-            authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
+        updateCookieWhenValidTimeThanThreeDays(request, response, member, now,
+            validTime(authRefreshToken, now));
 
+        return ResponseDto.of(
+            ResponseMessage.TOKEN_REFRESH_SUCCESS,
+            makeToken(memberId, roleType, now)
+        );
+    }
+
+    private long validTime(AuthToken authRefreshToken, Date now) {
+        return authRefreshToken.getTokenClaims().getExpiration().getTime() - now.getTime();
+    }
+
+    private void updateCookieWhenValidTimeThanThreeDays(HttpServletRequest request,
+        HttpServletResponse response, Member member,
+        Date now, long validTime) {
+        AuthToken authRefreshToken;
         if (validTime <= THREE_DAYS_MSEC) {
             long refreshTokenExpiry = authProperties.getOauth().getRefreshTokenExpiry();
 
             authRefreshToken = tokenProvider.createAuthToken(
                 authProperties.getOauth().getTokenSecret(),
-                new Date(now.getTime() + refreshTokenExpiry)
+                newTokenDate(now.getTime(), refreshTokenExpiry)
             );
 
             memberRefreshTokenService.updateRefreshToken(authRefreshToken.getToken(),
@@ -119,9 +125,26 @@ public class AuthController {
 
             updateCookie(request, response, authRefreshToken, cookieMaxAge);
         }
+    }
 
-        return ResponseDto.of(ResponseMessage.TOKEN_REFRESH_SUCCESS,
-            makeToken(memberId, roleType, now));
+    private String toStringCookie(HttpServletRequest request) {
+        return CookieUtil.getCookie(request, REFRESH_TOKEN)
+            .map(Cookie::getValue)
+            .orElse((null));
+    }
+
+    private Claims getClaimsInAuthToken(HttpServletRequest request) {
+        AuthToken authToken = getAuthTokenInHeader(request);
+        if (!authToken.validate()) {
+            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
+        }
+
+        return makeClaims(authToken);
+    }
+
+    private AuthToken getAuthTokenInHeader(HttpServletRequest request) {
+        String accessToken = HeaderUtil.getAccessToken(request);
+        return tokenProvider.convertAuthToken(accessToken);
     }
 
     private Claims makeClaims(AuthToken authToken) {
@@ -133,15 +156,15 @@ public class AuthController {
     }
 
     private Map<String, String> makeToken(Long memberId, Role roleType, Date now) {
-        AuthToken newAccessToken = tokenProvider.createAuthToken(
+        final String tokenValue = tokenProvider.createAuthToken(
             String.valueOf(memberId),
             roleType.getRole(),
-            new Date(now.getTime() + authProperties.getOauth().getTokenExpiry())
-        );
+            newTokenDate(now.getTime(), authProperties.getOauth().getTokenExpiry())
+        ).getToken();
 
-        Map<String, String> token = new HashMap<>();
-        token.put(TOKEN_TITLE, newAccessToken.getToken());
-        return token;
+        return new HashMap<>() {{
+            put(TOKEN_TITLE, tokenValue);
+        }};
     }
 
     private void updateCookie(HttpServletRequest request, HttpServletResponse response,
@@ -149,5 +172,9 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(),
             cookieMaxAge);
+    }
+
+    private Date newTokenDate(long standard, long add) {
+        return new Date(standard + add);
     }
 }

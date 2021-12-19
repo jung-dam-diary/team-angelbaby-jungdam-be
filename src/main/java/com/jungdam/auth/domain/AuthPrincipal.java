@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-// TODO : 리펙토링 진행
 public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
 
     private final Long id;

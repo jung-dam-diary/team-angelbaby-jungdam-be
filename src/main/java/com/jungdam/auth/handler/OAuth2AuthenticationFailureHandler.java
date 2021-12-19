@@ -32,13 +32,14 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
         AuthenticationException exception) throws IOException {
         String targetUrl = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
             .map(Cookie::getValue)
-            .orElse((FAIL_TO_REDIRECT_URL));
+            .orElse(FAIL_TO_REDIRECT_URL);
 
         exception.printStackTrace();
 
         targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
             .queryParam(QUERY_PARAM_FOR_ERROR, exception.getLocalizedMessage())
-            .build().toUriString();
+            .build()
+            .toUriString();
 
         authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
 
