@@ -132,7 +132,7 @@ public class DiaryFacade {
     }
 
     @Transactional
-    public ReadAllFeedDiaryResponse findAll(ReadAllDiaryBundle bundle) {
+    public ReadAllFeedDiaryResponse findAllFeed(ReadAllDiaryBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 

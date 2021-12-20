@@ -29,21 +29,26 @@ public class CommentConverter {
 
     public ReadCommentAllResponse toReadAllCommentResponse(boolean hasNext, Long lastCommentId,
         List<Comment> comments) {
-        List<ReadCommentResponse> all = comments.stream()
-            .map(c ->
-                ReadCommentResponse.builder()
-                    .commentId(c.getId())
-                    .commentContent(c.getContentValue())
-                    .email(c.getEmail())
-                    .nickname(c.getParticipantNicknameValue())
-                    .avatar(c.getAvatar())
-                    .build())
-            .collect(Collectors.toList());
-
         return ReadCommentAllResponse.builder()
             .hasNext(hasNext)
             .lastCommentId(lastCommentId)
-            .comments(all)
+            .comments(toReadCommentResponses(comments))
+            .build();
+    }
+
+    private List<ReadCommentResponse> toReadCommentResponses(List<Comment> comments) {
+        return comments.stream()
+            .map(this::toReadCommentResponse)
+            .collect(Collectors.toList());
+    }
+
+    private ReadCommentResponse toReadCommentResponse(Comment comment) {
+        return ReadCommentResponse.builder()
+            .commentId(comment.getId())
+            .commentContent(comment.getContentValue())
+            .email(comment.getEmail())
+            .nickname(comment.getParticipantNicknameValue())
+            .avatar(comment.getAvatar())
             .build();
     }
 

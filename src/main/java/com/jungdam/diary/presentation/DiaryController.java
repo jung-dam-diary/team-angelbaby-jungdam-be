@@ -29,7 +29,6 @@ import io.swagger.annotations.ApiOperation;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -160,16 +159,12 @@ public class DiaryController {
         return ResponseDto.of(ResponseMessage.DIARY_UPDATE_SUCCESS, response);
     }
 
-    @ApiOperation("일기 스크롤 조회")
+    @ApiOperation("일기 피드 조회")
     @GetMapping
     public ResponseEntity<ResponseDto<ReadAllFeedDiaryResponse>> getAll(@PathVariable Long albumId,
         @RequestParam(value = "cursorId", required = false) String cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         Long memberId = SecurityUtils.getCurrentUsername();
-
-        if (Objects.isNull(pageSize)) {
-            pageSize = DEFAULT_PAGE_SIZE;
-        }
 
         ReadAllDiaryBundle bundle = ReadAllDiaryBundle.builder()
             .memberId(memberId)
@@ -178,7 +173,7 @@ public class DiaryController {
             .pageSize(pageSize)
             .build();
 
-        ReadAllFeedDiaryResponse response = diaryFacade.findAll(bundle);
+        ReadAllFeedDiaryResponse response = diaryFacade.findAllFeed(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
     }
@@ -203,10 +198,6 @@ public class DiaryController {
         @RequestParam(value = "cursorId", required = false) Long cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         Long memberId = SecurityUtils.getCurrentUsername();
-
-        if (Objects.isNull(pageSize)) {
-            pageSize = DEFAULT_PAGE_SIZE;
-        }
 
         ReadAllStoryBookBundle bundle = ReadAllStoryBookBundle.builder()
             .memberId(memberId)

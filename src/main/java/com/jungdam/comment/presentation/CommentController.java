@@ -16,7 +16,6 @@ import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,10 +84,6 @@ public class CommentController {
         @RequestParam(value = "cursorId", required = false) Long cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         Long memberId = SecurityUtils.getCurrentUsername();
-
-        if (Objects.isNull(pageSize)) {
-            pageSize = DEFAULT_PAGE_SIZE;
-        }
 
         ReadCommentBundle bundle = ReadCommentBundle.builder()
             .memberId(memberId)
