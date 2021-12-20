@@ -16,6 +16,8 @@ import com.jungdam.diary.dto.response.ReadFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
+import com.jungdam.diary_photo.domain.DiaryPhoto;
+import com.jungdam.diary_photo.dto.response.DiaryPhotosInfoResponse;
 import com.jungdam.member.domain.vo.Email;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.dto.response.ParticipantInfoResponse;
@@ -115,10 +117,21 @@ public class DiaryConverter {
         return DiaryInfoResponse.builder()
             .diaryId(diary.getId())
             .title(diary.getTitleValue())
-            .bookmark(diary.getBookmarkValue())
-            .diaryPhotos(diary.getDiaryPhotosValue())
+            .diaryPhotos(toDiaryPhotosInfoResponses(diary))
             .recordedAt(diary.getRecordedAtValue())
             .build();
+    }
+
+    private List<DiaryPhotosInfoResponse> toDiaryPhotosInfoResponses(Diary diary) {
+        return diary.getDiaryPhoto()
+            .stream()
+            .map(this::toDiaryPhotosInfoResponse)
+            .collect(Collectors.toList());
+    }
+
+    private DiaryPhotosInfoResponse toDiaryPhotosInfoResponse(DiaryPhoto diaryPhoto) {
+        return new DiaryPhotosInfoResponse(
+            diaryPhoto.getId(), diaryPhoto.getImageValue());
     }
 
     private ParticipantInfoResponse toParticipant(Diary diary) {

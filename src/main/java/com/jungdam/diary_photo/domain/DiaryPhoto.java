@@ -46,4 +46,8 @@ public class DiaryPhoto extends BaseEntity {
     public String getImageValue() {
         return image.getImage();
     }
+
+    public Long getId() {
+        return id;
+    }
 }

@@ -110,6 +110,10 @@ public class Diary extends BaseEntity {
         return diaryPhotos.getDiaryPhotosUrl();
     }
 
+    public List<DiaryPhoto> getDiaryPhoto() {
+        return diaryPhotos.getDiaryPhotos();
+    }
+
     public LocalDate getRecordedAtValue() {
         return recordedAt.getRecordedAt();
     }

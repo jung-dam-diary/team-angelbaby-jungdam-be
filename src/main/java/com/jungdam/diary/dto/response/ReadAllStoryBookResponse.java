@@ -10,7 +10,6 @@ public class ReadAllStoryBookResponse {
     private final String participantAvatar;
     private final List<ReadStoryBookResponse> diaries;
 
-
     public ReadAllStoryBookResponse(boolean hasNext, Long participantId, String participantNickname,
         String participantAvatar, List<ReadStoryBookResponse> diaries) {
         this.hasNext = hasNext;
@@ -65,7 +64,8 @@ public class ReadAllStoryBookResponse {
             return this;
         }
 
-        public ReadAllStoryBookResponseBuilder participantNickname(final String participantNickname) {
+        public ReadAllStoryBookResponseBuilder participantNickname(
+            final String participantNickname) {
             this.participantNickname = participantNickname;
             return this;
         }
@@ -81,7 +81,8 @@ public class ReadAllStoryBookResponse {
         }
 
         public ReadAllStoryBookResponse build() {
-            return new ReadAllStoryBookResponse(this.hasNext, this.participantId, this.participantNickname,
+            return new ReadAllStoryBookResponse(this.hasNext, this.participantId,
+                this.participantNickname,
                 this.participantAvatar, this.diaries);
         }
     }

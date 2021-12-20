@@ -1,5 +1,6 @@
 package com.jungdam.diary.dto.response;
 
+import com.jungdam.diary_photo.dto.response.DiaryPhotosInfoResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,15 +9,13 @@ public class DiaryInfoResponse {
     private final LocalDate recordedAt;
     private final Long diaryId;
     private final String title;
-    private final boolean bookmark;
-    private final List<String> diaryPhotos;
+    private final List<DiaryPhotosInfoResponse> diaryPhotos;
 
-    public DiaryInfoResponse(LocalDate recordedAt, Long diaryId, String title, boolean bookmark,
-        List<String> diaryPhotos) {
+    public DiaryInfoResponse(LocalDate recordedAt, Long diaryId, String title,
+        List<DiaryPhotosInfoResponse> diaryPhotos) {
         this.recordedAt = recordedAt;
         this.diaryId = diaryId;
         this.title = title;
-        this.bookmark = bookmark;
         this.diaryPhotos = diaryPhotos;
     }
 
@@ -36,11 +35,7 @@ public class DiaryInfoResponse {
         return title;
     }
 
-    public boolean isBookmark() {
-        return bookmark;
-    }
-
-    public List<String> getDiaryPhotos() {
+    public List<DiaryPhotosInfoResponse> getDiaryPhotos() {
         return diaryPhotos;
     }
 
@@ -49,8 +44,7 @@ public class DiaryInfoResponse {
         private LocalDate recordedAt;
         private Long diaryId;
         private String title;
-        private boolean bookmark;
-        private List<String> diaryPhotos;
+        private List<DiaryPhotosInfoResponse> diaryPhotos;
 
         private DiaryInfoResponseBuilder() {
         }
@@ -65,12 +59,8 @@ public class DiaryInfoResponse {
             return this;
         }
 
-        public DiaryInfoResponseBuilder bookmark(final boolean bookmark) {
-            this.bookmark = bookmark;
-            return this;
-        }
-
-        public DiaryInfoResponseBuilder diaryPhotos(final List<String> diaryPhotos) {
+        public DiaryInfoResponseBuilder diaryPhotos(
+            final List<DiaryPhotosInfoResponse> diaryPhotos) {
             this.diaryPhotos = diaryPhotos;
             return this;
         }
@@ -81,7 +71,7 @@ public class DiaryInfoResponse {
         }
 
         public DiaryInfoResponse build() {
-            return new DiaryInfoResponse(this.recordedAt, this.diaryId, this.title, this.bookmark,
+            return new DiaryInfoResponse(this.recordedAt, this.diaryId, this.title,
                 this.diaryPhotos);
         }
     }

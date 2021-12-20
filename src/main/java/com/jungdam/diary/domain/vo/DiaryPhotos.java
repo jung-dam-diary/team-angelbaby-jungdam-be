@@ -37,4 +37,8 @@ public class DiaryPhotos {
             .map(DiaryPhoto::getImageValue)
             .orElse(null);
     }
+
+    public List<DiaryPhoto> getDiaryPhotos() {
+        return diaryPhotos;
+    }
 }
