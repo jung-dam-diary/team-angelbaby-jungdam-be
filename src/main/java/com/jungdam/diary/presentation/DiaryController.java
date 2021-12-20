@@ -202,12 +202,14 @@ public class DiaryController {
         @RequestParam(value = "participantId") Long participantId,
         @RequestParam(value = "cursorId", required = false) Long cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        Long memberId = SecurityUtils.getCurrentUsername();
 
         if (Objects.isNull(pageSize)) {
             pageSize = DEFAULT_PAGE_SIZE;
         }
 
         ReadAllStoryBookBundle bundle = ReadAllStoryBookBundle.builder()
+            .memberId(memberId)
             .albumId(albumId)
             .participantId(participantId)
             .cursorId(cursorId)

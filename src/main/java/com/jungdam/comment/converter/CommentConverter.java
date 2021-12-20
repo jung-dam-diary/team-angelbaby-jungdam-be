@@ -1,7 +1,6 @@
 package com.jungdam.comment.converter;
 
 import com.jungdam.comment.domain.Comment;
-import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.comment.dto.response.CreateCommentResponse;
 import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
@@ -48,7 +47,7 @@ public class CommentConverter {
             .build();
     }
 
-    public UpdateCommentResponse toUpdateCommentResponse(Long id, Content content) {
-        return new UpdateCommentResponse(id, content.getContent());
+    public UpdateCommentResponse toUpdateCommentResponse(Comment comment) {
+        return new UpdateCommentResponse(comment.getDiaryValue(), comment.getContentValue());
     }
 }

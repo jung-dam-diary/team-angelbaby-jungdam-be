@@ -2,6 +2,7 @@ package com.jungdam.diary.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
+import com.jungdam.common.utils.PageUtil;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
@@ -137,16 +138,20 @@ public class DiaryFacade {
 
         album.belong(member);
 
-        return diaryService.findAllFeed(album, bundle.getCursorId(), bundle.getPageSize());
+        Pageable page = PageUtil.of(bundle.getPageSize());
+
+        return diaryService.findAllFeed(album, bundle.getCursorId(), page);
     }
 
     //TODO 조회하는 회원이 앨범 참여자인지 검증하는 로직 추가 필요
     @Transactional(readOnly = true)
     public ReadAllStoryBookResponse findAllStoryBook(ReadAllStoryBookBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
-        Participant participant = participantService.findById(bundle.getParticipantId());
+        Member member = memberService.findById(bundle.getMemberId());
 
-        Pageable page = PageRequest.of(0, bundle.getPageSize());
+        Participant participant = album.belong(member);
+        Pageable page = PageUtil.of(bundle.getPageSize());
+
         return diaryService.findAllStoryBook(album, participant, bundle.getCursorId(), page);
     }
 
