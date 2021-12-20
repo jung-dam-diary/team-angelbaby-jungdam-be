@@ -39,7 +39,7 @@ public class SwaggerConfig {
     private static final String AUTHORIZATION_DESCRIPTION = "accessEverything";
     private static final int SCOPE_INIT = 0;
     private static final int SCOPE_SIZE = 1;
-
+    
     private static final Contact DEFAULT_CONTACT = new Contact(
         PROJECT_NAME,
         GITHUB_URL,
@@ -61,7 +61,6 @@ public class SwaggerConfig {
         Arrays.asList(CONTEXT_TYPE_JSON, CONTEXT_TYPE_XML)
     );
 
-
     private ApiKey apiKey() {
         return new ApiKey(API_NAME_JWT, API_KEYNAME, API_PASS_AS);
     }
@@ -76,7 +75,11 @@ public class SwaggerConfig {
             AUTHORIZATION_DESCRIPTION);
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[SCOPE_SIZE];
         authorizationScopes[SCOPE_INIT] = authorizationScope;
-        return List.of(new SecurityReference(API_NAME_JWT, authorizationScopes));
+        return List.of(reference(authorizationScopes));
+    }
+
+    private SecurityReference reference(AuthorizationScope[] authorizationScopes) {
+        return new SecurityReference(API_NAME_JWT, authorizationScopes);
     }
 
     @Bean
