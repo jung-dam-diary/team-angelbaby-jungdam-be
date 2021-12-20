@@ -32,6 +32,13 @@ public class SwaggerConfig {
     private static final String APACHE_LICENSE_URL = "http://www.apache.org/licenses/LICENSE-2.0";
     private static final String CONTEXT_TYPE_JSON = "application/json";
     private static final String CONTEXT_TYPE_XML = "application/xml";
+    private static final String API_NAME_JWT = "JWT";
+    private static final String API_KEYNAME = "Authorization";
+    private static final String API_PASS_AS = "header";
+    private static final String AUTHORIZATION_SCOPE = "global";
+    private static final String AUTHORIZATION_DESCRIPTION = "accessEverything";
+    private static final int SCOPE_INIT = 0;
+    private static final int SCOPE_SIZE = 1;
 
     private static final Contact DEFAULT_CONTACT = new Contact(
         PROJECT_NAME,
@@ -54,20 +61,22 @@ public class SwaggerConfig {
         Arrays.asList(CONTEXT_TYPE_JSON, CONTEXT_TYPE_XML)
     );
 
+
     private ApiKey apiKey() {
-        return new ApiKey("JWT", "Authorization", "header");
+        return new ApiKey(API_NAME_JWT, API_KEYNAME, API_PASS_AS);
     }
 
     private SecurityContext securityContext() {
-        return SecurityContext.builder().securityReferences(defaultAuth()).build();
+        return SecurityContext.builder()
+            .securityReferences(defaultAuth()).build();
     }
 
     private List<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global",
-            "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return List.of(new SecurityReference("JWT", authorizationScopes));
+        AuthorizationScope authorizationScope = new AuthorizationScope(AUTHORIZATION_SCOPE,
+            AUTHORIZATION_DESCRIPTION);
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[SCOPE_SIZE];
+        authorizationScopes[SCOPE_INIT] = authorizationScope;
+        return List.of(new SecurityReference(API_NAME_JWT, authorizationScopes));
     }
 
     @Bean
