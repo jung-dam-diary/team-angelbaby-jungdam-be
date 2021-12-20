@@ -71,7 +71,7 @@ public class AlbumFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member);
+        album.belong(member);
 
         return albumConverter.toReadOneAlbumResponse(album);
     }
@@ -109,7 +109,8 @@ public class AlbumFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        participantService.checkNotExists(album, member); // TODO: 공통 로직
+        album.belong(member);
+
         Bookmark bookmark = new Bookmark(true);
 
         Pageable page = PageRequest.of(0, bundle.getPageSize());
