@@ -13,6 +13,7 @@ import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.ReadFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.domain.vo.Email;
@@ -124,6 +125,20 @@ public class DiaryConverter {
             .title(diary.getTitleValue())
             .recordedAt(diary.getRecordedAtValue())
             .photo(diary.getDiaryPhotoValue())
+            .build();
+    }
+
+    public ReadGroupStoryBookResponse toReadParticipantStoryBookResponse(Participant participant,
+        List<Diary> diaries) {
+        List<ReadStoryBookResponse> all = diaries.stream()
+            .map(this::toReadStoryBookResponse)
+            .collect(Collectors.toList());
+
+        return ReadGroupStoryBookResponse.builder()
+            .participantId(participant.getId())
+            .participantNickname(participant.getNicknameValue())
+            .participantAvatar(participant.getMemberAvatar())
+            .diaries(all)
             .build();
     }
 }
