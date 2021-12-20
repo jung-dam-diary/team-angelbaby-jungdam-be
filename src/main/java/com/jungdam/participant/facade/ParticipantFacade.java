@@ -2,8 +2,6 @@ package com.jungdam.participant.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
-import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
@@ -16,6 +14,7 @@ import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
 import com.jungdam.participant.dto.response.UpdateNicknameParticipantResponse;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,11 +41,9 @@ public class ParticipantFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        if (participantService.notExistsByAlbumAndMember(album, member)) {
-            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
-        }
+        album.belong(member);
 
-        List<Participant> participants = participantService.findAllByAlbum(album);
+        List<Participant> participants = album.getParticipants();
 
         return participantConverter.toReadAllParticipantResponse(participants);
     }
@@ -56,7 +53,8 @@ public class ParticipantFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        boolean check = participantService.existsByAlbumAndMember(album, member);
+        final Participant belong = album.belong(member);
+        boolean check = !Objects.isNull(belong);
 
         return participantConverter.toCheckParticipantResponse(album, check);
     }
