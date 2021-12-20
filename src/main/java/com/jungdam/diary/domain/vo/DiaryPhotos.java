@@ -30,4 +30,11 @@ public class DiaryPhotos {
     public void removeAll() {
         diaryPhotos.clear();
     }
+
+    public String getDiaryPhotoUrl() {
+        return diaryPhotos.stream()
+            .findFirst()
+            .map(DiaryPhoto::getImageValue)
+            .orElse(null);
+    }
 }

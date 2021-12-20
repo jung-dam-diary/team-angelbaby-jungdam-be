@@ -107,6 +107,10 @@ public class Diary extends BaseEntity {
         return bookmark.getBookmark();
     }
 
+    public String getDiaryPhotoValue() {
+        return diaryPhotos.getDiaryPhotoUrl();
+    }
+
     public List<String> getDiaryPhotosValue() {
         return diaryPhotos.getDiaryPhotosUrl();
     }
