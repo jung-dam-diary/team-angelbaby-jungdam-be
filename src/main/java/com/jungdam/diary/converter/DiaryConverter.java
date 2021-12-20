@@ -10,8 +10,10 @@ import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.DiaryInfoResponse;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.ReadFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.domain.vo.Email;
 import com.jungdam.participant.domain.Participant;
@@ -38,7 +40,7 @@ public class DiaryConverter {
             .nickname(diary.getNicknameValue())
             .avatar(diary.getAvatarValue())
             .build();
-        
+
         return ReadDetailDiaryResponse.builder()
             .albumId(diary.getAlbumValue())
             .diaryId(diary.getId())
@@ -98,6 +100,30 @@ public class DiaryConverter {
             .hasNext(hasNext)
             .lastCommentId(nextRecordedAt)
             .diaries(all)
+            .build();
+    }
+
+    public ReadAllStoryBookResponse toReadAllStoryBookResponse(Boolean hasNext, Participant participant,
+        List<Diary> diaries) {
+        List<ReadStoryBookResponse> all = diaries.stream()
+            .map(this::toReadStoryBookResponse)
+            .collect(Collectors.toList());
+
+        return ReadAllStoryBookResponse.builder()
+            .hasNext(hasNext)
+            .participantId(participant.getId())
+            .participantNickname(participant.getNicknameValue())
+            .participantAvatar(participant.getMemberAvatar())
+            .diaries(all)
+            .build();
+    }
+
+    public ReadStoryBookResponse toReadStoryBookResponse(Diary diary) {
+        return ReadStoryBookResponse.builder()
+            .id(diary.getId())
+            .title(diary.getTitleValue())
+            .recordedAt(diary.getRecordedAtValue())
+            .photo(diary.getDiaryPhotoValue())
             .build();
     }
 }
