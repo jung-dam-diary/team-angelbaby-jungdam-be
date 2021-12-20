@@ -30,6 +30,10 @@ public class ReadAllMomentResponse {
             .collect(Collectors.toList());
     }
 
+    public Boolean getHasNext() {
+        return hasNext;
+    }
+
     public List<Moment> getMoments() {
         return moments;
     }

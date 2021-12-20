@@ -8,6 +8,7 @@ import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadAllStoryBookBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.request.CreateDiaryRequest;
@@ -17,6 +18,7 @@ import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.diary.facade.DiaryFacade;
@@ -176,5 +178,29 @@ public class DiaryController {
         ReadAllFeedDiaryResponse response = diaryFacade.findAll(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
+    }
+
+    @ApiOperation("스토리북 더보기 조회")
+    @GetMapping("story-book")
+    public ResponseEntity<ResponseDto<ReadAllStoryBookResponse>> getAllStoryBook(
+        @PathVariable Long albumId,
+        @RequestParam(value = "participantId") Long participantId,
+        @RequestParam(value = "cursorId", required = false) Long cursorId,
+        @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+
+        if (Objects.isNull(pageSize)) {
+            pageSize = DEFAULT_PAGE_SIZE;
+        }
+
+        ReadAllStoryBookBundle bundle = ReadAllStoryBookBundle.builder()
+            .albumId(albumId)
+            .participantId(participantId)
+            .cursorId(cursorId)
+            .pageSize(pageSize)
+            .build();
+
+        ReadAllStoryBookResponse response = diaryFacade.findAllStoryBook(bundle);
+
+        return ResponseDto.of(ResponseMessage.STORY_BOOK_READ_ALL_SUCCESS, response);
     }
 }

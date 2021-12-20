@@ -78,4 +78,9 @@ public class ParticipantService {
         return participantRepository.findByMemberAndAlbum(member, album)
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
     }
+
+    public Participant findById(Long participantId) {
+        return participantRepository.findById(participantId)
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+    }
 }

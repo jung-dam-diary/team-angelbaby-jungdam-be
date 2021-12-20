@@ -10,6 +10,7 @@ import com.jungdam.diary.dto.bundle.CheckRecordedAtDiaryBundle;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadAllStoryBookBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
@@ -17,11 +18,15 @@ import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
 import com.jungdam.diary.dto.response.CreateDiaryResponse;
 import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
+import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.domain.Participant;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,14 +35,17 @@ public class DiaryFacade {
 
     private final MemberService memberService;
     private final AlbumService albumService;
+    private final ParticipantService participantService;
     private final DiaryService diaryService;
     private final DiaryConverter diaryConverter;
 
     public DiaryFacade(MemberService memberService,
-        AlbumService albumService, DiaryService diaryService,
+        AlbumService albumService, ParticipantService participantService,
+        DiaryService diaryService,
         DiaryConverter diaryConverter) {
         this.memberService = memberService;
         this.albumService = albumService;
+        this.participantService = participantService;
         this.diaryService = diaryService;
         this.diaryConverter = diaryConverter;
     }
@@ -127,5 +135,15 @@ public class DiaryFacade {
         album.belong(member);
 
         return diaryService.findAllFeed(album, bundle.getCursorId(), bundle.getPageSize());
+    }
+
+    //TODO 조회하는 회원이 앨범 참여자인지 검증하는 로직 추가 필요
+    @Transactional(readOnly = true)
+    public ReadAllStoryBookResponse findAllStoryBook(ReadAllStoryBookBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Participant participant = participantService.findById(bundle.getParticipantId());
+
+        Pageable page = PageRequest.of(0, bundle.getPageSize());
+        return diaryService.findAllStoryBook(album, participant, bundle.getCursorId(), page);
     }
 }

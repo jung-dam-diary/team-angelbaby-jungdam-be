@@ -33,4 +33,12 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
         RecordedAt recordedAt, Pageable page);
 
     Boolean existsByAlbumAndRecordedAtLessThan(Album album, RecordedAt recordedAt);
+
+    List<Diary> findAllByAlbumAndParticipantOrderByIdDesc(Album album, Participant participant,
+        Pageable pageable);
+
+    List<Diary> findAllByAlbumAndParticipantAndIdLessThanOrderByIdDesc(
+        Album album, Participant participant, Long cursorId, Pageable pageable);
+
+    Boolean existsByAlbumAndParticipantAndIdLessThan(Album album, Participant participant, Long cursorId);
 }

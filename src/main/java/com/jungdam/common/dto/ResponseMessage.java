@@ -35,7 +35,7 @@ public enum ResponseMessage {
     PARTICIPANT_UPDATE_NICKNAME_SUCCESS(HttpStatus.OK, "참여자 닉네임 수정 성공"),
     EMOJI_CREATE_AND_DELETE_SUCCESS(HttpStatus.OK, "이모지 생성 및 삭제 성공"),
     DIARY_FEED_READ_ALL_SUCCESS(HttpStatus.OK, "다이어리 피드 조회 성공"),
-
+    STORY_BOOK_READ_ALL_SUCCESS(HttpStatus.OK, "스토리북 더보기 조회 성공"),
     ;
 
     private final HttpStatus status;

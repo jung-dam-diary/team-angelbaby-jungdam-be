@@ -8,6 +8,7 @@ import com.jungdam.diary.domain.vo.Bookmark;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
+import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.DuplicationException;
@@ -143,5 +144,34 @@ public class DiaryService {
 
     private Pageable pageSetup(int size) {
         return PageRequest.of(DEFAULT_PAGE, size);
+    }
+
+    //TODO Id 기준이 아닌 RecordedAt 기준으로 변경 필요
+    public ReadAllStoryBookResponse findAllStoryBook(Album album, Participant participant,
+        Long cursorId, Pageable pageable) {
+        final List<Diary> diaries = findByAlbumAndParticipant(album, participant, cursorId, pageable);
+
+        final Long lastIdOfList = diaries.isEmpty() ? null : diaries.get(diaries.size() - 1).getId();
+
+        return diaryConverter.toReadAllStoryBookResponse(hasNextStoryBook(album, participant, lastIdOfList),
+            participant, diaries);
+    }
+
+    private List<Diary> findByAlbumAndParticipant(Album album, Participant participant, Long cursorId,
+        Pageable pageable) {
+        if (Objects.isNull(cursorId)) {
+            return diaryRepository
+                .findAllByAlbumAndParticipantOrderByIdDesc(album, participant, pageable);
+        } else {
+            return diaryRepository
+                .findAllByAlbumAndParticipantAndIdLessThanOrderByIdDesc(album, participant, cursorId, pageable);
+        }
+    }
+
+    private Boolean hasNextStoryBook(Album album, Participant participant, Long lastIdOfList) {
+        if (Objects.isNull(lastIdOfList)) {
+            return false;
+        }
+        return diaryRepository.existsByAlbumAndParticipantAndIdLessThan(album, participant, lastIdOfList);
     }
 }
