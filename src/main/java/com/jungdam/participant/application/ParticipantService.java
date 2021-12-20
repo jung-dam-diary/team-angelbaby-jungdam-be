@@ -45,13 +45,6 @@ public class ParticipantService {
     }
 
     @Transactional(readOnly = true)
-    public void checkNotExists(Album album, Member member) {
-        if (!existsByAlbumAndMember(album, member)) {
-            throw new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT);
-        }
-    }
-
-    @Transactional(readOnly = true)
     public void checkExists(Album album, Member member) {
         if (!existsByAlbumAndMember(album, member)) {
             throw new NotExistException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
@@ -73,12 +66,7 @@ public class ParticipantService {
     private boolean existsByAlbumAndOwnerMember(Album album, Member member) {
         return participantRepository.existsByAlbumAndMemberAndRole(album, member, Role.OWNER);
     }
-
-    public Participant findByMemberAndAlbum(Member member, Album album) {
-        return participantRepository.findByMemberAndAlbum(member, album)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
-    }
-
+    
     public Participant findById(Long participantId) {
         return participantRepository.findById(participantId)
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));

@@ -36,11 +36,8 @@ public class DiaryConverter {
     }
 
     public ReadDetailDiaryResponse toReadDiaryResponse(Email email, Diary diary) {
-        ParticipantInfosResponse participant = ParticipantInfosResponse.builder()
-            .email(email.getEmail())
-            .nickname(diary.getNicknameValue())
-            .avatar(diary.getAvatarValue())
-            .build();
+        ParticipantInfosResponse participant = toParticipantInfosResponse(
+            email, diary);
 
         return ReadDetailDiaryResponse.builder()
             .albumId(diary.getAlbumValue())
@@ -51,6 +48,14 @@ public class DiaryConverter {
             .diaryPhotos(diary.getDiaryPhotosValue())
             .recordedAt(diary.getRecordedAtValue())
             .info(participant)
+            .build();
+    }
+
+    private ParticipantInfosResponse toParticipantInfosResponse(Email email, Diary diary) {
+        return ParticipantInfosResponse.builder()
+            .email(email.getEmail())
+            .nickname(diary.getNicknameValue())
+            .avatar(diary.getAvatarValue())
             .build();
     }
 
@@ -83,28 +88,45 @@ public class DiaryConverter {
 
     public ReadAllFeedDiaryResponse toReadAllFeedDiaryResponse(boolean hasNext,
         String nextRecordedAt, List<Diary> diaries) {
-        List<ReadFeedDiaryResponse> all = diaries.stream()
-            .map(d ->
-                new ReadFeedDiaryResponse(
-                    DiaryInfoResponse.builder()
-                        .diaryId(d.getId())
-                        .title(d.getTitleValue())
-                        .bookmark(d.getBookmarkValue())
-                        .diaryPhotos(d.getDiaryPhotosValue())
-                        .recordedAt(d.getRecordedAtValue())
-                        .build(),
-                    new ParticipantInfoResponse(d.getNicknameValue(), d.getAvatarValue())
-                ))
-            .collect(Collectors.toList());
+        List<ReadFeedDiaryResponse> readFeedDiaryResponses = toReadFeedDiaryResponses(
+            diaries);
 
         return ReadAllFeedDiaryResponse.builder()
             .hasNext(hasNext)
             .lastCommentId(nextRecordedAt)
-            .diaries(all)
+            .diaries(readFeedDiaryResponses)
             .build();
     }
 
-    public ReadAllStoryBookResponse toReadAllStoryBookResponse(Boolean hasNext, Participant participant,
+    private List<ReadFeedDiaryResponse> toReadFeedDiaryResponses(List<Diary> diaries) {
+        return diaries.stream()
+            .map(this::toReadFeedDiaryResponse)
+            .collect(Collectors.toList());
+    }
+
+    private ReadFeedDiaryResponse toReadFeedDiaryResponse(Diary diary) {
+        return new ReadFeedDiaryResponse(
+            toDiaryInfoResponse(diary),
+            toParticipant(diary)
+        );
+    }
+
+    private DiaryInfoResponse toDiaryInfoResponse(Diary diary) {
+        return DiaryInfoResponse.builder()
+            .diaryId(diary.getId())
+            .title(diary.getTitleValue())
+            .bookmark(diary.getBookmarkValue())
+            .diaryPhotos(diary.getDiaryPhotosValue())
+            .recordedAt(diary.getRecordedAtValue())
+            .build();
+    }
+
+    private ParticipantInfoResponse toParticipant(Diary diary) {
+        return new ParticipantInfoResponse(diary.getNicknameValue(), diary.getAvatarValue());
+    }
+
+    public ReadAllStoryBookResponse toReadAllStoryBookResponse(Boolean hasNext,
+        Participant participant,
         List<Diary> diaries) {
         List<ReadStoryBookResponse> all = diaries.stream()
             .map(this::toReadStoryBookResponse)
