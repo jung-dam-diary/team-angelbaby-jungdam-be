@@ -147,9 +147,8 @@ public class DiaryFacade {
     @Transactional(readOnly = true)
     public ReadAllStoryBookResponse findAllStoryBook(ReadAllStoryBookBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
-        Member member = memberService.findById(bundle.getMemberId());
 
-        Participant participant = album.belong(member);
+        Participant participant = participantService.findById(bundle.getParticipantId());
 
         Pageable page = PageUtil.of(bundle.getPageSize());
 
