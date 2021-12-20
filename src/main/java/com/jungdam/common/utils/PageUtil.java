@@ -1,16 +1,21 @@
 package com.jungdam.common.utils;
 
+import java.util.Objects;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 public class PageUtil {
 
     private final static int DEFAULT_PAGE = 0;
+    private final static int DEFAULT_PAGE_SIZE = 10;
 
     private PageUtil() {
     }
 
-    public static Pageable of(int size) {
+    public static Pageable of(Integer size) {
+        if (Objects.isNull(size)) {
+            return PageRequest.of(DEFAULT_PAGE, DEFAULT_PAGE_SIZE);
+        }
         return PageRequest.of(DEFAULT_PAGE, size);
     }
 }
