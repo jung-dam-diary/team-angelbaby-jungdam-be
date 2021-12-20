@@ -53,7 +53,7 @@ public class ParticipantService {
 
     @Transactional(readOnly = true)
     public void checkExists(Album album, Member member) {
-        if (existsByAlbumAndMember(album, member)) {
+        if (!existsByAlbumAndMember(album, member)) {
             throw new NotExistException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
         }
     }
