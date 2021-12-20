@@ -9,6 +9,7 @@ import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary.dto.bundle.CreateDiaryBundle;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
+import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -147,6 +149,7 @@ public class DiaryService {
     }
 
     //TODO Id 기준이 아닌 RecordedAt 기준으로 변경 필요
+    @Transactional(readOnly = true)
     public ReadAllStoryBookResponse findAllStoryBook(Album album, Participant participant,
         Long cursorId, Pageable pageable) {
         final List<Diary> diaries = findByAlbumAndParticipant(album, participant, cursorId,
@@ -179,5 +182,16 @@ public class DiaryService {
         }
         return diaryRepository.existsByAlbumAndParticipantAndIdLessThan(album, participant,
             lastIdOfList);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadGroupStoryBookResponse> findStoryBook(Album album, List<Participant> participants,
+        Pageable page) {
+        return participants.stream()
+            .map(participant -> {
+                List<Diary> diaries = diaryRepository.findAllByAlbumAndParticipantOrderByIdDesc(album, participant,
+                    page);
+                return diaryConverter.toReadParticipantStoryBookResponse(participant, diaries);
+            }).collect(Collectors.toList());
     }
 }
