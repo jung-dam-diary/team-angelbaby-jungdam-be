@@ -13,11 +13,13 @@ import com.jungdam.comment.dto.response.CreateCommentResponse;
 import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
 import com.jungdam.comment.dto.response.UpdateCommentResponse;
+import com.jungdam.common.utils.PageUtil;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,8 +80,8 @@ public class CommentFacade {
 
         Participant participant = album.belong(member);
 
-        return commentService.find(participant, diary, bundle.getCursorId(),
-            bundle.getPageSize());
+        Pageable page = PageUtil.of(bundle.getPageSize());
+        return commentService.find(participant, diary, bundle.getCursorId(), page);
     }
 
     @Transactional
@@ -89,10 +91,11 @@ public class CommentFacade {
 
         Participant participant = album.belong(member);
 
-        Diary diary = diaryService.findById(bundle.getDiaryId());
+        Diary diary = album.findDiary(bundle.getDiaryId());
 
-        diary.updateComment(bundle.getCommentId(), participant, bundle.getContent());
+        Comment comment = diary.findComment(bundle.getCommentId(), participant);
+        comment.update(bundle.getContent());
 
-        return commentConverter.toUpdateCommentResponse(diary.getId(), bundle.getContent());
+        return commentConverter.toUpdateCommentResponse(comment);
     }
 }

@@ -1,7 +1,6 @@
 package com.jungdam.diary.domain.vo;
 
 import com.jungdam.comment.domain.Comment;
-import com.jungdam.comment.domain.vo.Content;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.participant.domain.Participant;
@@ -17,25 +16,20 @@ public class Comments {
     @OneToMany(mappedBy = "diary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public void add(Comment comment) {
-        comments.add(comment);
+    public Comment find(Long id, Participant participant) {
+        return comments.stream()
+            .filter(c -> c.isCreator(id, participant))
+            .findFirst()
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_COMMENT));
     }
 
-    public void update(Long id, Participant participant, Content content) {
-        Comment comment = find(id, participant);
-        comment.update(content);
+    public void add(Comment comment) {
+        comments.add(comment);
     }
 
     public void delete(Long id, Participant participant) {
         Comment comment = find(id, participant);
         remove(comment);
-    }
-
-    private Comment find(Long id, Participant participant) {
-        return comments.stream()
-            .filter(c -> c.isCreator(id, participant))
-            .findFirst()
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_COMMENT));
     }
 
     private void remove(Comment comment) {

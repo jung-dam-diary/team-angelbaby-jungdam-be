@@ -9,7 +9,6 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CommentService {
 
-    private final static int DEFAULT_PAGE = 0;
     private final static long NOT_EXISTS_COMMENT_NUMBER = -1;
 
     private final CommentRepository commentRepository;
@@ -39,9 +37,9 @@ public class CommentService {
     // TODO
     @Transactional(readOnly = true)
     public ReadCommentAllResponse find(Participant participant, Diary diary,
-        Long id, int size) {
+        Long id, Pageable page) {
         List<Comment> comments = findByDiaryAndId(diary,
-            id, pageSetup(size));
+            id, page);
 
         if (comments.isEmpty()) {
             return commentConverter.toReadAllCommentResponse(false, NOT_EXISTS_COMMENT_NUMBER,
@@ -83,9 +81,5 @@ public class CommentService {
         Pageable page) {
         return commentRepository.findAllByDiaryAndIdLessThanOrderByIdDesc(diary,
             cursorId, page);
-    }
-
-    private Pageable pageSetup(int size) {
-        return PageRequest.of(DEFAULT_PAGE, size);
     }
 }

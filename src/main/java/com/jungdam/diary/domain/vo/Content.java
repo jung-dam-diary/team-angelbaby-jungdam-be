@@ -2,9 +2,9 @@ package com.jungdam.diary.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.InvalidArgumentException;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import org.springframework.util.StringUtils;
 
 @Embeddable
 public class Content {
@@ -21,7 +21,7 @@ public class Content {
     }
 
     private void validate(String content) {
-        if (Objects.isNull(content) || content.isEmpty()) {
+        if (!StringUtils.hasText(content)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_CONTENT);
         }
     }

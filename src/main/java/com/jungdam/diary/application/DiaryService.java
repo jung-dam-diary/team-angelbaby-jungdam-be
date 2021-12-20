@@ -12,13 +12,11 @@ import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
-import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.participant.domain.Participant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +25,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class DiaryService {
 
-    private final static int DEFAULT_PAGE = 0;
     private final static String NOT_EXISTS_NEXT_DIARY = "NOT_EXISTS_NEXT_DIARY";
-
 
     private final DiaryRepository diaryRepository;
     private final DiaryConverter diaryConverter;
@@ -54,12 +50,6 @@ public class DiaryService {
     private boolean existsByRecordedAtAndParticipant(RecordedAt recordedAt,
         Participant participant) {
         return diaryRepository.existsByRecordedAtAndParticipant(recordedAt, participant);
-    }
-
-    @Transactional(readOnly = true)
-    public Diary findById(Long id) {
-        return diaryRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
     }
 
     @Transactional(readOnly = true)
@@ -92,9 +82,8 @@ public class DiaryService {
 
     // TODO : 리펙토링 필요
     @Transactional(readOnly = true)
-    public ReadAllFeedDiaryResponse findAllFeed(Album album, String cursorId, int size) {
-        final List<Diary> diaries = findByAlbumAndRecordedAt(album, cursorId,
-            pageSetup(size));
+    public ReadAllFeedDiaryResponse findAllFeed(Album album, String cursorId, Pageable page) {
+        final List<Diary> diaries = findByAlbumAndRecordedAt(album, cursorId, page);
 
         if (diaries.isEmpty()) {
             return diaryConverter.toReadAllFeedDiaryResponse(false, NOT_EXISTS_NEXT_DIARY,
@@ -140,10 +129,6 @@ public class DiaryService {
         RecordedAt recordedAt, Pageable pageable) {
         return diaryRepository.findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(album,
             recordedAt, pageable);
-    }
-
-    private Pageable pageSetup(int size) {
-        return PageRequest.of(DEFAULT_PAGE, size);
     }
 
     //TODO Id 기준이 아닌 RecordedAt 기준으로 변경 필요
