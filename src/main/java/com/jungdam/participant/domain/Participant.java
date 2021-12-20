@@ -5,7 +5,6 @@ import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.vo.Comments;
 import com.jungdam.participant.domain.vo.Diaries;
-import com.jungdam.participant.domain.vo.Emojis;
 import com.jungdam.participant.domain.vo.Nickname;
 import com.jungdam.participant.domain.vo.Role;
 import javax.persistence.Column;
@@ -47,9 +46,6 @@ public class Participant extends BaseEntity {
 
     @JoinColumn(name = "comment_id")
     private Comments comments;
-
-    @JoinColumn(name = "emojis_id")
-    private Emojis emojis;
 
     protected Participant() {
     }
