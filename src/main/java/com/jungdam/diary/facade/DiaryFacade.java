@@ -12,6 +12,7 @@ import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllStoryBookBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadGroupStoryBookBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.response.CheckBookmarkResponse;
 import com.jungdam.diary.dto.response.CheckRecordedAtDiaryResponse;
@@ -20,11 +21,13 @@ import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
+import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.domain.Participant;
+import java.util.List;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -145,5 +148,17 @@ public class DiaryFacade {
 
         Pageable page = PageRequest.of(0, bundle.getPageSize());
         return diaryService.findAllStoryBook(album, participant, bundle.getCursorId(), page);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReadGroupStoryBookResponse> findStoryBook(ReadGroupStoryBookBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+        Album album = albumService.findById(bundle.getAlbumId());
+
+        participantService.checkExists(album, member);
+
+        List<Participant> participants = participantService.findAllByAlbum(album);
+        Pageable page = PageRequest.of(0, 4); //TODO 나중에 상수로 분리
+        return diaryService.findStoryBook(album, participants, page);
     }
 }
