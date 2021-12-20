@@ -2,8 +2,8 @@ package com.jungdam.invitation.application;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.DuplicationException;
-import com.jungdam.error.exception.NoPermissionException;
+import com.jungdam.error.exception.common.DuplicationException;
+import com.jungdam.error.exception.common.NoPermissionException;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.infrastructure.InvitationRepository;
@@ -32,7 +32,8 @@ public class InvitationService {
     @Transactional(readOnly = true)
     public Invitation findByIdAndTargetMemberAndPendingStatus(Long id, Member member) {
         return invitationRepository.findByIdAndTargetMemberAndStatus(id, member, Status.PENDING)
-            .orElseThrow(() -> new NoPermissionException(ErrorMessage.NO_PERMISSION_INVITATION_UPDATE));
+            .orElseThrow(
+                () -> new NoPermissionException(ErrorMessage.NO_PERMISSION_INVITATION_UPDATE));
     }
 
     @Transactional(readOnly = true)

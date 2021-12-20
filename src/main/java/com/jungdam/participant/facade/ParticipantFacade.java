@@ -3,7 +3,7 @@ package com.jungdam.participant.facade;
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.NotExistException;
+import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.application.ParticipantService;

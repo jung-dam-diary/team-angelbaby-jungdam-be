@@ -1,4 +1,4 @@
-package com.jungdam.error.exception;
+package com.jungdam.error.exception.s3;
 
 import com.jungdam.error.BusinessException;
 import com.jungdam.error.ErrorMessage;

@@ -4,7 +4,7 @@ import com.jungdam.auth.oauth2.impl.GoogleOAuth2MemberInfo;
 import com.jungdam.auth.oauth2.impl.KakaoOAuth2MemberInfo;
 import com.jungdam.auth.oauth2.impl.NaverOAuth2MemberInfo;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.NotExistException;
+import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.domain.vo.ProviderType;
 import java.util.Map;
 

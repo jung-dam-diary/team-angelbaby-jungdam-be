@@ -1,7 +1,7 @@
 package com.jungdam.member.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.OAuthProviderMissMatchException;
+import com.jungdam.error.exception.auth.OAuthProviderMissMatchException;
 import java.util.Arrays;
 
 public enum ProviderType {

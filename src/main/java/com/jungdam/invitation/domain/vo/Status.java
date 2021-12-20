@@ -1,7 +1,7 @@
 package com.jungdam.invitation.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.InvalidArgumentException;
+import com.jungdam.error.exception.common.InvalidArgumentException;
 import java.util.Arrays;
 
 public enum Status {
@@ -19,7 +19,8 @@ public enum Status {
         return Arrays.stream(values())
             .filter(s -> s.getStatus().equals(status))
             .findAny()
-            .orElseThrow(() -> new InvalidArgumentException(ErrorMessage.INVALID_INVITATION_STATUS));
+            .orElseThrow(
+                () -> new InvalidArgumentException(ErrorMessage.INVALID_INVITATION_STATUS));
     }
 
     public String getStatus() {

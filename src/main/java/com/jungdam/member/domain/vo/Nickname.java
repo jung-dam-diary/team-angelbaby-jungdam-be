@@ -1,7 +1,7 @@
 package com.jungdam.member.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.InvalidArgumentException;
+import com.jungdam.error.exception.common.InvalidArgumentException;
 import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

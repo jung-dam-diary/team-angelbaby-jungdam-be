@@ -1,7 +1,7 @@
 package com.jungdam.emoji.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.InvalidArgumentException;
+import com.jungdam.error.exception.common.InvalidArgumentException;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

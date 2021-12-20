@@ -2,8 +2,8 @@ package com.jungdam.participant.application;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.NoPermissionException;
-import com.jungdam.error.exception.NotExistException;
+import com.jungdam.error.exception.common.NoPermissionException;
+import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.domain.vo.Role;

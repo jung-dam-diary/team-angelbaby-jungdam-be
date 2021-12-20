@@ -1,7 +1,7 @@
 package com.jungdam.album.domain.vo;
 
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.InvalidArgumentException;
+import com.jungdam.error.exception.common.InvalidArgumentException;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import org.springframework.util.StringUtils;

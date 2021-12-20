@@ -3,7 +3,7 @@ package com.jungdam.album.domain.vo;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.error.ErrorMessage;
-import com.jungdam.error.exception.NotExistException;
+import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.participant.domain.Participant;
 import java.util.ArrayList;
 import java.util.List;
