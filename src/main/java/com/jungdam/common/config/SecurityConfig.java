@@ -29,6 +29,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // TODO : 운용 진행시, 해당 코드 삭제 필요
     private static final String[] AUTH_WHITELIST = {
         "/v2/api-docs",
         "/swagger-resources",
@@ -38,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/swagger-ui.html",
         "/webjars/**",
         "/v3/api-docs/**",
-        "/swagger-ui/**"
+        "/swagger-ui/**",
+        "/health"
     };
     private static final String USER_PERMISSION_URL = "/api/**";
     private static final String ADMIN_PERMISSION_URL = "/api/**/admin/**";
