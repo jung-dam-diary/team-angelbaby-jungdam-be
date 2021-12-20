@@ -10,6 +10,7 @@ import com.jungdam.diary.dto.bundle.DeleteDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllDiaryBundle;
 import com.jungdam.diary.dto.bundle.ReadAllStoryBookBundle;
 import com.jungdam.diary.dto.bundle.ReadDiaryBundle;
+import com.jungdam.diary.dto.bundle.ReadGroupStoryBookBundle;
 import com.jungdam.diary.dto.bundle.UpdateDiaryBundle;
 import com.jungdam.diary.dto.request.CreateDiaryRequest;
 import com.jungdam.diary.dto.request.UpdateDiaryRequest;
@@ -20,12 +21,14 @@ import com.jungdam.diary.dto.response.DeleteDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadDetailDiaryResponse;
+import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.diary.facade.DiaryFacade;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -178,6 +181,18 @@ public class DiaryController {
         ReadAllFeedDiaryResponse response = diaryFacade.findAll(bundle);
 
         return ResponseDto.of(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
+    }
+
+    @ApiOperation("스토리북 조회")
+    @GetMapping("story-book/group")
+    public ResponseEntity<ResponseDto<List<ReadGroupStoryBookResponse>>> getStoryBook(
+        @PathVariable Long albumId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        ReadGroupStoryBookBundle bundle = new ReadGroupStoryBookBundle(memberId, albumId);
+        List<ReadGroupStoryBookResponse> response = diaryFacade.findStoryBook(bundle);
+
+        return ResponseDto.of(ResponseMessage.STORY_BOOK_READ_SUCCESS, response);
     }
 
     @ApiOperation("스토리북 더보기 조회")

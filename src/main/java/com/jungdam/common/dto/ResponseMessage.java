@@ -54,6 +54,7 @@ public enum ResponseMessage {
     DIARY_UPDATE_SUCCESS("D007", HttpStatus.OK, "일기 수정 성공"),
     BOOKMARK_MARK_SUCCESS("D008", HttpStatus.OK, "일기 북마크 체크/언체크"),
     DIARY_DELETE_SUCCESS("D009", HttpStatus.OK, "일기 삭제 성공"),
+    STORY_BOOK_READ_SUCCESS("D010",HttpStatus.OK, "스토리북 조회 성공"),
 
     /**
      * INVITATION RESPONSE MESSAGE
