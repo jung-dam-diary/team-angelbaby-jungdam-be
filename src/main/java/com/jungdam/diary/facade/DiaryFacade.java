@@ -2,7 +2,6 @@ package com.jungdam.diary.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
-import com.jungdam.common.utils.PageUtil;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
@@ -26,7 +25,6 @@ import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
-import com.jungdam.participant.application.ParticipantService;
 import com.jungdam.participant.domain.Participant;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
@@ -39,17 +37,15 @@ public class DiaryFacade {
 
     private final MemberService memberService;
     private final AlbumService albumService;
-    private final ParticipantService participantService;
     private final DiaryService diaryService;
     private final DiaryConverter diaryConverter;
 
     public DiaryFacade(MemberService memberService,
-        AlbumService albumService, ParticipantService participantService,
+        AlbumService albumService,
         DiaryService diaryService,
         DiaryConverter diaryConverter) {
         this.memberService = memberService;
         this.albumService = albumService;
-        this.participantService = participantService;
         this.diaryService = diaryService;
         this.diaryConverter = diaryConverter;
     }
