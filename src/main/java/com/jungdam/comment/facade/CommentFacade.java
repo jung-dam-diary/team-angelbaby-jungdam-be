@@ -14,7 +14,6 @@ import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
 import com.jungdam.comment.dto.response.UpdateCommentResponse;
 import com.jungdam.common.utils.PageUtil;
-import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
@@ -28,17 +27,15 @@ public class CommentFacade {
 
     private final MemberService memberService;
     private final AlbumService albumService;
-    private final DiaryService diaryService;
     private final CommentConverter commentConverter;
     private final CommentService commentService;
 
     public CommentFacade(MemberService memberService,
-        AlbumService albumService, DiaryService diaryService,
+        AlbumService albumService,
         CommentConverter commentConverter,
         CommentService commentService) {
         this.memberService = memberService;
         this.albumService = albumService;
-        this.diaryService = diaryService;
         this.commentConverter = commentConverter;
         this.commentService = commentService;
     }
@@ -81,6 +78,7 @@ public class CommentFacade {
         Participant participant = album.belong(member);
 
         Pageable page = PageUtil.of(bundle.getPageSize());
+
         return commentService.find(participant, diary, bundle.getCursorId(), page);
     }
 

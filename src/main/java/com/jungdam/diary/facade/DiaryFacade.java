@@ -150,6 +150,7 @@ public class DiaryFacade {
         Member member = memberService.findById(bundle.getMemberId());
 
         Participant participant = album.belong(member);
+
         Pageable page = PageUtil.of(bundle.getPageSize());
 
         return diaryService.findAllStoryBook(album, participant, bundle.getCursorId(), page);
