@@ -27,4 +27,8 @@ public class Participants {
             .findFirst()
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
     }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
 }

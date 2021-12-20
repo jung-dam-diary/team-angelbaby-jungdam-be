@@ -15,16 +15,19 @@ public class ParticipantConverter {
 
     public ReadAllParticipantResponse toReadAllParticipantResponse(List<Participant> participants) {
         List<ReadAllParticipant> readAllParticipants = participants.stream()
-            .map(participant ->
-                ReadAllParticipant.builder()
-                    .email(participant.getMember().getEmailValue())
-                    .nickname(participant.getNicknameValue())
-                    .avatar(participant.getMember().getAvatarValue())
-                    .role(participant.getRoleValue())
-                    .build())
+            .map(participant -> toReadAllParticipant(participant))
             .collect(Collectors.toList());
 
         return new ReadAllParticipantResponse(readAllParticipants);
+    }
+
+    private ReadAllParticipant toReadAllParticipant(Participant participant) {
+        return ReadAllParticipant.builder()
+            .email(participant.getMember().getEmailValue())
+            .nickname(participant.getNicknameValue())
+            .avatar(participant.getMember().getAvatarValue())
+            .role(participant.getRoleValue())
+            .build();
     }
 
     public CheckParticipantResponse toCheckParticipantResponse(Album album, boolean existence) {

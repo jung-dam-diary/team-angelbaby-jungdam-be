@@ -94,6 +94,10 @@ public class Album extends BaseEntity {
         return participants.find(member, this);
     }
 
+    public List<Participant> getParticipants() {
+        return participants.getParticipants();
+    }
+
     public Long getId() {
         return id;
     }
