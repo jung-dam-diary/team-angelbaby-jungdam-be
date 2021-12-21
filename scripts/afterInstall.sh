@@ -1,5 +1,7 @@
 docker pull dlfdyd96/spring-cicd-test:latest
 docker run --publish 8081:8080 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /usr/share/zoneinfo/Asia/Seoul:/etc/timezone:ro \
     --restart unless-stopped \
     --memory 800m --memory-swap 2g \
     -it --detach \
