@@ -3,7 +3,7 @@ package com.jungdam.common.utils;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
-public class HeaderUtil {
+public class HeaderUtils {
 
     private final static String HEADER_AUTHORIZATION = "Authorization";
     private final static String TOKEN_PREFIX = "Bearer ";

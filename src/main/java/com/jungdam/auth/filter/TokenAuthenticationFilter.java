@@ -2,7 +2,7 @@ package com.jungdam.auth.filter;
 
 import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
-import com.jungdam.common.utils.HeaderUtil;
+import com.jungdam.common.utils.HeaderUtils;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         HttpServletResponse response,
         FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenString = HeaderUtil.getAccessToken(request);
+        String tokenString = HeaderUtils.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenString);
 
         if (token.validate()) {

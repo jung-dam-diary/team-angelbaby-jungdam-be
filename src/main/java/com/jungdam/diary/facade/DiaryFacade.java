@@ -2,7 +2,7 @@ package com.jungdam.diary.facade;
 
 import com.jungdam.album.application.AlbumService;
 import com.jungdam.album.domain.Album;
-import com.jungdam.common.utils.PageUtil;
+import com.jungdam.common.utils.PageUtils;
 import com.jungdam.diary.application.DiaryService;
 import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
@@ -138,7 +138,7 @@ public class DiaryFacade {
 
         album.belong(member);
 
-        Pageable page = PageUtil.of(bundle.getPageSize());
+        Pageable page = PageUtils.of(bundle.getPageSize());
 
         return diaryService.findAllFeed(album, bundle.getCursorId(), page);
     }
@@ -150,7 +150,7 @@ public class DiaryFacade {
 
         Participant participant = participantService.findById(bundle.getParticipantId());
 
-        Pageable page = PageUtil.of(bundle.getPageSize());
+        Pageable page = PageUtils.of(bundle.getPageSize());
 
         return diaryService.findAllStoryBook(album, participant, bundle.getCursorId(), page);
     }

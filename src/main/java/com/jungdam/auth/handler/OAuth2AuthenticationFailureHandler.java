@@ -3,7 +3,7 @@ package com.jungdam.auth.handler;
 import static com.jungdam.auth.infrastructure.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 import com.jungdam.auth.infrastructure.OAuth2AuthorizationRequestBasedOnCookieRepository;
-import com.jungdam.common.utils.CookieUtil;
+import com.jungdam.common.utils.CookieUtils;
 import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +30,7 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException {
-        String targetUrl = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        String targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
             .map(Cookie::getValue)
             .orElse(FAIL_TO_REDIRECT_URL);
 

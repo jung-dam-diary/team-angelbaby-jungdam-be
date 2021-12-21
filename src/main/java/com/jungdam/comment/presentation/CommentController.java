@@ -58,25 +58,6 @@ public class CommentController {
         return ResponseDto.of(ResponseMessage.COMMENT_CREATE_SUCCESS, response);
     }
 
-    @ApiOperation("댓글 삭제")
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<ResponseDto<DeleteCommentResponse>> delete(@PathVariable Long albumId,
-        @PathVariable Long diaryId, @PathVariable Long commentId) {
-        Long memberId = SecurityUtils.getCurrentUsername();
-
-        DeleteCommentBundle bundle = DeleteCommentBundle.builder()
-            .memberId(memberId)
-            .albumId(albumId)
-            .diaryId(diaryId)
-            .commentId(commentId)
-            .albumId(albumId)
-            .build();
-
-        DeleteCommentResponse response = commentFacade.delete(bundle);
-
-        return ResponseDto.of(ResponseMessage.COMMENT_DELETE_SUCCESS, response);
-    }
-
     @ApiOperation("댓글 조회")
     @GetMapping
     public ResponseEntity<ResponseDto<ReadCommentAllResponse>> read(@PathVariable Long albumId,
@@ -116,5 +97,24 @@ public class CommentController {
         UpdateCommentResponse response = commentFacade.update(bundle);
 
         return ResponseDto.of(ResponseMessage.COMMENT_UPDATE_SUCCESS, response);
+    }
+
+    @ApiOperation("댓글 삭제")
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<ResponseDto<DeleteCommentResponse>> delete(@PathVariable Long albumId,
+        @PathVariable Long diaryId, @PathVariable Long commentId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        DeleteCommentBundle bundle = DeleteCommentBundle.builder()
+            .memberId(memberId)
+            .albumId(albumId)
+            .diaryId(diaryId)
+            .commentId(commentId)
+            .albumId(albumId)
+            .build();
+
+        DeleteCommentResponse response = commentFacade.delete(bundle);
+
+        return ResponseDto.of(ResponseMessage.COMMENT_DELETE_SUCCESS, response);
     }
 }

@@ -4,12 +4,12 @@ import java.util.Objects;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-public class PageUtil {
+public class PageUtils {
 
     private final static int DEFAULT_PAGE = 0;
     private final static int DEFAULT_PAGE_SIZE = 10;
 
-    private PageUtil() {
+    private PageUtils() {
     }
 
     public static Pageable of(Integer size) {

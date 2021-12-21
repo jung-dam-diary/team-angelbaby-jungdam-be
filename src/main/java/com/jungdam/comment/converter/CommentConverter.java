@@ -19,7 +19,7 @@ public class CommentConverter {
             .commentId(comment.getId())
             .commentContent(comment.getContentValue())
             .nickname(comment.getParticipantNicknameValue())
-            .avatar(comment.getAvatar())
+            .avatar(comment.getParticipantAvatar())
             .build();
     }
 
@@ -48,11 +48,11 @@ public class CommentConverter {
             .commentContent(comment.getContentValue())
             .email(comment.getEmail())
             .nickname(comment.getParticipantNicknameValue())
-            .avatar(comment.getAvatar())
+            .avatar(comment.getParticipantAvatar())
             .build();
     }
 
     public UpdateCommentResponse toUpdateCommentResponse(Comment comment) {
-        return new UpdateCommentResponse(comment.getDiaryValue(), comment.getContentValue());
+        return new UpdateCommentResponse(comment.getDiaryIdValue(), comment.getContentValue());
     }
 }

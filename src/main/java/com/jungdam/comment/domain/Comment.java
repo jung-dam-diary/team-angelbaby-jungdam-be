@@ -54,7 +54,7 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
-    public String getAvatar() {
+    public String getParticipantAvatar() {
         return participant.getMemberAvatar();
     }
 
@@ -74,7 +74,7 @@ public class Comment extends BaseEntity {
         return participant.getMemberEmail();
     }
 
-    public Long getDiaryValue() {
+    public Long getDiaryIdValue() {
         return diary.getId();
     }
 }

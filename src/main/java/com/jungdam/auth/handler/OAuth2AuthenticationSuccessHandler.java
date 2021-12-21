@@ -9,7 +9,7 @@ import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
 import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.properties.AuthProperties;
-import com.jungdam.common.utils.CookieUtil;
+import com.jungdam.common.utils.CookieUtils;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.auth.FailAuthenticationException;
 import com.jungdam.member.domain.Member;
@@ -176,7 +176,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     private String bringTargetUrl(HttpServletRequest request) {
-        Optional<String> redirectUri = CookieUtil.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+        Optional<String> redirectUri = CookieUtils.getCookie(request,
+                REDIRECT_URI_PARAM_COOKIE_NAME)
             .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
@@ -197,8 +198,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     private void updateCookie(HttpServletRequest request, HttpServletResponse response,
         AuthToken refreshToken, int cookieMaxAge) {
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+        CookieUtils.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request,

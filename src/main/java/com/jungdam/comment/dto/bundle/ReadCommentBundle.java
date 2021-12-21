@@ -37,7 +37,7 @@ public class ReadCommentBundle {
         return cursorId;
     }
 
-    public int getPageSize() {
+    public Integer getPageSize() {
         return pageSize;
     }
 
@@ -73,7 +73,7 @@ public class ReadCommentBundle {
             return this;
         }
 
-        public CreateCommentBundleBuilder pageSize(final int pageSize) {
+        public CreateCommentBundleBuilder pageSize(final Integer pageSize) {
             this.pageSize = pageSize;
             return this;
         }

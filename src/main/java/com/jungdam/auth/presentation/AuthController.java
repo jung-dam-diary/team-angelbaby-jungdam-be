@@ -5,8 +5,8 @@ import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.properties.AuthProperties;
-import com.jungdam.common.utils.CookieUtil;
-import com.jungdam.common.utils.HeaderUtil;
+import com.jungdam.common.utils.CookieUtils;
+import com.jungdam.common.utils.HeaderUtils;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.token.InvalidRefreshTokenException;
 import com.jungdam.error.exception.token.NotExpiredException;
@@ -128,7 +128,7 @@ public class AuthController {
     }
 
     private String toStringCookie(HttpServletRequest request) {
-        return CookieUtil.getCookie(request, REFRESH_TOKEN)
+        return CookieUtils.getCookie(request, REFRESH_TOKEN)
             .map(Cookie::getValue)
             .orElse((null));
     }
@@ -143,7 +143,7 @@ public class AuthController {
     }
 
     private AuthToken getAuthTokenInHeader(HttpServletRequest request) {
-        String accessToken = HeaderUtil.getAccessToken(request);
+        String accessToken = HeaderUtils.getAccessToken(request);
         return tokenProvider.convertAuthToken(accessToken);
     }
 
@@ -169,8 +169,8 @@ public class AuthController {
 
     private void updateCookie(HttpServletRequest request, HttpServletResponse response,
         AuthToken authRefreshToken, int cookieMaxAge) {
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(),
+        CookieUtils.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(),
             cookieMaxAge);
     }
 

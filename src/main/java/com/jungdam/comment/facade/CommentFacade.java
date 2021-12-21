@@ -13,7 +13,7 @@ import com.jungdam.comment.dto.response.CreateCommentResponse;
 import com.jungdam.comment.dto.response.DeleteCommentResponse;
 import com.jungdam.comment.dto.response.ReadCommentAllResponse;
 import com.jungdam.comment.dto.response.UpdateCommentResponse;
-import com.jungdam.common.utils.PageUtil;
+import com.jungdam.common.utils.PageUtils;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
@@ -77,7 +77,7 @@ public class CommentFacade {
 
         Participant participant = album.belong(member);
 
-        Pageable page = PageUtil.of(bundle.getPageSize());
+        Pageable page = PageUtils.of(bundle.getPageSize());
 
         return commentService.find(participant, diary, bundle.getCursorId(), page);
     }
