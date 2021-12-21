@@ -10,8 +10,6 @@
 정담은 오늘의 삶, 어제의 삶, 우리 가족의 삶을 공유 할 수 있습니다.
 ```
 
----
-
 ## 🧑‍💻 팀원 소개
 
 ### Back End Developer 🙋
@@ -20,8 +18,6 @@
 | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :---------------------------------------------------------------------------: |
 | <img src="https://avatars.githubusercontent.com/u/50691225?v=4" width="300"/> | <img src="https://avatars.githubusercontent.com/u/54765850?v=4" width="300"/> | <img src="https://avatars.githubusercontent.com/u/43674132?v=4" width="300"/> |
 |                   [김동건](https://github.com/DongGeon0908)                   |                     [조수연](https://github.com/soo5717)                      |                     [황일용](https://github.com/dlfdyd96)                     |
-
----
 
 ## 💻 기술 스택
 
@@ -57,8 +53,6 @@
 - 문서화: Notion
 - 커뮤니케이션: Slack, Discord
 
----
-
 ## 🏗 Diagram
 
 ### Architecture
@@ -68,3 +62,11 @@
 ### ERD
 
 ![entity](./images/erd.png)
+
+## 🚨 이슈 경험
+
+> 📌 [개발 Convention 질문 및 협의](https://backend-devcourse.notion.site/df4bfbee8f2b4607b6f19a2695e95f5b) <br>
+> 📌 [CI/CD 과정 Private Properties 설정](https://backend-devcourse.notion.site/CI-CD-Private-Properties-0f8cc8ae6e954ab39bf84b419ea739dd) <br>
+> 📌 [S3 Image Upload Module 개발](https://backend-devcourse.notion.site/cc24e5164f0a4998a3b520c7e0972e3b) <br>
+> 📌 [서버 Request Size Limit 이슈](https://backend-devcourse.notion.site/api-v1-images-Error-413-8fd1ce00fdd84dceb49aa4b5a167a073) <br>
+> 
