@@ -28,6 +28,18 @@ public class Participants {
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
     }
 
+    public Participant findById(Long id) {
+        return participants.stream()
+            .filter(p -> p.isEquals(id))
+            .findFirst()
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+    }
+
+    public boolean find(Member member) {
+        return participants.stream()
+            .anyMatch(p -> p.isEquals(member));
+    }
+
     public List<Participant> getParticipants() {
         return participants;
     }

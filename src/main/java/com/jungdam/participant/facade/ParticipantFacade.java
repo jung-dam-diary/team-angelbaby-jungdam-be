@@ -14,7 +14,6 @@ import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
 import com.jungdam.participant.dto.response.UpdateNicknameParticipantResponse;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,8 +52,7 @@ public class ParticipantFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        final Participant belong = album.belong(member);
-        boolean check = !Objects.isNull(belong);
+        boolean check = album.findParticipant(member);
 
         return participantConverter.toCheckParticipantResponse(album, check);
     }

@@ -148,6 +148,7 @@ public class DiaryFacade {
     public ReadAllStoryBookResponse findAllStoryBook(ReadAllStoryBookBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
 
+        // Participants에 findById 만들어두었습니당~
         Participant participant = participantService.findById(bundle.getParticipantId());
 
         Pageable page = PageUtils.of(bundle.getPageSize());
@@ -160,6 +161,7 @@ public class DiaryFacade {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
 
+        // album.belong() 메서드가 있습니당!
         participantService.checkExists(album, member);
 
         List<Participant> participants = participantService.findAllByAlbum(album);

@@ -7,6 +7,7 @@ import com.jungdam.participant.domain.vo.Comments;
 import com.jungdam.participant.domain.vo.Diaries;
 import com.jungdam.participant.domain.vo.Nickname;
 import com.jungdam.participant.domain.vo.Role;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -64,6 +65,14 @@ public class Participant extends BaseEntity {
         return this.member.equals(member) && this.album.equals(album);
     }
 
+    public boolean isEquals(Long id) {
+        return Objects.equals(this.id, id);
+    }
+
+    public boolean isEquals(Member member) {
+        return this.member.equals(member);
+    }
+    
     public Long getId() {
         return id;
     }
