@@ -54,22 +54,8 @@ public class CommentFacade {
         return commentConverter.toCreateCommentResponse(comment);
     }
 
-    @Transactional
-    public DeleteCommentResponse delete(DeleteCommentBundle bundle) {
-        Member member = memberService.findById(bundle.getMemberId());
-        Album album = albumService.findById(bundle.getAlbumId());
-
-        Diary diary = album.findDiary(bundle.getDiaryId());
-
-        Participant participant = album.belong(member);
-
-        diary.deleteContent(bundle.getCommentId(), participant);
-
-        return commentConverter.toDeleteCommentResponse(diary);
-    }
-
     @Transactional(readOnly = true)
-    public ReadCommentAllResponse find(ReadCommentBundle bundle) {
+    public ReadCommentAllResponse findAll(ReadCommentBundle bundle) {
         Member member = memberService.findById(bundle.getMemberId());
         Album album = albumService.findById(bundle.getAlbumId());
 
@@ -79,7 +65,7 @@ public class CommentFacade {
 
         Pageable page = PageUtils.of(bundle.getPageSize());
 
-        return commentService.find(participant, diary, bundle.getCursorId(), page);
+        return commentService.findAll(participant, diary, bundle.getCursorId(), page);
     }
 
     @Transactional
@@ -95,5 +81,19 @@ public class CommentFacade {
         comment.update(bundle.getContent());
 
         return commentConverter.toUpdateCommentResponse(comment);
+    }
+
+    @Transactional
+    public DeleteCommentResponse delete(DeleteCommentBundle bundle) {
+        Member member = memberService.findById(bundle.getMemberId());
+        Album album = albumService.findById(bundle.getAlbumId());
+
+        Diary diary = album.findDiary(bundle.getDiaryId());
+
+        Participant participant = album.belong(member);
+
+        diary.deleteContent(bundle.getCommentId(), participant);
+
+        return commentConverter.toDeleteCommentResponse(diary);
     }
 }

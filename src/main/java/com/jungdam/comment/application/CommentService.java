@@ -36,7 +36,7 @@ public class CommentService {
 
     // TODO
     @Transactional(readOnly = true)
-    public ReadCommentAllResponse find(Participant participant, Diary diary,
+    public ReadCommentAllResponse findAll(Participant participant, Diary diary,
         Long id, Pageable page) {
         List<Comment> comments = findByDiaryAndId(diary,
             id, page);

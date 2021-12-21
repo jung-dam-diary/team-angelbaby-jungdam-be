@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/albums/{albumId}/diaries/{diaryId}/comments")
 public class CommentController {
 
-    private final static int DEFAULT_PAGE_SIZE = 10;
-
     private final CommentFacade commentFacade;
 
     public CommentController(CommentFacade commentFacade) {
@@ -60,7 +58,7 @@ public class CommentController {
 
     @ApiOperation("댓글 조회")
     @GetMapping
-    public ResponseEntity<ResponseDto<ReadCommentAllResponse>> read(@PathVariable Long albumId,
+    public ResponseEntity<ResponseDto<ReadCommentAllResponse>> getAll(@PathVariable Long albumId,
         @PathVariable Long diaryId,
         @RequestParam(value = "cursorId", required = false) Long cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
@@ -74,7 +72,7 @@ public class CommentController {
             .pageSize(pageSize)
             .build();
 
-        ReadCommentAllResponse response = commentFacade.find(bundle);
+        ReadCommentAllResponse response = commentFacade.findAll(bundle);
 
         return ResponseDto.of(ResponseMessage.COMMENT_READ_SUCCESS, response);
     }

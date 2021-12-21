@@ -90,7 +90,7 @@ public class DiaryController {
 
     @ApiOperation("일기 조회")
     @GetMapping("/{diaryId}")
-    public ResponseEntity<ResponseDto<ReadDetailDiaryResponse>> read(@PathVariable Long albumId,
+    public ResponseEntity<ResponseDto<ReadDetailDiaryResponse>> getOne(@PathVariable Long albumId,
         @PathVariable Long diaryId) {
         Long memberId = SecurityUtils.getCurrentUsername();
 
@@ -107,7 +107,7 @@ public class DiaryController {
 
     @ApiOperation("북마크 생성/삭제")
     @PutMapping("/{diaryId}/bookmark")
-    public ResponseEntity<ResponseDto<CheckBookmarkResponse>> markBookmark(
+    public ResponseEntity<ResponseDto<CheckBookmarkResponse>> updateBookmark(
         @PathVariable Long albumId,
         @PathVariable Long diaryId) {
         Long memberId = SecurityUtils.getCurrentUsername();
@@ -161,7 +161,8 @@ public class DiaryController {
 
     @ApiOperation("일기 피드 조회")
     @GetMapping
-    public ResponseEntity<ResponseDto<ReadAllFeedDiaryResponse>> getAll(@PathVariable Long albumId,
+    public ResponseEntity<ResponseDto<ReadAllFeedDiaryResponse>> getAllFeed(
+        @PathVariable Long albumId,
         @RequestParam(value = "cursorId", required = false) String cursorId,
         @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         Long memberId = SecurityUtils.getCurrentUsername();
