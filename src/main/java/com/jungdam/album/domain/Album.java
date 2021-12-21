@@ -11,6 +11,8 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Content;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
+import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.exception.common.DuplicationException;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
@@ -96,6 +98,13 @@ public class Album extends BaseEntity {
 
     public boolean findParticipant(Member member) {
         return participants.find(member);
+    }
+
+    public void existsParticipant(Member member) {
+        boolean participant = findParticipant(member);
+        if (participant) {
+            throw new DuplicationException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
+        }
     }
 
     public List<Participant> getParticipants() {

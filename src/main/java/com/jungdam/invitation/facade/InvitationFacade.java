@@ -46,7 +46,7 @@ public class InvitationFacade {
 
         invitationService.checkExistsInPendingStatus(album, targetMember);
 
-        participantService.checkExists(album, targetMember);
+        album.existsParticipant(targetMember);
 
         Invitation invitation = invitationService.save(
             targetMember,
