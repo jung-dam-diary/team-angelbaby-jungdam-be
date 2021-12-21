@@ -19,6 +19,7 @@ public class CommentConverter {
             .commentId(comment.getId())
             .commentContent(comment.getContentValue())
             .nickname(comment.getParticipantNicknameValue())
+            .email(comment.getEmail())
             .avatar(comment.getParticipantAvatar())
             .build();
     }
