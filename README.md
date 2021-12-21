@@ -1,5 +1,10 @@
 # 🎞 Jung Dam - Back End 🎞
 
+<div align="center">   
+    <img src="https://user-images.githubusercontent.com/60251579/146893113-3e627c4a-f80e-4d14-903e-845f20d45305.png" width="280px"/>
+    <h3>🎞 정답게 주고 받는 우리 가족 이야기 🎞</h3>
+</div>
+
 ## 🎞 프로젝트 소개
 
 ```
