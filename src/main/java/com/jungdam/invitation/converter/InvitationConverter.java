@@ -16,7 +16,8 @@ public class InvitationConverter {
         return new CreateInvitationResponse(invitation.getId());
     }
 
-    public List<ReadAllInvitationResponse> toReadAllInvitationResponse(List<Invitation> invitationList) {
+    public List<ReadAllInvitationResponse> toReadAllInvitationResponse(
+        List<Invitation> invitationList) {
         return invitationList.stream()
             .map(invitation -> {
                 Album album = invitation.getAlbum();
@@ -29,6 +30,10 @@ public class InvitationConverter {
     }
 
     public UpdateInvitationResponse toUpdateInvitationResponse(Invitation invitation) {
-        return new UpdateInvitationResponse(invitation.getId(), invitation.getStatus());
+        return UpdateInvitationResponse.builder()
+            .albumId(invitation.getAlbum().getId())
+            .invitationId(invitation.getId())
+            .status(invitation.getStatus())
+            .build();
     }
 }
