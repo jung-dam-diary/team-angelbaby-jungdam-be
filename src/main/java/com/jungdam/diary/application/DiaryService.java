@@ -76,9 +76,11 @@ public class DiaryService {
     private List<Diary> findByAlbumAndBookmark(Album album, Bookmark bookmark, Long cursorId,
         Pageable page) {
         if (Objects.isNull(cursorId)) {
-            return diaryRepository.findAllByAlbumAndBookmarkOrderByIdDesc(album, bookmark, page);
+            return diaryRepository.findAllByAlbumAndBookmarkOrderByRecordedAtDesc(album, bookmark,
+                page);
         }
-        return diaryRepository.findAllByAlbumAndBookmarkAndIdLessThanOrderByIdDesc(album, bookmark,
+        return diaryRepository.findAllByAlbumAndBookmarkAndIdLessThanOrderByRecordedAtDesc(album,
+            bookmark,
             cursorId, page);
     }
 
