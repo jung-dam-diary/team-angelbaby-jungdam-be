@@ -5,10 +5,12 @@ import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.participant.dto.bundle.CheckParticipantBundle;
 import com.jungdam.participant.dto.bundle.ReadAllParticipantBundle;
+import com.jungdam.participant.dto.bundle.ReadParticipantRoleBundle;
 import com.jungdam.participant.dto.bundle.UpdateNicknameParticipantBundle;
 import com.jungdam.participant.dto.request.UpdateNicknameParticipantRequest;
 import com.jungdam.participant.dto.response.CheckParticipantResponse;
 import com.jungdam.participant.dto.response.ReadAllParticipantResponse;
+import com.jungdam.participant.dto.response.ReadParticipantRoleResponse;
 import com.jungdam.participant.dto.response.UpdateNicknameParticipantResponse;
 import com.jungdam.participant.facade.ParticipantFacade;
 import io.swagger.annotations.Api;
@@ -73,5 +75,16 @@ public class ParticipantController {
         UpdateNicknameParticipantResponse response = participantFacade.updateNickname(bundle);
 
         return ResponseDto.of(ResponseMessage.PARTICIPANT_UPDATE_NICKNAME_SUCCESS, response);
+    }
+
+    @ApiOperation("참여자 역할 조회")
+    @GetMapping("role")
+    public ResponseEntity<ResponseDto<ReadParticipantRoleResponse>> getRole(@PathVariable Long albumId) {
+        Long memberId = SecurityUtils.getCurrentUsername();
+
+        ReadParticipantRoleBundle bundle = new ReadParticipantRoleBundle(memberId, albumId);
+        ReadParticipantRoleResponse response = participantFacade.findRole(bundle);
+
+        return ResponseDto.of(ResponseMessage.PARTICIPANT_ROLE_READ_SUCCESS, response);
     }
 }

@@ -41,6 +41,7 @@ public enum ResponseMessage {
     PARTICIPANT_CHECK_SUCCESS("P001", HttpStatus.OK, "참여인원 확인"),
     PARTICIPANT_READ_SUCCESS("P002", HttpStatus.OK, "멤버 리스트 조회 성공"),
     PARTICIPANT_UPDATE_NICKNAME_SUCCESS("P003", HttpStatus.OK, "참여자 닉네임 수정 성공"),
+    PARTICIPANT_ROLE_READ_SUCCESS("P004", HttpStatus.OK, "참여자 역할 조회"),
 
     /**
      * DIARY RESPONSE MESSAGE
@@ -54,7 +55,7 @@ public enum ResponseMessage {
     DIARY_UPDATE_SUCCESS("D007", HttpStatus.OK, "일기 수정 성공"),
     BOOKMARK_MARK_SUCCESS("D008", HttpStatus.OK, "일기 북마크 체크/언체크"),
     DIARY_DELETE_SUCCESS("D009", HttpStatus.OK, "일기 삭제 성공"),
-    STORY_BOOK_READ_SUCCESS("D010",HttpStatus.OK, "스토리북 조회 성공"),
+    STORY_BOOK_READ_SUCCESS("D010", HttpStatus.OK, "스토리북 조회 성공"),
 
     /**
      * INVITATION RESPONSE MESSAGE
