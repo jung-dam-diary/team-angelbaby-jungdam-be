@@ -62,7 +62,7 @@ public class DiaryController {
         CheckRecordedAtDiaryBundle bundle = CheckRecordedAtDiaryBundle.builder()
             .memberId(memberId)
             .albumId(albumId)
-            .recordedAt(LocalDate.parse(q, DateTimeFormatter.ISO_DATE))
+            .recordedAt(LocalDate.parse(q, DateTimeFormatter.ISO_LOCAL_DATE))
             .build();
 
         CheckRecordedAtDiaryResponse response = diaryFacade.checkRecordedAt(
