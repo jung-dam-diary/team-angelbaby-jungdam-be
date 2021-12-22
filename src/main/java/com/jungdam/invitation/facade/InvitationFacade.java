@@ -7,12 +7,15 @@ import com.jungdam.invitation.converter.InvitationConverter;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.invitation.dto.bundle.CreateInvitationBundle;
 import com.jungdam.invitation.dto.bundle.ReadAllInvitationBundle;
+import com.jungdam.invitation.dto.bundle.SearchInvitationBundle;
 import com.jungdam.invitation.dto.bundle.UpdateInvitationBundle;
 import com.jungdam.invitation.dto.response.CreateInvitationResponse;
 import com.jungdam.invitation.dto.response.ReadAllInvitationResponse;
 import com.jungdam.invitation.dto.response.UpdateInvitationResponse;
 import com.jungdam.member.application.MemberService;
+import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
+import com.jungdam.member.dto.response.SearchMemberResponse;
 import com.jungdam.participant.application.ParticipantService;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -26,16 +29,33 @@ public class InvitationFacade {
     private final MemberService memberService;
     private final ParticipantService participantService;
     private final InvitationConverter invitationConverter;
+    private final MemberConverter memberConverter;
 
     public InvitationFacade(InvitationService invitationService,
         AlbumService albumService, MemberService memberService,
         ParticipantService participantService,
-        InvitationConverter invitationConverter) {
+        InvitationConverter invitationConverter,
+        MemberConverter memberConverter) {
         this.invitationService = invitationService;
         this.albumService = albumService;
         this.memberService = memberService;
         this.participantService = participantService;
         this.invitationConverter = invitationConverter;
+        this.memberConverter = memberConverter;
+    }
+
+    @Transactional(readOnly = true)
+    public SearchMemberResponse search(SearchInvitationBundle bundle) {
+        Album album = albumService.findById(bundle.getAlbumId());
+        Member member = memberService.findById(bundle.getMemberId());
+
+        album.belong(member);
+
+        Member targetMember = memberService.findByEmailForSearch(bundle.getEmail());
+        album.existsParticipant(targetMember);
+        album.existsInvitationParticipant(targetMember);
+
+        return memberConverter.toSearchMemberResponse(targetMember);
     }
 
     @Transactional

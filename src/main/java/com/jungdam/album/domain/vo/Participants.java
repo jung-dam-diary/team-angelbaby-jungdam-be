@@ -35,7 +35,7 @@ public class Participants {
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
     }
 
-    public boolean find(Member member) {
+    public boolean contains(Member member) {
         return participants.stream()
             .anyMatch(p -> p.isEquals(member));
     }

@@ -1,6 +1,7 @@
 package com.jungdam.album.domain.vo;
 
 import com.jungdam.invitation.domain.Invitation;
+import com.jungdam.member.domain.Member;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -15,5 +16,10 @@ public class Invitations {
 
     public void add(Invitation invitation) {
         invitations.add(invitation);
+    }
+
+    public boolean find(Member member) {
+        return invitations.stream()
+            .anyMatch(i -> i.isEquals(member));
     }
 }

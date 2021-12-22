@@ -4,11 +4,10 @@ import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
+import com.jungdam.member.domain.vo.Email;
 import com.jungdam.member.dto.bundle.ReadMemberBundle;
-import com.jungdam.member.dto.bundle.SearchMemberBundle;
 import com.jungdam.member.dto.bundle.UpdateMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
-import com.jungdam.member.dto.response.SearchMemberResponse;
 import com.jungdam.member.dto.response.UpdateMemberResponse;
 import com.jungdam.member.infrastructure.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -34,11 +33,9 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public SearchMemberResponse findByEmail(SearchMemberBundle bundle) {
-        Member member = memberRepository.findByEmail(bundle.getEmail())
+    public Member findByEmailForSearch(Email email) {
+        return memberRepository.findByEmail(email)
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
-
-        return memberConverter.toSearchMemberResponse(member);
     }
 
     @Transactional

@@ -52,7 +52,7 @@ public class ParticipantFacade {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
 
-        boolean check = album.findParticipant(member);
+        boolean check = album.contains(member);
 
         return participantConverter.toCheckParticipantResponse(album, check);
     }

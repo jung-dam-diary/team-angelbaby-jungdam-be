@@ -96,15 +96,26 @@ public class Album extends BaseEntity {
         return participants.find(member, this);
     }
 
-    public boolean findParticipant(Member member) {
-        return participants.find(member);
+    public boolean contains(Member member) {
+        return participants.contains(member);
     }
 
     public void existsParticipant(Member member) {
-        boolean participant = findParticipant(member);
-        if (participant) {
+        boolean hasParticipant = contains(member);
+        if (hasParticipant) {
             throw new DuplicationException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
         }
+    }
+
+    public void existsInvitationParticipant(Member member) {
+        boolean participant = findInvitationMember(member);
+        if (participant) {
+            throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM);
+        }
+    }
+
+    public boolean findInvitationMember(Member member) {
+        return invitations.find(member);
     }
 
     public List<Participant> getParticipants() {
