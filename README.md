@@ -15,6 +15,8 @@
 정담은 오늘의 삶, 어제의 삶, 우리 가족의 삶을 공유 할 수 있습니다.
 ```
 
+![architecture](./images/jungdam-main.png)
+
 ## 🧑‍💻 팀원 소개
 
 ### Back End Developer 🙋
@@ -28,8 +30,8 @@
 
 ### Spring
 
-- Java 11.X (lts)
-- Gradle 7.2 (lts)
+- Java 11.X `lts`
+- Gradle 7.2 `lts`
 - SpringBoot 2.5.X
 - Spring-data-jpa
     - entity-Graph
@@ -37,7 +39,7 @@
 - Spring-Security
     - OAuth2.0
     - JWT
-- Swagger
+- Swagger 2.X
 
 ### Database
 
@@ -46,9 +48,9 @@
 
 ### DevOps
 
-- Git Submodule (secert config 관리)
-- Github actions (java with gradle)
-- AWS EC2, S3, RDS, Route53, ELB(L7), Certificate Manager, Code Deploy
+- Git Submodule `secert config 관리`
+- Github actions `java with gradle`
+- AWS EC2, S3, RDS, Route53, ELB `L7`, Certificate Manager, Code Deploy
 - Docker, docker-compose
 - NGINX
 
@@ -74,4 +76,3 @@
 > 📌 [CI/CD 과정 Private Properties 설정](https://backend-devcourse.notion.site/CI-CD-Private-Properties-0f8cc8ae6e954ab39bf84b419ea739dd) <br>
 > 📌 [S3 Image Upload Module 개발](https://backend-devcourse.notion.site/cc24e5164f0a4998a3b520c7e0972e3b) <br>
 > 📌 [서버 Request Size Limit 이슈](https://backend-devcourse.notion.site/api-v1-images-Error-413-8fd1ce00fdd84dceb49aa4b5a167a073) <br>
-> 
