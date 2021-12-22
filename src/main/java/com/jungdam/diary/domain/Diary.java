@@ -86,6 +86,10 @@ public class Diary extends BaseEntity {
         return participant.getMemberAvatar();
     }
 
+    public String getEmailValue() {
+        return participant.getMemberEmail();
+    }
+
     public Long getAlbumValue() {
         return album.getId();
     }

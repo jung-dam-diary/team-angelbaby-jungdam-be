@@ -18,7 +18,6 @@ import com.jungdam.diary.dto.response.ReadStoryBookResponse;
 import com.jungdam.diary.dto.response.UpdateDiaryResponse;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
 import com.jungdam.diary_photo.dto.response.DiaryPhotosInfoResponse;
-import com.jungdam.member.domain.vo.Email;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.dto.response.ParticipantInfoResponse;
 import com.jungdam.participant.dto.response.ParticipantInfosResponse;
@@ -37,9 +36,8 @@ public class DiaryConverter {
         return new CreateDiaryResponse(diary.getAlbumValue(), diary.getId());
     }
 
-    public ReadDetailDiaryResponse toReadDiaryResponse(Email email, Diary diary) {
-        ParticipantInfosResponse participant = toParticipantInfosResponse(
-            email, diary);
+    public ReadDetailDiaryResponse toReadDiaryResponse(Diary diary) {
+        ParticipantInfosResponse participant = toParticipantInfosResponse(diary);
 
         return ReadDetailDiaryResponse.builder()
             .albumId(diary.getAlbumValue())
@@ -53,9 +51,9 @@ public class DiaryConverter {
             .build();
     }
 
-    private ParticipantInfosResponse toParticipantInfosResponse(Email email, Diary diary) {
+    private ParticipantInfosResponse toParticipantInfosResponse(Diary diary) {
         return ParticipantInfosResponse.builder()
-            .email(email.getEmail())
+            .email(diary.getEmailValue())
             .nickname(diary.getNicknameValue())
             .avatar(diary.getAvatarValue())
             .build();

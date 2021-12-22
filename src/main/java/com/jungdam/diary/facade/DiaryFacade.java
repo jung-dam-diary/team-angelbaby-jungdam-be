@@ -76,7 +76,7 @@ public class DiaryFacade {
         album.belong(member);
 
         Diary diary = album.findDiary(bundle.getDiaryId());
-        return diaryConverter.toReadDiaryResponse(member.getEmail(), diary);
+        return diaryConverter.toReadDiaryResponse(diary);
     }
 
     @Transactional
