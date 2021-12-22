@@ -126,12 +126,13 @@ public class DiaryService {
     }
 
     private List<Diary> findAllByAlbumOrderByRecordedAtDesc(Album album, Pageable pageable) {
-        return diaryRepository.findAllByAlbumOrderByRecordedAtDesc(album, pageable);
+        return diaryRepository.findAllByAlbumOrderByRecordedAtDescCreatedAtDesc(album, pageable);
     }
 
     private List<Diary> findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(Album album,
         RecordedAt recordedAt, Pageable pageable) {
-        return diaryRepository.findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDesc(album,
+        return diaryRepository.findAllByAlbumAndRecordedAtLessThanOrderByRecordedAtDescCreatedAtDesc(
+            album,
             recordedAt, pageable);
     }
 
