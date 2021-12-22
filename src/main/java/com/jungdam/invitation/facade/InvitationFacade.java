@@ -48,10 +48,10 @@ public class InvitationFacade {
     public SearchMemberResponse search(SearchInvitationBundle bundle) {
         Album album = albumService.findById(bundle.getAlbumId());
         Member member = memberService.findById(bundle.getMemberId());
+        Member targetMember = memberService.findByEmailForSearch(bundle.getEmail());
 
         album.belong(member);
 
-        Member targetMember = memberService.findByEmailForSearch(bundle.getEmail());
         album.existsParticipant(targetMember);
         album.existsInvitationParticipant(targetMember);
 
