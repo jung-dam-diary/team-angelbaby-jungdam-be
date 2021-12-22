@@ -31,6 +31,9 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findAllByAlbumAndParticipantOrderByIdDesc(Album album, Participant participant,
         Pageable pageable);
 
+    List<Diary> findAllByAlbumAndParticipantOrderByRecordedAtDesc(Album album, Participant participant,
+        Pageable pageable);
+
     List<Diary> findAllByAlbumAndParticipantAndIdLessThanOrderByIdDesc(
         Album album, Participant participant, Long cursorId, Pageable pageable);
 

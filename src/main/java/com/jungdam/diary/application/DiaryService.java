@@ -177,7 +177,7 @@ public class DiaryService {
         Pageable page) {
         return participants.stream()
             .map(participant -> {
-                List<Diary> diaries = diaryRepository.findAllByAlbumAndParticipantOrderByIdDesc(
+                List<Diary> diaries = diaryRepository.findAllByAlbumAndParticipantOrderByRecordedAtDesc(
                     album, participant,
                     page);
                 return diaryConverter.toReadParticipantStoryBookResponse(participant, diaries);
