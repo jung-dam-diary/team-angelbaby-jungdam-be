@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -30,9 +28,18 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     Boolean existsByAlbumAndRecordedAtLessThan(Album album, RecordedAt recordedAt);
 
+    List<Diary> findAllByAlbumAndParticipantOrderByIdDesc(Album album, Participant participant,
+        Pageable pageable);
+
     List<Diary> findAllByAlbumAndParticipantOrderByRecordedAtDesc(Album album,
         Participant participant,
         Pageable pageable);
+
+    List<Diary> findAllByAlbumAndParticipantAndIdLessThanOrderByIdDesc(
+        Album album, Participant participant, Long cursorId, Pageable pageable);
+
+    Boolean existsByAlbumAndParticipantAndIdLessThan(Album album, Participant participant,
+        Long cursorId);
 
     List<Diary> findAllByAlbumAndBookmarkOrderByRecordedAtDesc(Album album, Bookmark bookmark,
         Pageable page);
@@ -40,32 +47,4 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findAllByAlbumAndBookmarkAndIdLessThanOrderByRecordedAtDesc(Album album,
         Bookmark bookmark, Long cursorId,
         Pageable page);
-
-    List<Diary> findAllByAlbumAndParticipant(Album album, Participant participant,
-        Pageable pageable);
-
-    @Query(value = "select * from diary "
-        + "where album_id = :album "
-        + "and participant_id = :participant "
-        + "and diary_recorded_at < :recordedAt "
-        + "or (diary_recorded_at = :recordedAt and diary_id < :id) ",
-        nativeQuery = true)
-    List<Diary> findAllByAlbumAndParticipantCursor(
-        @Param("album") Long album,
-        @Param("participant") Long participant,
-        @Param("id") Long cursorId,
-        @Param("recordedAt") String recordedAt, Pageable pageable);
-
-    @Query(value = "select * from diary "
-        + "where album_id = :album "
-        + "and participant_id = :participant "
-        + "and diary_recorded_at < :recordedAt "
-        + "or (diary_recorded_at = :recordedAt and diary_id < :id) "
-        + "limit 1",
-        nativeQuery = true)
-    Optional<Diary> existsByAlbumAndParticipantCursor(
-        @Param("album") Long album,
-        @Param("participant") Long participant,
-        @Param("id") Long cursorId,
-        @Param("recordedAt") String recordedAt);
 }

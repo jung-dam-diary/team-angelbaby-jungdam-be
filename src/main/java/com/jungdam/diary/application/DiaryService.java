@@ -2,7 +2,6 @@ package com.jungdam.diary.application;
 
 import com.jungdam.album.domain.Album;
 import com.jungdam.album.dto.response.ReadAllMomentResponse;
-import com.jungdam.common.utils.PageUtils;
 import com.jungdam.diary.converter.DiaryConverter;
 import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Bookmark;
@@ -14,13 +13,11 @@ import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
-import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.participant.domain.Participant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -141,45 +138,38 @@ public class DiaryService {
 
     //TODO Id 기준이 아닌 RecordedAt 기준으로 변경 필요
     @Transactional(readOnly = true)
-    public ReadAllStoryBookResponse findAllStoryBook(
-        Album album, Participant participant, Long cursorId, Integer pageSize) {
-        final List<Diary> diaries = findByAlbumAndParticipant(album, participant, cursorId, pageSize);
+    public ReadAllStoryBookResponse findAllStoryBook(Album album, Participant participant,
+        Long cursorId, Pageable pageable) {
+        final List<Diary> diaries = findByAlbumAndParticipant(album, participant, cursorId,
+            pageable);
 
-        final Long lastIdOfList = diaries.isEmpty() ? null : diaries.get(diaries.size() - 1).getId();
+        final Long lastIdOfList =
+            diaries.isEmpty() ? null : diaries.get(diaries.size() - 1).getId();
 
         return diaryConverter.toReadAllStoryBookResponse(
-            hasNextStoryBook(album, participant, lastIdOfList), participant, diaries);
+            hasNextStoryBook(album, participant, lastIdOfList),
+            participant, diaries);
     }
 
-    public List<Diary> findByAlbumAndParticipant(
-        Album album, Participant participant, Long cursorId, Integer pageSize) {
+    private List<Diary> findByAlbumAndParticipant(Album album, Participant participant,
+        Long cursorId,
+        Pageable pageable) {
         if (Objects.isNull(cursorId)) {
-            Pageable pageable = PageUtils.of(pageSize, DiarySort.recordedAtDescIdDesc());
-            return diaryRepository.findAllByAlbumAndParticipant(album, participant, pageable);
+            return diaryRepository
+                .findAllByAlbumAndParticipantOrderByIdDesc(album, participant, pageable);
+        } else {
+            return diaryRepository
+                .findAllByAlbumAndParticipantAndIdLessThanOrderByIdDesc(album, participant,
+                    cursorId, pageable);
         }
-        RecordedAt recordedAt = findById(cursorId).getRecordedAt();
-
-        Pageable pageable = PageUtils.of(pageSize, DiarySort.rawRecordedAtDescIdDesc());
-        return diaryRepository.findAllByAlbumAndParticipantCursor(
-            album.getId(), participant.getId(), cursorId, recordedAt.getRecordedAt().toString(), pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public Diary findById(Long id) {
-        return diaryRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
     }
 
     private Boolean hasNextStoryBook(Album album, Participant participant, Long lastIdOfList) {
         if (Objects.isNull(lastIdOfList)) {
             return false;
         }
-        RecordedAt recordedAt = findById(lastIdOfList).getRecordedAt();
-
-        Optional<Diary> optionalDiary = diaryRepository.existsByAlbumAndParticipantCursor(
-            album.getId(), participant.getId(), lastIdOfList, recordedAt.getRecordedAt().toString());
-
-        return optionalDiary.isPresent();
+        return diaryRepository.existsByAlbumAndParticipantAndIdLessThan(album, participant,
+            lastIdOfList);
     }
 
     @Transactional(readOnly = true)
