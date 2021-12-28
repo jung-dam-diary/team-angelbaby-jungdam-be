@@ -41,7 +41,6 @@ public class AuthTokenProvider {
     }
 
     public Authentication getAuthentication(AuthToken authToken) {
-
         if (authToken.validate()) {
             Claims claims = authToken.getTokenClaims();
             Collection<? extends GrantedAuthority> authorities = getGrantedAuthorities(
@@ -51,15 +50,17 @@ public class AuthTokenProvider {
             User principal = new User(claims.getSubject(), USER_PASSWORD, authorities);
 
             return new UsernamePasswordAuthenticationToken(principal, authToken, authorities);
-        } else {
-            throw new TokenValidFailedException(ErrorMessage.FAIL_TO_GENERATE_TOKEN);
         }
+        throw new TokenValidFailedException(ErrorMessage.FAIL_TO_GENERATE_TOKEN);
     }
 
     private Collection<? extends GrantedAuthority> getGrantedAuthorities(Claims claims) {
-        final String[] authorities = {claims.get(AUTHORITIES_KEY).toString()};
-        return Arrays.stream(authorities)
+        return Arrays.stream(convertClaimToAuthorities(claims))
             .map(SimpleGrantedAuthority::new)
             .collect(Collectors.toList());
+    }
+
+    private String[] convertClaimToAuthorities(Claims claims) {
+        return new String[]{claims.get(AUTHORITIES_KEY).toString()};
     }
 }

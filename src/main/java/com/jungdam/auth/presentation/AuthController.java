@@ -15,8 +15,6 @@ import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;
 import com.jungdam.member.domain.vo.Role;
-import com.jungdam.member.infrastructure.MemberRefreshTokenRepository;
-import com.jungdam.member.infrastructure.MemberRepository;
 import io.jsonwebtoken.Claims;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +24,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,25 +39,16 @@ public class AuthController {
     private final static String CLAIMS_ROLE = "role";
     private final AuthProperties authProperties;
     private final AuthTokenProvider tokenProvider;
-    private final AuthenticationManager authenticationManager;
-    private final MemberRefreshTokenRepository memberRefreshTokenRepository;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final MemberRefreshTokenService memberRefreshTokenService;
 
     public AuthController(
         AuthProperties authProperties,
         AuthTokenProvider tokenProvider,
-        AuthenticationManager authenticationManager,
-        MemberRefreshTokenRepository memberRefreshTokenRepository,
-        MemberRepository memberRepository,
         MemberService memberService,
         MemberRefreshTokenService memberRefreshTokenService) {
         this.authProperties = authProperties;
         this.tokenProvider = tokenProvider;
-        this.authenticationManager = authenticationManager;
-        this.memberRefreshTokenRepository = memberRefreshTokenRepository;
-        this.memberRepository = memberRepository;
         this.memberService = memberService;
         this.memberRefreshTokenService = memberRefreshTokenService;
     }

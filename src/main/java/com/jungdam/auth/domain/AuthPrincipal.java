@@ -47,20 +47,20 @@ public class AuthPrincipal implements OAuth2User, UserDetails, OidcUser {
             new SimpleGrantedAuthority(Role.USER.getRole()));
     }
 
-    public static AuthPrincipal create(Member member) {
+    public static AuthPrincipal create(Member member, Map<String, Object> attributes) {
+        AuthPrincipal authPrincipal = toAuthPrincipal(member);
+        authPrincipal.initAttributes(attributes);
+
+        return authPrincipal;
+    }
+
+    public static AuthPrincipal toAuthPrincipal(Member member) {
         return AuthPrincipal.builder()
             .id(member.getId())
             .email(member.getEmail().getEmail())
             .oauthPermission(member.getOauthPermission())
             .providerType(member.getProviderType())
             .build();
-    }
-
-    public static AuthPrincipal create(Member member, Map<String, Object> attributes) {
-        AuthPrincipal authPrincipal = create(member);
-        authPrincipal.initAttributes(attributes);
-
-        return authPrincipal;
     }
 
     public static AuthPrincipal.AuthPrincipalBuilder builder() {

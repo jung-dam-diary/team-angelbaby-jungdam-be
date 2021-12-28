@@ -76,32 +76,38 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) {
-
-        String targetUrl = bringTargetUrl(request);
-
         OAuth2MemberInfo oAuth2MemberInfo = bringOAuth2MemberInfo(authentication);
-
-        Role role = bringRole(authentication);
-
         Date now = new Date();
+        refreshToken(request, response, oAuth2MemberInfo, now);
+        return makeURI(request, authentication, oAuth2MemberInfo, now);
+    }
 
+    private String makeURI(HttpServletRequest request, Authentication authentication,
+        OAuth2MemberInfo oAuth2MemberInfo, Date now) {
+        String targetUrl = bringTargetUrl(request);
+        Role role = bringRole(authentication);
         AuthToken accessToken = makeAccessToken(oAuth2MemberInfo, role, now);
+        return buildURI(targetUrl, accessToken);
+    }
 
-        AuthToken refreshToken = makeRefreshToken(now, getRefreshTokenExpiry());
+    private void refreshToken(HttpServletRequest request, HttpServletResponse response,
+        OAuth2MemberInfo oAuth2MemberInfo, Date now) {
+        long refreshTokenExpiry = getRefreshTokenExpiry();
+        AuthToken refreshToken = makeRefreshToken(now, refreshTokenExpiry);
+        updateToken(oAuth2MemberInfo, refreshToken);
+        updateCookieInfo(request, response, (int) refreshTokenExpiry, refreshToken);
+    }
 
+    private void updateToken(OAuth2MemberInfo oAuth2MemberInfo, AuthToken refreshToken) {
         MemberRefreshToken memberRefreshToken = findByOauthPermission(oAuth2MemberInfo);
         updateOrCreateRefreshToken(oAuth2MemberInfo, refreshToken, memberRefreshToken);
-
-        updateCookieInfo(request, response, (int) getRefreshTokenExpiry(), refreshToken);
-
-        return makeURI(targetUrl, accessToken);
     }
 
     private long getRefreshTokenExpiry() {
         return authProperties.getOauth().getRefreshTokenExpiry();
     }
 
-    private String makeURI(String targetUrl, AuthToken accessToken) {
+    private String buildURI(String targetUrl, AuthToken accessToken) {
         return UriComponentsBuilder.fromUriString(targetUrl)
             .queryParam(
                 QUERY_PARAM_FOR_TOKEN,

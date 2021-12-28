@@ -30,19 +30,32 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException {
-        String targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
-            .map(Cookie::getValue)
-            .orElse(FAIL_TO_REDIRECT_URL);
-
-        exception.printStackTrace();
-
-        targetUrl = UriComponentsBuilder.fromUriString(targetUrl)
-            .queryParam(QUERY_PARAM_FOR_ERROR, exception.getLocalizedMessage())
-            .build()
-            .toUriString();
+        String targetUrl = bringTargetUrl(request, exception);
 
         authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
+    }
+
+    private String bringTargetUrl(HttpServletRequest request, AuthenticationException exception) {
+        String targetUrl = bringRedirectUri(request);
+
+        exception.printStackTrace();
+
+        targetUrl = bringTargetUrlWithError(exception, targetUrl);
+        return targetUrl;
+    }
+
+    private String bringRedirectUri(HttpServletRequest request) {
+        return CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
+            .map(Cookie::getValue)
+            .orElse(FAIL_TO_REDIRECT_URL);
+    }
+
+    private String bringTargetUrlWithError(AuthenticationException exception, String targetUrl) {
+        return UriComponentsBuilder.fromUriString(targetUrl)
+            .queryParam(QUERY_PARAM_FOR_ERROR, exception.getLocalizedMessage())
+            .build()
+            .toUriString();
     }
 }
