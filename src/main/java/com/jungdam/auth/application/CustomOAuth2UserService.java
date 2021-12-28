@@ -7,8 +7,10 @@ import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
 import com.jungdam.error.ErrorMessage;
 import com.jungdam.error.exception.auth.FailAuthenticationException;
 import com.jungdam.error.exception.auth.InternalAuthenticationException;
+import com.jungdam.error.exception.common.DuplicationException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;
+import com.jungdam.member.domain.vo.Email;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.infrastructure.MemberRepository;
 import java.util.Objects;
@@ -54,15 +56,23 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             providerType,
             oAuth2User.getAttributes()
         );
+        final String email = oAuth2MemberInfo.getEmail();
 
         Member member = memberRepository.findByOauthPermission(
             oAuth2MemberInfo.getOauthPermission()
         );
 
         if (Objects.isNull(member)) {
+            isExistsEmail(email);
             member = create(oAuth2MemberInfo, providerType);
         }
         return AuthPrincipal.create(member, oAuth2User.getAttributes());
+    }
+
+    private void isExistsEmail(String email) {
+        if (memberRepository.existsByEmail(new Email(email))) {
+            throw new DuplicationException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL);
+        }
     }
 
     private ProviderType bringProviderType(ClientRegistration clientRegistration) {

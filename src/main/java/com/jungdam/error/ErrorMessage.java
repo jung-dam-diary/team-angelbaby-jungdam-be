@@ -20,6 +20,7 @@ public enum ErrorMessage {
     NOT_EXIST_PROVIDER_TYPE("E-M007", HttpStatus.BAD_REQUEST, "존재하지 않는 제공자 타입입니다."),
     INVALID_MEMBER_NICKNAME("E-M008", HttpStatus.BAD_REQUEST, "사용자 닉네임 정보가 잘못되었습니다."),
     NOT_EXIST_MEMBER("E-M006", HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+    ALREADY_EXIST_MEMBER_EMAIL("E-M007", HttpStatus.BAD_REQUEST, "이미 존재하는 이메일 정보입니다."),
 
     /**
      * ALBUM ERROR RESPONSE MESSAGE
