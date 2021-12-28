@@ -74,6 +74,11 @@ public enum ErrorMessage {
      **/
     FAILURE_FILE_CONVERT("E-IM001", HttpStatus.BAD_REQUEST, "File convert fail"),
 
+    /**
+     * INTERNAL ERROR RESPONSE MESSAGE
+     **/
+    INTERNAL_SERVER_ERROR("E-IS001", HttpStatus.BAD_REQUEST, "Internal Server Error"),
+
     ;
 
     private final String code;

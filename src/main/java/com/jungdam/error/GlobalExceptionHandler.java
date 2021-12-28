@@ -13,4 +13,9 @@ public class GlobalExceptionHandler {
         ErrorMessage message = exception.getErrorMessage();
         return ErrorResponseDto.of(message);
     }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponseDto> handleException() {
+        return ErrorResponseDto.of(ErrorMessage.INTERNAL_SERVER_ERROR);
+    }
 }
