@@ -45,7 +45,8 @@ public class CookieUtils {
         Cookie[] cookies = request.getCookies();
 
         if (!Objects.isNull(cookies) && cookies.length > COOKIE_MIN_LENGTH) {
-            Arrays.stream(cookies).filter(cookie -> name.equals(cookie.getName()))
+            Arrays.stream(cookies)
+                .filter(cookie -> name.equals(cookie.getName()))
                 .forEach(cookie -> {
                     cookie.setValue(COOKIE_VALUE);
                     cookie.setPath(COOKIE_PATH);
