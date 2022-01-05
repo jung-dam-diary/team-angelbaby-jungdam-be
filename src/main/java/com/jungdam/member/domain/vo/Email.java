@@ -1,12 +1,15 @@
 package com.jungdam.member.domain.vo;
 
-import java.util.Objects;
+import java.util.regex.Pattern;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
 @Embeddable
 public class Email {
+
+    @Transient
+    private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
 
     @Transient
     private final static String NO_EMAIL = "NO_EMAIL";
@@ -22,10 +25,10 @@ public class Email {
     }
 
     private String validate(String email) {
-        if (Objects.isNull(email)) {
-            return NO_EMAIL;
+        if (Pattern.matches(EMAIL_REGEX, email)) {
+            return email;
         }
-        return email;
+        return NO_EMAIL;
     }
 
     public String getEmail() {
