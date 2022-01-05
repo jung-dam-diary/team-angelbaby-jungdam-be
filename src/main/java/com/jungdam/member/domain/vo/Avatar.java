@@ -1,9 +1,9 @@
 package com.jungdam.member.domain.vo;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import org.springframework.util.StringUtils;
 
 @Embeddable
 public class Avatar {
@@ -22,10 +22,10 @@ public class Avatar {
     }
 
     private String validate(String avatar) {
-        if (Objects.isNull(avatar)) {
-            return NO_AVATAR;
+        if (StringUtils.hasText(avatar)) {
+            return avatar;
         }
-        return avatar;
+        return NO_AVATAR;
     }
 
     public String getAvatar() {
