@@ -1,6 +1,6 @@
 package com.jungdam.member.application;
 
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.converter.MemberConverter;
 import com.jungdam.member.domain.Member;

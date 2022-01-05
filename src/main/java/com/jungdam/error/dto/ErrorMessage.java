@@ -1,4 +1,4 @@
-package com.jungdam.error;
+package com.jungdam.error.dto;
 
 import org.springframework.http.HttpStatus;
 

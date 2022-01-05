@@ -1,6 +1,6 @@
 package com.jungdam.invitation.domain.vo;
 
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.InvalidArgumentException;
 import java.util.Arrays;
 

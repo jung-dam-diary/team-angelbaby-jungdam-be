@@ -1,6 +1,6 @@
 package com.jungdam.error.exception.auth;
 
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import org.springframework.security.core.AuthenticationException;
 
 public class FailAuthenticationException extends AuthenticationException {

@@ -4,7 +4,7 @@ package com.jungdam.auth.application;
 import com.jungdam.auth.domain.AuthPrincipal;
 import com.jungdam.auth.oauth2.OAuth2MemberInfo;
 import com.jungdam.auth.oauth2.OAuth2MemberInfoFactory;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.auth.FailAuthenticationException;
 import com.jungdam.error.exception.auth.InternalAuthenticationException;
 import com.jungdam.error.exception.common.DuplicationException;

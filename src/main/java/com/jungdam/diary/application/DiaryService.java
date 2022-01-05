@@ -11,7 +11,7 @@ import com.jungdam.diary.dto.response.ReadAllFeedDiaryResponse;
 import com.jungdam.diary.dto.response.ReadAllStoryBookResponse;
 import com.jungdam.diary.dto.response.ReadGroupStoryBookResponse;
 import com.jungdam.diary.infrastructure.DiaryRepository;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
 import com.jungdam.participant.domain.Participant;
 import java.time.LocalDate;

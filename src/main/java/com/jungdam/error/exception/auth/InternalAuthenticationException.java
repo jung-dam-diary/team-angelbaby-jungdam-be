@@ -1,6 +1,6 @@
 package com.jungdam.error.exception.auth;
 
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 
 public class InternalAuthenticationException extends InternalAuthenticationServiceException {

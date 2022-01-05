@@ -1,5 +1,8 @@
-package com.jungdam.error;
+package com.jungdam.error.handler;
 
+import com.jungdam.error.dto.ErrorMessage;
+import com.jungdam.error.dto.ErrorResponseDto;
+import com.jungdam.error.exception.BusinessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

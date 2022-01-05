@@ -3,7 +3,7 @@ package com.jungdam.image.application;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.s3.FileConverterException;
 import com.jungdam.image.dto.bundle.UploadBundle;
 import com.jungdam.image.dto.response.UploadResponse;

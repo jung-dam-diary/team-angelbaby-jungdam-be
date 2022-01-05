@@ -1,7 +1,7 @@
 package com.jungdam.invitation.application;
 
 import com.jungdam.album.domain.Album;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
 import com.jungdam.error.exception.common.NoPermissionException;
 import com.jungdam.invitation.domain.Invitation;

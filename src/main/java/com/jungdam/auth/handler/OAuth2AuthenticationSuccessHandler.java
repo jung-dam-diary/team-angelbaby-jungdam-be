@@ -10,7 +10,7 @@ import com.jungdam.auth.token.AuthToken;
 import com.jungdam.auth.token.AuthTokenProvider;
 import com.jungdam.common.properties.AuthProperties;
 import com.jungdam.common.utils.CookieUtils;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.auth.FailAuthenticationException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.member.domain.MemberRefreshToken;

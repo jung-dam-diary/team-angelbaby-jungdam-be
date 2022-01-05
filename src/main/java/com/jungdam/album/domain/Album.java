@@ -11,7 +11,7 @@ import com.jungdam.diary.domain.Diary;
 import com.jungdam.diary.domain.vo.Content;
 import com.jungdam.diary.domain.vo.RecordedAt;
 import com.jungdam.diary_photo.domain.DiaryPhoto;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.DuplicationException;
 import com.jungdam.invitation.domain.Invitation;
 import com.jungdam.member.domain.Member;

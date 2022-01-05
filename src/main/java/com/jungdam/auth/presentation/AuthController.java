@@ -7,7 +7,7 @@ import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.properties.AuthProperties;
 import com.jungdam.common.utils.CookieUtils;
 import com.jungdam.common.utils.HeaderUtils;
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.token.InvalidRefreshTokenException;
 import com.jungdam.error.exception.token.NotExpiredException;
 import com.jungdam.member.application.MemberRefreshTokenService;

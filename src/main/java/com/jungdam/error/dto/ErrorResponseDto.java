@@ -1,4 +1,4 @@
-package com.jungdam.error;
+package com.jungdam.error.dto;
 
 import java.time.LocalDateTime;
 import org.springframework.http.ResponseEntity;

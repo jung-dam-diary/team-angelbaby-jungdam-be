@@ -1,6 +1,6 @@
 package com.jungdam.common.utils;
 
-import com.jungdam.error.ErrorMessage;
+import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
 import java.util.Objects;
 import org.springframework.security.core.Authentication;
