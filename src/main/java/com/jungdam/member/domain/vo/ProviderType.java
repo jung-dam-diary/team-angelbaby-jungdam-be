@@ -15,10 +15,14 @@ public enum ProviderType {
 
     public static ProviderType of(String type) {
         return Arrays.stream(ProviderType.values())
-            .filter(p -> p.name().equals(type))
+            .filter(p -> isEquals(type, p))
             .findAny()
             .orElseThrow(
                 () -> new OAuthProviderMissMatchException(ErrorMessage.NOT_EXIST_PROVIDER_TYPE)
             );
+    }
+
+    private static boolean isEquals(String type, ProviderType providerType) {
+        return providerType.name().equals(type);
     }
 }
