@@ -6,6 +6,7 @@ import com.jungdam.image.application.S3Uploader;
 import com.jungdam.image.dto.bundle.UploadBundle;
 import com.jungdam.image.dto.response.UploadResponse;
 import java.io.IOException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class ImageController {
         this.s3Uploader = s3Uploader;
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto<UploadResponse>> upload(
         @RequestParam("image") MultipartFile multipartFile)
         throws IOException {
