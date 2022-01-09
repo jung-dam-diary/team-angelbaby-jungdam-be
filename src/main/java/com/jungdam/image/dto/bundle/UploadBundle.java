@@ -1,22 +1,23 @@
 package com.jungdam.image.dto.bundle;
 
+import com.jungdam.image.config.FileFolder;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadBundle {
 
     private final MultipartFile multipartFile;
-    private final String directoryName;
+    private final FileFolder fileFolder;
 
-    public UploadBundle(MultipartFile multipartFile, String directoryName) {
+    public UploadBundle(MultipartFile multipartFile, FileFolder fileFolder) {
         this.multipartFile = multipartFile;
-        this.directoryName = directoryName;
+        this.fileFolder = fileFolder;
     }
 
     public MultipartFile getMultipartFile() {
         return multipartFile;
     }
 
-    public String getDirectoryName() {
-        return directoryName;
+    public FileFolder getFileFolderName() {
+        return fileFolder;
     }
 }
