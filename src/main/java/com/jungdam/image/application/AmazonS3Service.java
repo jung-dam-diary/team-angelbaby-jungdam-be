@@ -34,7 +34,6 @@ public class AmazonS3Service implements FileService {
                 objectMetadata).withCannedAcl(CannedAccessControlList.PublicReadWrite));
     }
 
-    // TODO : catch AWS Error into Custom Error
     @Override
     public void deleteFile(String fileName) {
         amazonS3.deleteObject(
@@ -48,7 +47,6 @@ public class AmazonS3Service implements FileService {
             .toString();
     }
 
-    // FIXME : 더 좋은 코드로 짤 수 없을지 피드백 부탁드립니다!
     @Override
     public String getFileFolder(FileFolder fileFolder) {
         String folder;
@@ -63,59 +61,4 @@ public class AmazonS3Service implements FileService {
         }
         return folder;
     }
-
-    // ------------------------------------------------------------
-    /*
-    public UploadResponse upload(UploadBundle bundle) throws IOException {
-        File uploadFile = convert(bundle.getMultipartFile())
-            .orElseThrow(
-                () -> new FileConverterException(ErrorMessage.FAILURE_FILE_CONVERT)
-            );
-        String uploadImageUrl = upload(uploadFile, bundle.getFileFolderName());
-
-        return new UploadResponse(uploadImageUrl);
-    }
-
-    public String upload(File uploadFile, String dirName) {
-        String fileName = dirName + URL_SLASH + UUID.randomUUID();
-
-        return putS3(uploadFile, fileName);
-    }
-
-    public String putS3(File uploadFile, String fileName) {
-
-        try {
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName,
-                uploadFile);
-            amazonS3Client.putObject(
-                putObjectRequest.withCannedAcl(
-                    CannedAccessControlList.PublicRead)
-            );
-        } finally {
-            removeNewFile(uploadFile);
-        }
-
-        return amazonS3Client.getUrl(bucketName, fileName).toString();
-    }
-
-    public void removeNewFile(File targetFile) {
-        if (targetFile.delete()) {
-            log.info("File delete success");
-        } else {
-            log.warn("File delete fail");
-        }
-    }
-
-    public Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(
-            System.getProperty(DIRECTORY_PROPERTY) + URL_SLASH + file.getOriginalFilename());
-        if (convertFile.createNewFile()) {
-            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                fos.write(file.getBytes());
-            }
-            return Optional.of(convertFile);
-        }
-        return Optional.empty();
-    }
-    */
 }

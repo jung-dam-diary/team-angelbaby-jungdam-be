@@ -41,7 +41,7 @@ public class FileProcessService {
 
         try (InputStream inputStream = file.getInputStream()) {
             amazonS3Service.uploadFile(inputStream, objectMetadata, fileName);
-        } catch (IOException ioe) {
+        } catch (IOException exception) {
             log.error(String.format("파일 변환 중 에러가 발생했습니다 (%s)", file.getOriginalFilename()));
             throw new FileConverterException(ErrorMessage.FAILURE_FILE_CONVERT);
         }
