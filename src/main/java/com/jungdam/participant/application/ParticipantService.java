@@ -28,12 +28,7 @@ public class ParticipantService {
         participant.register(album);
         participantRepository.save(participant);
     }
-
-    @Transactional(readOnly = true)
-    public boolean notExistsByAlbumAndMember(Album album, Member member) {
-        return !participantRepository.existsByAlbumAndMember(album, member);
-    }
-
+    
     @Transactional(readOnly = true)
     public List<Participant> findAllByAlbum(Album album) {
         return participantRepository.findAllByAlbum(album);
