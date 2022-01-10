@@ -72,7 +72,7 @@ public class Participant extends BaseEntity {
     public boolean isEquals(Member member) {
         return this.member.equals(member);
     }
-    
+
     public Long getId() {
         return id;
     }
