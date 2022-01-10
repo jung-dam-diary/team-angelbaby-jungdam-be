@@ -9,7 +9,7 @@ public class HeaderUtils {
 
     public static String getAccessToken(HttpServletRequest request) {
         String headerValue = request.getHeader(HEADER_AUTHORIZATION);
-        if (headerValue.startsWith(TOKEN_PREFIX)) {
+        if (headerValue != null && headerValue.startsWith(TOKEN_PREFIX)) {
             return headerValue.substring(TOKEN_PREFIX.length());
         }
         return null;
