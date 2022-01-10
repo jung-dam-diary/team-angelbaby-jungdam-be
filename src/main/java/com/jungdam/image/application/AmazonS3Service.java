@@ -49,16 +49,6 @@ public class AmazonS3Service implements FileService {
 
     @Override
     public String getFileFolder(FileFolder fileFolder) {
-        String folder;
-        if (fileFolder == FileFolder.AVATAR_IMAGES) {
-            folder = amazonS3Component.getAvatarFolder();
-        } else if (fileFolder == FileFolder.DIARY_IMAGES) {
-            folder = amazonS3Component.getDiaryFolder();
-        } else if (fileFolder == FileFolder.THUMBNAIL_IMAGES) {
-            folder = amazonS3Component.getThumbnailFolder();
-        } else {
-            folder = amazonS3Component.getTemporaryFolder();
-        }
-        return folder;
+        return fileFolder.getFileFolder(amazonS3Component);
     }
 }
