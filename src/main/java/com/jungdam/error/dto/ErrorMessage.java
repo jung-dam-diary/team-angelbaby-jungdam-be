@@ -42,6 +42,7 @@ public enum ErrorMessage {
      **/
     DUPLICATION_PARTICIPANT_IN_ALBUM("E-P-001", HttpStatus.BAD_REQUEST, "해당 앨범에 회원이 존재합니다."),
     NOT_EXIST_PARTICIPANT("E-P-002", HttpStatus.BAD_REQUEST, "앨범에 포함되지 않은 회원입니다."),
+    INVALID_PARTICIPANT_NICKNAME("E-P-003", HttpStatus.BAD_REQUEST, "참여자의 닉네임 형식이 잘못되었습니다."),
 
     /**
      * COMMON ERROR RESPONSE MESSAGE

@@ -25,7 +25,7 @@ public class Nickname {
         this.nickname = nickname;
     }
 
-    public void validate(String nickname) {
+    private void validate(String nickname) {
         if (!StringUtils.hasText(nickname) || !Pattern.matches(NICKNAME_VALIDATOR, nickname)) {
             throw new InvalidArgumentException(ErrorMessage.INVALID_MEMBER_NICKNAME);
         }
