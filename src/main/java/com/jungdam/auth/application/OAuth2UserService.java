@@ -23,12 +23,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomOAuth2UserService extends DefaultOAuth2UserService {
+public class OAuth2UserService extends DefaultOAuth2UserService {
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
 
-    public CustomOAuth2UserService(MemberRepository memberRepository,
+    public OAuth2UserService(MemberRepository memberRepository,
         MemberConverter memberConverter) {
         this.memberRepository = memberRepository;
         this.memberConverter = memberConverter;
@@ -56,21 +56,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             providerType,
             oAuth2User.getAttributes()
         );
-        final String email = oAuth2MemberInfo.getEmail();
 
         Member member = memberRepository.findByOauthPermission(
             oAuth2MemberInfo.getOauthPermission()
         );
 
         if (Objects.isNull(member)) {
+            Email email = new Email(oAuth2MemberInfo.getEmail());
             isExistsEmail(email);
             member = create(oAuth2MemberInfo, providerType);
         }
         return AuthPrincipal.create(member, oAuth2User.getAttributes());
     }
 
-    private void isExistsEmail(String email) {
-        if (memberRepository.existsByEmail(new Email(email))) {
+    private void isExistsEmail(Email email) {
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicationException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL);
         }
     }
