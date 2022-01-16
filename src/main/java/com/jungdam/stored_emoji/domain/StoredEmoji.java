@@ -1,4 +1,4 @@
-package com.jungdam.stored_emoji;
+package com.jungdam.stored_emoji.domain;
 
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
