@@ -1,6 +1,7 @@
-package com.jungdam.diary.domain;
+package com.jungdam.stored_emoji;
 
 import com.jungdam.common.domain.BaseEntity;
+import com.jungdam.diary.domain.Diary;
 import com.jungdam.emoji.domain.Emoji;
 import com.jungdam.participant.domain.Participant;
 import javax.persistence.Column;
