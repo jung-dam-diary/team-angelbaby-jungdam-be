@@ -1,6 +1,6 @@
 package com.jungdam.common.config;
 
-import com.jungdam.auth.application.CustomOAuth2UserService;
+import com.jungdam.auth.application.OAuth2UserService;
 import com.jungdam.auth.filter.TokenAuthenticationFilter;
 import com.jungdam.auth.handler.OAuth2AuthenticationFailureHandler;
 import com.jungdam.auth.handler.OAuth2AuthenticationSuccessHandler;
@@ -52,14 +52,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsProperties corsProperties;
     private final AuthProperties authProperties;
     private final AuthTokenProvider tokenProvider;
-    private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final MemberRefreshTokenRepository memberRefreshTokenRepository;
     private final MemberRepository memberRepository;
 
     public SecurityConfig(final CorsProperties corsProperties, final AuthProperties authProperties,
         final AuthTokenProvider tokenProvider,
-        final CustomOAuth2UserService oAuth2UserService,
+        final OAuth2UserService oAuth2UserService,
         final TokenAccessDeniedHandler tokenAccessDeniedHandler,
         final MemberRefreshTokenRepository memberRefreshTokenRepository,
         final MemberRepository memberRepository) {
