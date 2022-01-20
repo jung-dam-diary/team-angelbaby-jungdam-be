@@ -22,6 +22,22 @@ public class CreateAndDeleteStoredEmojiBundle {
         return new CreateAndDeleteStoredEmojiBundleBuilder();
     }
 
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public Long getDiaryId() {
+        return diaryId;
+    }
+
+    public Content getContent() {
+        return content;
+    }
+
     public static class CreateAndDeleteStoredEmojiBundleBuilder {
 
         private Long memberId;
