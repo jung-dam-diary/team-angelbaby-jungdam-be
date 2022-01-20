@@ -23,12 +23,4 @@ public class Emoji extends BaseEntity {
     protected Emoji() {
 
     }
-
-    private Emoji(Content content) {
-        this.content = content;
-    }
-
-    public Emoji of(Content content) {
-        return new Emoji(content);
-    }
 }

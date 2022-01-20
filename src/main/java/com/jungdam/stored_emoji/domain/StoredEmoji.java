@@ -36,4 +36,10 @@ public class StoredEmoji extends BaseEntity {
     protected StoredEmoji() {
 
     }
+
+    public StoredEmoji(Emoji emoji, Diary diary, Participant participant) {
+        this.emoji = emoji;
+        this.diary = diary;
+        this.participant = participant;
+    }
 }
