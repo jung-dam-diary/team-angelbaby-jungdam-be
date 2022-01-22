@@ -42,4 +42,10 @@ public class StoredEmoji extends BaseEntity {
         this.diary = diary;
         this.participant = participant;
     }
+
+    public String getEmojiValue() {
+        return emoji.getContent().getContent();
+    }
+
+
 }

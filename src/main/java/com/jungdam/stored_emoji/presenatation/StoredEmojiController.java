@@ -1,10 +1,14 @@
 package com.jungdam.stored_emoji.presenatation;
 
+import com.jungdam.common.dto.ResponseDto;
+import com.jungdam.common.dto.ResponseMessage;
 import com.jungdam.common.utils.SecurityUtils;
 import com.jungdam.stored_emoji.dto.bundle.CreateAndDeleteStoredEmojiBundle;
 import com.jungdam.stored_emoji.dto.request.CreateAndDeleteStoredEmojiRequest;
+import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
 import com.jungdam.stored_emoji.facade.StoredEmojiFacade;
 import io.swagger.annotations.Api;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +27,8 @@ public class StoredEmojiController {
     }
 
     @PostMapping
-    public void createAndDelete(@PathVariable Long albumId, @PathVariable Long diaryId, @RequestBody
+    public ResponseEntity<ResponseDto<CreateAndDeleteStoredEmojiResponse>> createAndDelete(
+        @PathVariable Long albumId, @PathVariable Long diaryId, @RequestBody
         CreateAndDeleteStoredEmojiRequest request) {
         Long memberId = SecurityUtils.getCurrentUsername();
 
@@ -34,9 +39,9 @@ public class StoredEmojiController {
             .content(request)
             .build();
 
-        storedEmojiFacade.createAndDelete(bundle);
+        CreateAndDeleteStoredEmojiResponse response = storedEmojiFacade.createAndDelete(
+            bundle);
 
-        // RESPONSE 반환
-
+        return ResponseDto.of(ResponseMessage.EMOJI_CREATE_AND_DELETE_SUCCESS, response);
     }
 }

@@ -23,4 +23,8 @@ public class Emoji extends BaseEntity {
     protected Emoji() {
 
     }
+
+    public Content getContent() {
+        return content;
+    }
 }

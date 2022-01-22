@@ -9,8 +9,10 @@ import com.jungdam.member.application.MemberService;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.stored_emoji.application.StoredEmojiService;
+import com.jungdam.stored_emoji.converter.StoredEmojiConverter;
 import com.jungdam.stored_emoji.domain.StoredEmoji;
 import com.jungdam.stored_emoji.dto.bundle.CreateAndDeleteStoredEmojiBundle;
+import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,18 +24,22 @@ public class StoredEmojiFacade {
     private final AlbumService albumService;
     private final EmojiService emojiService;
     private final StoredEmojiService storedEmojiService;
+    private final StoredEmojiConverter storedEmojiConverter;
 
     public StoredEmojiFacade(MemberService memberService,
         AlbumService albumService, EmojiService emojiService,
-        StoredEmojiService storedEmojiService) {
+        StoredEmojiService storedEmojiService,
+        StoredEmojiConverter storedEmojiConverter) {
         this.memberService = memberService;
         this.albumService = albumService;
         this.emojiService = emojiService;
         this.storedEmojiService = storedEmojiService;
+        this.storedEmojiConverter = storedEmojiConverter;
     }
 
     @Transactional
-    public void createAndDelete(CreateAndDeleteStoredEmojiBundle bundle) {
+    public CreateAndDeleteStoredEmojiResponse createAndDelete(
+        CreateAndDeleteStoredEmojiBundle bundle) {
         Emoji emoji = emojiService.findByContent(bundle.getContent());
 
         Member member = memberService.findById(bundle.getMemberId());
@@ -51,8 +57,8 @@ public class StoredEmojiFacade {
             storedEmojiService.delete(diary, participant, emoji);
         }
 
-        final List<StoredEmoji> byDiary = storedEmojiService.findByDiary(diary);
+        final List<StoredEmoji> storedEmojis = storedEmojiService.findByDiary(diary);
 
-        // TODO CONVERTING을 통한 RESPONSE 제공
+        return storedEmojiConverter.toCreateAndDeleteStoredEmojiResponse(diary, storedEmojis);
     }
 }

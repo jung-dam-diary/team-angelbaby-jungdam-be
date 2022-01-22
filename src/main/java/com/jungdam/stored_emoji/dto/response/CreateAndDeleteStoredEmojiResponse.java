@@ -6,10 +6,10 @@ public class CreateAndDeleteStoredEmojiResponse {
 
     private final Long albumId;
     private final Long diaryId;
-    private final List<Emojies> emojies;
+    private final List<EmojiDetailResponse> emojies;
 
     public CreateAndDeleteStoredEmojiResponse(Long albumId, Long diaryId,
-        List<Emojies> emojies) {
+        List<EmojiDetailResponse> emojies) {
         this.albumId = albumId;
         this.diaryId = diaryId;
         this.emojies = emojies;
@@ -19,13 +19,21 @@ public class CreateAndDeleteStoredEmojiResponse {
         return albumId;
     }
 
-    private static class Emojies {
+    public Long getDiaryId() {
+        return diaryId;
+    }
+
+    public List<EmojiDetailResponse> getEmojies() {
+        return emojies;
+    }
+
+    public static class EmojiDetailResponse {
 
         private final String content;
         private final String number;
         private final List<String> nickname;
 
-        public Emojies(String content, String number, List<String> nickname) {
+        public EmojiDetailResponse(String content, String number, List<String> nickname) {
             this.content = content;
             this.number = number;
             this.nickname = nickname;

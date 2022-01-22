@@ -79,7 +79,8 @@ public class ParticipantController {
 
     @ApiOperation("참여자 역할 조회")
     @GetMapping("role")
-    public ResponseEntity<ResponseDto<ReadParticipantRoleResponse>> getRole(@PathVariable Long albumId) {
+    public ResponseEntity<ResponseDto<ReadParticipantRoleResponse>> getRole(
+        @PathVariable Long albumId) {
         Long memberId = SecurityUtils.getCurrentUsername();
 
         ReadParticipantRoleBundle bundle = new ReadParticipantRoleBundle(memberId, albumId);
