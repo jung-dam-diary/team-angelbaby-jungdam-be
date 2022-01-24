@@ -15,6 +15,10 @@ public class CreateAndDeleteStoredEmojiResponse {
         this.emojies = emojies;
     }
 
+    public static CreateAndDeleteStoredEmojiResponseBuilder builder() {
+        return new CreateAndDeleteStoredEmojiResponseBuilder();
+    }
+
     public Long getAlbumId() {
         return albumId;
     }
@@ -25,6 +29,36 @@ public class CreateAndDeleteStoredEmojiResponse {
 
     public List<EmojiDetailResponse> getEmojies() {
         return emojies;
+    }
+
+    public static class CreateAndDeleteStoredEmojiResponseBuilder {
+
+        private Long albumId;
+        private Long diaryId;
+        private List<EmojiDetailResponse> emojies;
+
+        private CreateAndDeleteStoredEmojiResponseBuilder() {
+        }
+
+        public CreateAndDeleteStoredEmojiResponseBuilder albumId(final Long albumId) {
+            this.albumId = albumId;
+            return this;
+        }
+
+        public CreateAndDeleteStoredEmojiResponseBuilder diaryId(final Long diaryId) {
+            this.diaryId = diaryId;
+            return this;
+        }
+
+        public CreateAndDeleteStoredEmojiResponseBuilder emojies(
+            final List<EmojiDetailResponse> emojies) {
+            this.emojies = emojies;
+            return this;
+        }
+
+        public CreateAndDeleteStoredEmojiResponse build() {
+            return new CreateAndDeleteStoredEmojiResponse(albumId, diaryId, emojies);
+        }
     }
 
     public static class EmojiDetailResponse {

@@ -16,20 +16,20 @@ public class StoredEmojiConverter {
     public List<EmojiDetailResponse> toEmojiDetailResponses(List<Emoji> emojis,
         List<StoredEmoji> storedEmojis) {
         return emojis.stream()
-            .map(emoji1 -> new EmojiDetailResponse(
-                emoji1.getContent().getContent(),
+            .map(emoji -> new EmojiDetailResponse(
+                emoji.getContentValue(),
                 (int) storedEmojis.stream()
-                    .filter(storedEmoji -> storedEmoji.isEqual(emoji1))
+                    .filter(storedEmoji -> storedEmoji.isEqual(emoji))
                     .count()
             )).collect(Collectors.toList());
     }
 
     public CreateAndDeleteStoredEmojiResponse toCreateAndDeleteStoredEmojiResponse(
         Diary diary, List<EmojiDetailResponse> response) {
-        return new CreateAndDeleteStoredEmojiResponse(
-            diary.getAlbumValue(),
-            diary.getId(),
-            response
-        );
+        return CreateAndDeleteStoredEmojiResponse.builder()
+            .albumId(diary.getAlbumValue())
+            .diaryId(diary.getId())
+            .emojies(response)
+            .build();
     }
 }

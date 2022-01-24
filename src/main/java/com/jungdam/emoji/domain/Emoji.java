@@ -27,4 +27,8 @@ public class Emoji extends BaseEntity {
     public Content getContent() {
         return content;
     }
+
+    public String getContentValue() {
+        return content.getContent();
+    }
 }
