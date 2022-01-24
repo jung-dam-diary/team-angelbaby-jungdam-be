@@ -24,11 +24,11 @@ public class Emoji extends BaseEntity {
 
     }
 
-    private Emoji(Content content) {
-        this.content = content;
+    public Content getContent() {
+        return content;
     }
 
-    public Emoji of(Content content) {
-        return new Emoji(content);
+    public String getContentValue() {
+        return content.getContent();
     }
 }

@@ -1,4 +1,4 @@
-package com.jungdam.stored_emoji;
+package com.jungdam.stored_emoji.domain;
 
 import com.jungdam.common.domain.BaseEntity;
 import com.jungdam.diary.domain.Diary;
@@ -36,4 +36,20 @@ public class StoredEmoji extends BaseEntity {
     protected StoredEmoji() {
 
     }
+
+    public StoredEmoji(Emoji emoji, Diary diary, Participant participant) {
+        this.emoji = emoji;
+        this.diary = diary;
+        this.participant = participant;
+    }
+
+    public String getEmojiValue() {
+        return emoji.getContent().getContent();
+    }
+
+    public boolean isEqual(Emoji emoji) {
+        return this.emoji.equals(emoji);
+    }
+
+
 }

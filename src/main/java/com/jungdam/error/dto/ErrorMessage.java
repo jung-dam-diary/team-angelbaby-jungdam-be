@@ -70,7 +70,7 @@ public enum ErrorMessage {
     /**
      * EMOJI ERROR RESPONSE MESSAGE
      **/
-    INVALID_EMOJI_CONTENT("E-E-001", HttpStatus.NOT_FOUND, "존재하지 않는 이모지입니다."),
+    NOT_EXIST_EMOJI("E-E-001", HttpStatus.NOT_FOUND, "존재하지 않는 이모지입니다."),
 
     /**
      * IMAGE ERROR RESPONSE MESSAGE
