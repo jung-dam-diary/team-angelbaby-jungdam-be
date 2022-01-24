@@ -8,6 +8,7 @@ import com.jungdam.stored_emoji.dto.request.CreateAndDeleteStoredEmojiRequest;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
 import com.jungdam.stored_emoji.facade.StoredEmojiFacade;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class StoredEmojiController {
         this.storedEmojiFacade = storedEmojiFacade;
     }
 
+    @ApiOperation("이모지 저장 및 삭제")
     @PostMapping
     public ResponseEntity<ResponseDto<CreateAndDeleteStoredEmojiResponse>> createAndDelete(
         @PathVariable Long albumId, @PathVariable Long diaryId, @RequestBody
