@@ -5,6 +5,7 @@ import com.jungdam.emoji.domain.vo.Content;
 import com.jungdam.emoji.infrastructure.EmojiRepository;
 import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,5 +22,10 @@ public class EmojiService {
     public Emoji findByContent(Content content) {
         return emojiRepository.findByContent(content)
             .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_EMOJI));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Emoji> findAll() {
+        return emojiRepository.findAll();
     }
 }

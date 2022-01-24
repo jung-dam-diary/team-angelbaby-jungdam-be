@@ -30,25 +30,19 @@ public class CreateAndDeleteStoredEmojiResponse {
     public static class EmojiDetailResponse {
 
         private final String content;
-        private final String number;
-        private final List<String> nickname;
+        private final Integer number;
 
-        public EmojiDetailResponse(String content, String number, List<String> nickname) {
+        public EmojiDetailResponse(String content, Integer number) {
             this.content = content;
             this.number = number;
-            this.nickname = nickname;
         }
 
         public String getContent() {
             return content;
         }
 
-        public String getNumber() {
+        public Integer getNumber() {
             return number;
-        }
-
-        public List<String> getNickname() {
-            return nickname;
         }
     }
 }

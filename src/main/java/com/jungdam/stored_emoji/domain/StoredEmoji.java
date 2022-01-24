@@ -47,5 +47,9 @@ public class StoredEmoji extends BaseEntity {
         return emoji.getContent().getContent();
     }
 
+    public boolean isEqual(Emoji emoji) {
+        return this.emoji.equals(emoji);
+    }
+
 
 }

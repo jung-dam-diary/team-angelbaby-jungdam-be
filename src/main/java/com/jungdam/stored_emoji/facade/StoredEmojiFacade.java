@@ -13,7 +13,9 @@ import com.jungdam.stored_emoji.converter.StoredEmojiConverter;
 import com.jungdam.stored_emoji.domain.StoredEmoji;
 import com.jungdam.stored_emoji.dto.bundle.CreateAndDeleteStoredEmojiBundle;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
+import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse.EmojiDetailResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +59,18 @@ public class StoredEmojiFacade {
             storedEmojiService.delete(diary, participant, emoji);
         }
 
+        final List<Emoji> emojis = emojiService.findAll();
+
         final List<StoredEmoji> storedEmojis = storedEmojiService.findByDiary(diary);
 
-        return storedEmojiConverter.toCreateAndDeleteStoredEmojiResponse(diary, storedEmojis);
+        List<EmojiDetailResponse> response = emojis.stream()
+            .map(emoji1 -> new EmojiDetailResponse(
+                emoji1.getContent().getContent(),
+                (int) storedEmojis.stream()
+                    .filter(storedEmoji -> storedEmoji.isEqual(emoji1))
+                    .count()
+            )).collect(Collectors.toList());
+
+        return storedEmojiConverter.toCreateAndDeleteStoredEmojiResponse(diary, response);
     }
 }
