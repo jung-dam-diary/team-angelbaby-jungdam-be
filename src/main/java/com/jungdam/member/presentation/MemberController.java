@@ -37,7 +37,7 @@ public class MemberController {
         ReadMemberBundle bundle = new ReadMemberBundle(memberId);
         ReadMemberResponse response = memberService.find(bundle);
 
-        return ResponseDto.of(ResponseMessage.MEMBER_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.MEMBER_READ_SUCCESS, response);
     }
 
     @ApiOperation("프로필 수정")
@@ -49,6 +49,6 @@ public class MemberController {
         UpdateMemberBundle bundle = new UpdateMemberBundle(memberId, request);
         UpdateMemberResponse response = memberService.update(bundle);
 
-        return ResponseDto.of(ResponseMessage.MEMBER_UPDATE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.MEMBER_UPDATE_SUCCESS, response);
     }
 }

@@ -44,6 +44,6 @@ public class StoredEmojiController {
         CreateAndDeleteStoredEmojiResponse response = storedEmojiFacade.createAndDelete(
             bundle);
 
-        return ResponseDto.of(ResponseMessage.EMOJI_CREATE_AND_DELETE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.EMOJI_CREATE_AND_DELETE_SUCCESS, response);
     }
 }

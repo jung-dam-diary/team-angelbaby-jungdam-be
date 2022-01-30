@@ -1,6 +1,7 @@
 package com.jungdam.common.dto;
 
 import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseDto<T> {
@@ -14,15 +15,16 @@ public class ResponseDto<T> {
         this.serverDateTime = LocalDateTime.now();
         this.data = data;
     }
-
-    public static <T> ResponseEntity<ResponseDto<T>> of(ResponseMessage message, T data) {
+    
+    public static <T> ResponseEntity<ResponseDto<T>> ok(ResponseMessage message, T data) {
         return ResponseEntity
-            .status(
-                message.getStatus()
-            )
-            .body(
-                new ResponseDto<>(message, data)
-            );
+            .ok(new ResponseDto<>(message, data));
+    }
+
+    public static <T> ResponseEntity<ResponseDto<T>> created(ResponseMessage message, T data) {
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(new ResponseDto<>(message, data));
     }
 
     public String getMessage() {

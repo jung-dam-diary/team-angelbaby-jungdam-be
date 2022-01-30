@@ -68,7 +68,7 @@ public class DiaryController {
         CheckRecordedAtDiaryResponse response = diaryFacade.checkRecordedAt(
             bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_RECORDED_AT_CHECK_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.DIARY_RECORDED_AT_CHECK_SUCCESS, response);
     }
 
     @ApiOperation("일기 생성")
@@ -85,7 +85,7 @@ public class DiaryController {
 
         CreateDiaryResponse response = diaryFacade.insert(bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_CREATE_SUCCESS, response);
+        return ResponseDto.created(ResponseMessage.DIARY_CREATE_SUCCESS, response);
     }
 
     @ApiOperation("일기 조회")
@@ -102,7 +102,7 @@ public class DiaryController {
 
         ReadDetailDiaryResponse response = diaryFacade.find(bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.DIARY_READ_SUCCESS, response);
     }
 
     @ApiOperation("북마크 생성/삭제")
@@ -120,7 +120,7 @@ public class DiaryController {
 
         CheckBookmarkResponse response = diaryFacade.mark(bundle);
 
-        return ResponseDto.of(ResponseMessage.BOOKMARK_MARK_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.BOOKMARK_MARK_SUCCESS, response);
     }
 
     @ApiOperation("일기 삭제")
@@ -137,7 +137,7 @@ public class DiaryController {
 
         DeleteDiaryResponse response = diaryFacade.delete(bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_DELETE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.DIARY_DELETE_SUCCESS, response);
     }
 
     @ApiOperation("일기 수정")
@@ -156,7 +156,7 @@ public class DiaryController {
 
         UpdateDiaryResponse response = diaryFacade.update(bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_UPDATE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.DIARY_UPDATE_SUCCESS, response);
     }
 
     @ApiOperation("일기 피드 조회")
@@ -176,7 +176,7 @@ public class DiaryController {
 
         ReadAllFeedDiaryResponse response = diaryFacade.findAllFeed(bundle);
 
-        return ResponseDto.of(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.DIARY_FEED_READ_ALL_SUCCESS, response);
     }
 
     @ApiOperation("스토리북 조회")
@@ -188,7 +188,7 @@ public class DiaryController {
         ReadGroupStoryBookBundle bundle = new ReadGroupStoryBookBundle(memberId, albumId);
         List<ReadGroupStoryBookResponse> response = diaryFacade.findStoryBook(bundle);
 
-        return ResponseDto.of(ResponseMessage.STORY_BOOK_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.STORY_BOOK_READ_SUCCESS, response);
     }
 
     @ApiOperation("스토리북 더보기 조회")
@@ -210,6 +210,6 @@ public class DiaryController {
 
         ReadAllStoryBookResponse response = diaryFacade.findAllStoryBook(bundle);
 
-        return ResponseDto.of(ResponseMessage.STORY_BOOK_READ_ALL_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.STORY_BOOK_READ_ALL_SUCCESS, response);
     }
 }

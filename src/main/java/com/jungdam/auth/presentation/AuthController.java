@@ -83,7 +83,7 @@ public class AuthController {
         updateCookieWhenValidTimeThanThreeDays(request, response, member, now,
             validTime(authRefreshToken, now));
 
-        return ResponseDto.of(
+        return ResponseDto.ok(
             ResponseMessage.TOKEN_REFRESH_SUCCESS,
             makeToken(memberId, roleType, now)
         );

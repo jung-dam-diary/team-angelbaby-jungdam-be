@@ -44,7 +44,7 @@ public class ParticipantController {
 
         ReadAllParticipantResponse response = participantFacade.findAll(bundle);
 
-        return ResponseDto.of(ResponseMessage.PARTICIPANT_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.PARTICIPANT_READ_SUCCESS, response);
     }
 
     @ApiOperation("참여인원 확인")
@@ -56,7 +56,7 @@ public class ParticipantController {
 
         CheckParticipantResponse response = participantFacade.check(bundle);
 
-        return ResponseDto.of(ResponseMessage.PARTICIPANT_CHECK_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.PARTICIPANT_CHECK_SUCCESS, response);
     }
 
     @ApiOperation("참여자 닉네임 변경")
@@ -74,7 +74,7 @@ public class ParticipantController {
 
         UpdateNicknameParticipantResponse response = participantFacade.updateNickname(bundle);
 
-        return ResponseDto.of(ResponseMessage.PARTICIPANT_UPDATE_NICKNAME_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.PARTICIPANT_UPDATE_NICKNAME_SUCCESS, response);
     }
 
     @ApiOperation("참여자 역할 조회")
@@ -86,6 +86,6 @@ public class ParticipantController {
         ReadParticipantRoleBundle bundle = new ReadParticipantRoleBundle(memberId, albumId);
         ReadParticipantRoleResponse response = participantFacade.findRole(bundle);
 
-        return ResponseDto.of(ResponseMessage.PARTICIPANT_ROLE_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.PARTICIPANT_ROLE_READ_SUCCESS, response);
     }
 }

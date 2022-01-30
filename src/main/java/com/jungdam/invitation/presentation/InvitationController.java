@@ -52,7 +52,7 @@ public class InvitationController {
 
         SearchMemberResponse response = invitationFacade.search(bundle);
 
-        return ResponseDto.of(ResponseMessage.MEMBER_SEARCH_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.MEMBER_SEARCH_SUCCESS, response);
     }
 
     @ApiOperation("앨범으로 초대")
@@ -69,7 +69,7 @@ public class InvitationController {
 
         CreateInvitationResponse response = invitationFacade.insert(bundle);
 
-        return ResponseDto.of(ResponseMessage.INVITATION_CREATE_SUCCESS, response);
+        return ResponseDto.created(ResponseMessage.INVITATION_CREATE_SUCCESS, response);
     }
 
     @ApiOperation("초대 목록 조회")
@@ -81,7 +81,7 @@ public class InvitationController {
         List<ReadAllInvitationResponse> responseList = invitationFacade.findAllWithPendingStatus(
             bundle);
 
-        return ResponseDto.of(ResponseMessage.INVITATION_READ_ALL_SUCCESS, responseList);
+        return ResponseDto.ok(ResponseMessage.INVITATION_READ_ALL_SUCCESS, responseList);
     }
 
     @ApiOperation("초대 수락/거절")
@@ -97,6 +97,6 @@ public class InvitationController {
             .build();
         UpdateInvitationResponse response = invitationFacade.update(bundle);
 
-        return ResponseDto.of(ResponseMessage.INVITATION_UPDATE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.INVITATION_UPDATE_SUCCESS, response);
     }
 }

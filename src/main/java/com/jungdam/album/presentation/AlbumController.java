@@ -55,7 +55,7 @@ public class AlbumController {
         CreateAlbumBundle bundle = new CreateAlbumBundle(memberId, request);
         CreateAlbumResponse response = albumFacade.insert(bundle);
 
-        return ResponseDto.of(ResponseMessage.ALBUM_CREATE_SUCCESS, response);
+        return ResponseDto.created(ResponseMessage.ALBUM_CREATE_SUCCESS, response);
     }
 
     @ApiOperation("앨범 목록 조회")
@@ -66,7 +66,7 @@ public class AlbumController {
         ReadAllAlbumBundle bundle = new ReadAllAlbumBundle(memberId);
         List<ReadAllAlbumResponse> responses = albumFacade.findAll(bundle);
 
-        return ResponseDto.of(ResponseMessage.ALBUM_READ_ALL_SUCCESS, responses);
+        return ResponseDto.ok(ResponseMessage.ALBUM_READ_ALL_SUCCESS, responses);
     }
 
     @ApiOperation("앨범 제목 및 가훈 조회")
@@ -78,7 +78,7 @@ public class AlbumController {
 
         ReadOneAlbumResponse response = albumFacade.find(bundle);
 
-        return ResponseDto.of(ResponseMessage.ALBUM_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.ALBUM_READ_SUCCESS, response);
     }
 
     @ApiOperation("특별한 순간 조회")
@@ -97,7 +97,7 @@ public class AlbumController {
 
         ReadAllMomentResponse response = albumFacade.findAllMoment(bundle);
 
-        return ResponseDto.of(ResponseMessage.MOMENT_READ_ALL_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.MOMENT_READ_ALL_SUCCESS, response);
     }
 
     @ApiOperation("앨범 수정")
@@ -111,7 +111,7 @@ public class AlbumController {
 
         UpdateAlbumResponse response = albumFacade.update(bundle);
 
-        return ResponseDto.of(ResponseMessage.ALBUM_UPDATE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.ALBUM_UPDATE_SUCCESS, response);
     }
 
     @ApiOperation("앨범 삭제")
@@ -123,6 +123,6 @@ public class AlbumController {
 
         DeleteAlbumResponse response = albumFacade.delete(bundle);
 
-        return ResponseDto.of(ResponseMessage.ALBUM_DELETE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.ALBUM_DELETE_SUCCESS, response);
     }
 }

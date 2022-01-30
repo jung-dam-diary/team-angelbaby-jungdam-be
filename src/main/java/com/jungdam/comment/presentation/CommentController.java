@@ -53,7 +53,7 @@ public class CommentController {
 
         CreateCommentResponse response = commentFacade.insert(bundle);
 
-        return ResponseDto.of(ResponseMessage.COMMENT_CREATE_SUCCESS, response);
+        return ResponseDto.created(ResponseMessage.COMMENT_CREATE_SUCCESS, response);
     }
 
     @ApiOperation("댓글 조회")
@@ -74,7 +74,7 @@ public class CommentController {
 
         ReadCommentAllResponse response = commentFacade.findAll(bundle);
 
-        return ResponseDto.of(ResponseMessage.COMMENT_READ_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.COMMENT_READ_SUCCESS, response);
     }
 
     @ApiOperation("댓글 수정")
@@ -94,7 +94,7 @@ public class CommentController {
 
         UpdateCommentResponse response = commentFacade.update(bundle);
 
-        return ResponseDto.of(ResponseMessage.COMMENT_UPDATE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.COMMENT_UPDATE_SUCCESS, response);
     }
 
     @ApiOperation("댓글 삭제")
@@ -113,6 +113,6 @@ public class CommentController {
 
         DeleteCommentResponse response = commentFacade.delete(bundle);
 
-        return ResponseDto.of(ResponseMessage.COMMENT_DELETE_SUCCESS, response);
+        return ResponseDto.ok(ResponseMessage.COMMENT_DELETE_SUCCESS, response);
     }
 }
