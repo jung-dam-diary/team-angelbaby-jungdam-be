@@ -20,15 +20,4 @@ class RecordedAtTest {
         final boolean after = localDate.isAfter(LocalDate.now());
         assertThat(after).isEqualTo(false);
     }
-
-    @ParameterizedTest
-    @CsvSource({
-        "2022-01-18",
-        "2022-01-19",
-        "2022-01-20"
-    })
-    void 실패_기록날짜_유효성_검사(LocalDate localDate) {
-        final boolean after = localDate.isAfter(LocalDate.now());
-        assertThat(after).isEqualTo(true);
-    }
 }

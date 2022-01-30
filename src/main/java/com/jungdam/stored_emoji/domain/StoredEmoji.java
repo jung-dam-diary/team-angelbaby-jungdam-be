@@ -46,11 +46,11 @@ public class StoredEmoji extends BaseEntity {
     public String getEmojiValue() {
         return emoji.getContent().getContent();
     }
-
+  
     public String getParticipantValue() {
         return participant.getNicknameValue();
     }
-
+  
     public boolean isEqual(Emoji emoji) {
         return this.emoji.equals(emoji);
     }
