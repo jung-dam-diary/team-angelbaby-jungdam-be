@@ -16,4 +16,6 @@ public interface StoredEmojiRepository extends JpaRepository<StoredEmoji, Long> 
     void deleteByDiaryAndParticipantAndEmoji(Diary diary, Participant participant, Emoji emoji);
 
     List<StoredEmoji> findByDiary(Diary diary);
+
+    List<StoredEmoji> findByDiaryAndEmoji(Diary diary, Emoji emoji);
 }

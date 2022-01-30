@@ -12,8 +12,10 @@ import com.jungdam.stored_emoji.application.StoredEmojiService;
 import com.jungdam.stored_emoji.converter.StoredEmojiConverter;
 import com.jungdam.stored_emoji.domain.StoredEmoji;
 import com.jungdam.stored_emoji.dto.bundle.CreateAndDeleteStoredEmojiBundle;
+import com.jungdam.stored_emoji.dto.bundle.InquireEmojiBundle;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse.EmojiDetailResponse;
+import com.jungdam.stored_emoji.dto.response.InquireEmojiResponse;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,5 +68,23 @@ public class StoredEmojiFacade {
             storedEmojis);
 
         return storedEmojiConverter.toCreateAndDeleteStoredEmojiResponse(diary, response);
+    }
+
+    @Transactional(readOnly = true)
+    public InquireEmojiResponse inquireEmoji(InquireEmojiBundle bundle) {
+        Emoji emoji = emojiService.findByContent(bundle.getContent());
+
+        Member member = memberService.findById(bundle.getMemberId());
+
+        Album album = albumService.findById(bundle.getAlbumId());
+
+        album.belong(member);
+
+        Diary diary = album.findDiary(bundle.getDiaryId());
+
+        List<StoredEmoji> storedEmojis = storedEmojiService.findByDiaryAndEmoji(diary,
+            emoji);
+
+        return storedEmojiConverter.toInquireEmojiResponse(emoji, storedEmojis);
     }
 }
