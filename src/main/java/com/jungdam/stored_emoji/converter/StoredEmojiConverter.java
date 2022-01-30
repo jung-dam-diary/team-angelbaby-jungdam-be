@@ -5,6 +5,7 @@ import com.jungdam.emoji.domain.Emoji;
 import com.jungdam.stored_emoji.domain.StoredEmoji;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse;
 import com.jungdam.stored_emoji.dto.response.CreateAndDeleteStoredEmojiResponse.EmojiDetailResponse;
+import com.jungdam.stored_emoji.dto.response.InquireEmojiResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -31,5 +32,13 @@ public class StoredEmojiConverter {
             .diaryId(diary.getId())
             .emojies(response)
             .build();
+    }
+
+    public InquireEmojiResponse toInquireEmojiResponse(Emoji emoji,
+        List<StoredEmoji> storedEmojis) {
+        List<String> participants = storedEmojis.stream()
+            .map(StoredEmoji::getParticipantValue)
+            .collect(Collectors.toList());
+        return new InquireEmojiResponse(emoji.getContentValue(), participants);
     }
 }

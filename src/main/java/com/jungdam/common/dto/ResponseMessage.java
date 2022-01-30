@@ -68,6 +68,7 @@ public enum ResponseMessage {
      * EMOJI RESPONSE MESSAGE
      **/
     EMOJI_CREATE_AND_DELETE_SUCCESS("R-E-001", HttpStatus.OK, "이모지 생성 및 삭제 성공"),
+    EMOJI_READ_SUCCESS("R-E-002", HttpStatus.OK, "이모지 인원 조회 성공"),
 
     /**
      * IMAGE RESPONSE MESSAGE

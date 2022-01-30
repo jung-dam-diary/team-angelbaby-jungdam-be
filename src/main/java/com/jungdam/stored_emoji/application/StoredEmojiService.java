@@ -39,4 +39,8 @@ public class StoredEmojiService {
         return storedEmojiRepository.findByDiary(diary);
     }
 
+    @Transactional(readOnly = true)
+    public List<StoredEmoji> findByDiaryAndEmoji(Diary diary, Emoji emoji) {
+        return storedEmojiRepository.findByDiaryAndEmoji(diary, emoji);
+    }
 }
