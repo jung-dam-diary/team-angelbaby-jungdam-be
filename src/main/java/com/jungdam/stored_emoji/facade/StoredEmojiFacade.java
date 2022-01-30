@@ -71,7 +71,7 @@ public class StoredEmojiFacade {
     }
 
     @Transactional(readOnly = true)
-    public InquireEmojiResponse inquire(InquireEmojiBundle bundle) {
+    public InquireEmojiResponse inquireEmoji(InquireEmojiBundle bundle) {
         Emoji emoji = emojiService.findByContent(bundle.getContent());
 
         Member member = memberService.findById(bundle.getMemberId());

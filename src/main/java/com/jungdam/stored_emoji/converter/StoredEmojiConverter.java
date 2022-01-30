@@ -39,6 +39,7 @@ public class StoredEmojiConverter {
         List<String> participants = storedEmojis.stream()
             .map(StoredEmoji::getParticipantValue)
             .collect(Collectors.toList());
+        
         return new InquireEmojiResponse(emoji.getContentValue(), participants);
     }
 }

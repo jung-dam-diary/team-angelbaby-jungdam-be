@@ -65,7 +65,7 @@ public class StoredEmojiController {
             .content(q)
             .build();
 
-        InquireEmojiResponse response = storedEmojiFacade.inquire(bundle);
+        InquireEmojiResponse response = storedEmojiFacade.inquireEmoji(bundle);
 
         return ResponseDto.of(ResponseMessage.EMOJI_READ_SUCCESS, response);
     }
