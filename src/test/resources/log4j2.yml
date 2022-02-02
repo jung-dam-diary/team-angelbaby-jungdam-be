@@ -1,0 +1,11 @@
+Configuration:
+  Appenders:
+    Sentry:
+      - name: sentry
+
+  Loggers:
+    Root:
+    level: INFO
+    AppenderRef:
+      - ref: sentry
+        level: WARN
