@@ -2,10 +2,11 @@ package com.jungdam.image.presentation;
 
 import com.jungdam.common.dto.ResponseDto;
 import com.jungdam.common.dto.ResponseMessage;
-import com.jungdam.image.application.S3Uploader;
+import com.jungdam.image.application.FileProcessService;
+import com.jungdam.image.config.FileFolder;
 import com.jungdam.image.dto.bundle.UploadBundle;
 import com.jungdam.image.dto.response.UploadResponse;
-import java.io.IOException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,18 +18,18 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/v1/images")
 public class ImageController {
 
-    private final S3Uploader s3Uploader;
+    private final FileProcessService fileProcessService;
 
-    public ImageController(S3Uploader s3Uploader) {
-        this.s3Uploader = s3Uploader;
+    public ImageController(FileProcessService fileProcessService) {
+        this.fileProcessService = fileProcessService;
     }
 
-    @PostMapping
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto<UploadResponse>> upload(
-        @RequestParam("image") MultipartFile multipartFile)
-        throws IOException {
-        UploadBundle bundle = new UploadBundle(multipartFile, "temp");
-        UploadResponse response = s3Uploader.upload(bundle);
+        @RequestParam("image") MultipartFile multipartFile) {
+        UploadBundle bundle = new UploadBundle(multipartFile, FileFolder.TEMPORARY);
+        UploadResponse response = fileProcessService.uploadImage(bundle);
 
         return ResponseDto.of(ResponseMessage.IMAGE_UPLOAD_SUCCESS, response);
     }

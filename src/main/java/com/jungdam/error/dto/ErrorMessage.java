@@ -75,7 +75,8 @@ public enum ErrorMessage {
     /**
      * IMAGE ERROR RESPONSE MESSAGE
      **/
-    FAILURE_FILE_CONVERT("E-IM-001", HttpStatus.BAD_REQUEST, "File convert fail"),
+    FAILURE_FILE_CONVERT("E-IM-001", HttpStatus.BAD_REQUEST, "파일 변환에 실패하였습니다."),
+    NOT_EXIST_FILE_FOLDER("E-IM-002", HttpStatus.NOT_FOUND, "파일 경로를 찾을 수 없습니다."),
 
     /**
      * INTERNAL ERROR RESPONSE MESSAGE
