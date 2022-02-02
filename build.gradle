@@ -29,8 +29,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws'
-    implementation 'io.sentry:sentry-spring-boot-starter:5.6.0'
-    implementation 'io.sentry:sentry-log4j2:1.7.30'
+    implementation 'io.sentry:sentry-log4j2:5.6.0'
 }
 
 configurations {
