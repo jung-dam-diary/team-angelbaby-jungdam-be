@@ -51,7 +51,7 @@ public class AuthTokenProvider {
 
             return new UsernamePasswordAuthenticationToken(principal, authToken, authorities);
         }
-        throw new TokenValidFailedException(ErrorMessage.FAIL_TO_GENERATE_TOKEN);
+        throw new TokenValidFailedException(ErrorMessage.FAIL_TO_GENERATE_TOKEN).error(log);
     }
 
     private Collection<? extends GrantedAuthority> getGrantedAuthorities(Claims claims) {

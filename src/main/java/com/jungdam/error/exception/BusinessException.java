@@ -1,6 +1,7 @@
 package com.jungdam.error.exception;
 
 import com.jungdam.error.dto.ErrorMessage;
+import org.slf4j.Logger;
 
 public class BusinessException extends RuntimeException {
 
@@ -13,5 +14,15 @@ public class BusinessException extends RuntimeException {
 
     public ErrorMessage getErrorMessage() {
         return errorMessage;
+    }
+
+    public <T extends BusinessException> T error(Logger log) {
+        log.error(getMessage(), this);
+        return (T) this;
+    }
+
+    public <T extends BusinessException> T warn(Logger log) {
+        log.warn(getMessage(), this);
+        return (T) this;
     }
 }

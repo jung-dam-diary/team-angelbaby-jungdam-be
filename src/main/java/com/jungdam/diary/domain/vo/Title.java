@@ -5,10 +5,14 @@ import com.jungdam.error.exception.common.InvalidArgumentException;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 @Embeddable
 public class Title {
+
+    private final static Logger log = LoggerFactory.getLogger(Title.class);
 
     @Transient
     private static final int TITLE_VALIDATOR = 30;
@@ -26,7 +30,7 @@ public class Title {
 
     private void validate(String title) {
         if (!StringUtils.hasText(title) || title.length() > TITLE_VALIDATOR) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_TITLE);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_TITLE).error(log);
         }
     }
 

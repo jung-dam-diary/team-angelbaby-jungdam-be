@@ -10,9 +10,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Embeddable
 public class Participants {
+
+    private final static Logger log = LoggerFactory.getLogger(Participants.class);
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants = new ArrayList<>();
@@ -25,14 +29,16 @@ public class Participants {
         return participants.stream()
             .filter(p -> p.isEquals(member, album))
             .findFirst()
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+            .orElseThrow(
+                () -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT).error(log));
     }
 
     public Participant findById(Long id) {
         return participants.stream()
             .filter(p -> p.isEquals(id))
             .findFirst()
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+            .orElseThrow(
+                () -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT).error(log));
     }
 
     public boolean contains(Member member) {

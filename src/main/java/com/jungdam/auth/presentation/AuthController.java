@@ -23,6 +23,8 @@ import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    private final static Logger log = LoggerFactory.getLogger(AuthController.class);
     private final static int REFRESH_TOKEN_EXPIRY_SECOND = 60;
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -66,7 +69,7 @@ public class AuthController {
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (authRefreshToken.validate()) {
-            throw new InvalidRefreshTokenException(ErrorMessage.INVALID_REFRESH_TOKEN);
+            throw new InvalidRefreshTokenException(ErrorMessage.INVALID_REFRESH_TOKEN).error(log);
         }
 
         Member member = memberService.findById(memberId);
@@ -75,7 +78,7 @@ public class AuthController {
             member.getOauthPermission(), refreshToken);
 
         if (Objects.isNull(userRefreshToken)) {
-            throw new InvalidRefreshTokenException(ErrorMessage.INVALID_REFRESH_TOKEN);
+            throw new InvalidRefreshTokenException(ErrorMessage.INVALID_REFRESH_TOKEN).error(log);
         }
 
         Date now = new Date();
@@ -124,7 +127,7 @@ public class AuthController {
     private Claims getClaimsInAuthToken(HttpServletRequest request) {
         AuthToken authToken = getAuthTokenInHeader(request);
         if (!authToken.validate()) {
-            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
+            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET).error(log);
         }
 
         return makeClaims(authToken);
@@ -138,7 +141,7 @@ public class AuthController {
     private Claims makeClaims(AuthToken authToken) {
         Claims claims = authToken.getExpiredTokenClaims();
         if (Objects.isNull(claims)) {
-            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET);
+            throw new NotExpiredException(ErrorMessage.NOT_EXPIRED_TOKEN_YET).error(log);
         }
         return claims;
     }

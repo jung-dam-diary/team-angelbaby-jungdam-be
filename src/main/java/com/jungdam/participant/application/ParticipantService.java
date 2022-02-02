@@ -9,11 +9,15 @@ import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.domain.vo.Role;
 import com.jungdam.participant.infrastructure.ParticipantRepository;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ParticipantService {
+
+    private final static Logger log = LoggerFactory.getLogger(ParticipantService.class);
 
     private final ParticipantRepository participantRepository;
 
@@ -28,7 +32,7 @@ public class ParticipantService {
         participant.register(album);
         participantRepository.save(participant);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Participant> findAllByAlbum(Album album) {
         return participantRepository.findAllByAlbum(album);
@@ -42,7 +46,7 @@ public class ParticipantService {
     @Transactional(readOnly = true)
     public void checkExists(Album album, Member member) {
         if (!existsByAlbumAndMember(album, member)) {
-            throw new NotExistException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM);
+            throw new NotExistException(ErrorMessage.DUPLICATION_PARTICIPANT_IN_ALBUM).error(log);
         }
     }
 
@@ -54,7 +58,7 @@ public class ParticipantService {
     @Transactional(readOnly = true)
     public void checkMemberIsOwnerRole(Album album, Member member) {
         if (!existsByAlbumAndOwnerMember(album, member)) {
-            throw new NoPermissionException(ErrorMessage.NON_PERMISSION_ALBUM);
+            throw new NoPermissionException(ErrorMessage.NON_PERMISSION_ALBUM).error(log);
         }
     }
 
@@ -64,11 +68,13 @@ public class ParticipantService {
 
     public Participant findById(Long participantId) {
         return participantRepository.findById(participantId)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+            .orElseThrow(
+                () -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT).error(log));
     }
 
     public Participant findByMemberAndAlbum(Member member, Album album) {
         return participantRepository.findByMemberAndAlbum(member, album)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT));
+            .orElseThrow(
+                () -> new NotExistException(ErrorMessage.NOT_EXIST_PARTICIPANT).error(log));
     }
 }

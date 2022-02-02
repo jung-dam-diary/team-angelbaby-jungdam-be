@@ -19,6 +19,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ import org.springframework.util.StringUtils;
 @Service
 public class DiaryService {
 
+    private final static Logger log = LoggerFactory.getLogger(DiaryService.class);
     private final static String NOT_EXISTS_NEXT_DIARY = "NOT_EXISTS_NEXT_DIARY";
 
     private final DiaryRepository diaryRepository;
@@ -40,7 +43,7 @@ public class DiaryService {
     @Transactional
     public Diary save(CreateDiaryBundle bundle, Participant participant) {
         if (existsByRecordedAtAndParticipant(bundle.getRecordedAt(), participant)) {
-            throw new DuplicationException(ErrorMessage.DUPLICATION_DIARY_RECORDED_AT);
+            throw new DuplicationException(ErrorMessage.DUPLICATION_DIARY_RECORDED_AT).error(log);
         }
 
         Diary diary = diaryConverter.toDiary(bundle, participant);

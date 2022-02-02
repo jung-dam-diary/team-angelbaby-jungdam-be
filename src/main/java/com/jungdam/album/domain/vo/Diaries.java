@@ -10,9 +10,13 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.OneToMany;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Embeddable
 public class Diaries {
+
+    private final static Logger log = LoggerFactory.getLogger(Diaries.class);
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Diary> diaries = new ArrayList<>();
@@ -35,7 +39,7 @@ public class Diaries {
         return diaries.stream()
             .filter(d -> d.isCreator(id, participant))
             .findFirst()
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY).error(log));
     }
 
     private void remove(Diary diary) {
@@ -46,6 +50,6 @@ public class Diaries {
         return diaries.stream()
             .filter(d -> d.isEquals(id))
             .findFirst()
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY));
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_DIARY).error(log));
     }
 }

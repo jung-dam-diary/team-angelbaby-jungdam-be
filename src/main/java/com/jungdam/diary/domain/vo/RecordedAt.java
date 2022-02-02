@@ -6,9 +6,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Embeddable
 public class RecordedAt {
+
+    private final static Logger log = LoggerFactory.getLogger(RecordedAt.class);
 
     @Column(name = "diary_recorded_at")
     private LocalDate recordedAt;
@@ -23,7 +27,7 @@ public class RecordedAt {
 
     private void validate(LocalDate recordedAt) {
         if (recordedAt.isAfter(LocalDate.now())) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_RECORDED_AT);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_DIARY_RECORDED_AT).error(log);
         }
     }
 

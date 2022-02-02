@@ -5,10 +5,14 @@ import com.jungdam.error.exception.common.InvalidArgumentException;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 @Embeddable
 public class Content {
+
+    private static final Logger log = LoggerFactory.getLogger(Content.class);
 
     @Transient
     private static final int CONTENT_VALIDATOR = 500;
@@ -26,7 +30,7 @@ public class Content {
 
     private void validate(String content) {
         if (!StringUtils.hasText(content) || content.length() > CONTENT_VALIDATOR) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_COMMENT_CONTENT);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_COMMENT_CONTENT).error(log);
         }
     }
 
