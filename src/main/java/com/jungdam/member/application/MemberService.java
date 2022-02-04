@@ -10,11 +10,15 @@ import com.jungdam.member.dto.bundle.UpdateMemberBundle;
 import com.jungdam.member.dto.response.ReadMemberResponse;
 import com.jungdam.member.dto.response.UpdateMemberResponse;
 import com.jungdam.member.infrastructure.MemberRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberService {
+
+    private final static Logger log = LoggerFactory.getLogger(MemberService.class);
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
@@ -35,7 +39,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findByEmailForSearch(Email email) {
         return memberRepository.findByEmail(email)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER).error(log));
     }
 
     @Transactional
@@ -49,6 +53,6 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member findById(Long id) {
         return memberRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER));
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_MEMBER).error(log));
     }
 }

@@ -9,11 +9,15 @@ import com.jungdam.invitation.domain.vo.Status;
 import com.jungdam.invitation.infrastructure.InvitationRepository;
 import com.jungdam.member.domain.Member;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class InvitationService {
+
+    private final static Logger log = LoggerFactory.getLogger(InvitationService.class);
 
     private final InvitationRepository invitationRepository;
 
@@ -33,7 +37,8 @@ public class InvitationService {
     public Invitation findByIdAndTargetMemberAndPendingStatus(Long id, Member member) {
         return invitationRepository.findByIdAndTargetMemberAndStatus(id, member, Status.PENDING)
             .orElseThrow(
-                () -> new NoPermissionException(ErrorMessage.NO_PERMISSION_INVITATION_UPDATE));
+                () -> new NoPermissionException(ErrorMessage.NO_PERMISSION_INVITATION_UPDATE)
+                    .error(log));
     }
 
     @Transactional(readOnly = true)
@@ -51,7 +56,7 @@ public class InvitationService {
     public void checkExistsInPendingStatus(Album album, Member member) {
         if (invitationRepository.existsByAlbumAndTargetMemberAndStatus(album, member,
             Status.PENDING)) {
-            throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM);
+            throw new DuplicationException(ErrorMessage.DUPLICATION_INVITATION_IN_ALBUM).error(log);
         }
     }
 }

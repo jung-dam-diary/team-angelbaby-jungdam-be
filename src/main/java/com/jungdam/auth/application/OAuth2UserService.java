@@ -14,6 +14,8 @@ import com.jungdam.member.domain.vo.Email;
 import com.jungdam.member.domain.vo.ProviderType;
 import com.jungdam.member.infrastructure.MemberRepository;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OAuth2UserService extends DefaultOAuth2UserService {
+
+    private final static Logger log = LoggerFactory.getLogger(OAuth2UserService.class);
 
     private final MemberRepository memberRepository;
     private final MemberConverter memberConverter;
@@ -43,8 +47,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
         try {
             return this.process(oAuth2UserRequest, oAuth2User);
         } catch (AuthenticationException exception) {
+            log.error(exception.getMessage(), this);
             throw new FailAuthenticationException(ErrorMessage.FAIL_TO_LOGIN_OAUTH2);
         } catch (Exception exception) {
+            log.error(exception.getMessage(), this);
             throw new InternalAuthenticationException(ErrorMessage.FAIL_TO_LOGIN_OAUTH2);
         }
     }
@@ -71,7 +77,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
     private void isExistsEmail(Email email) {
         if (memberRepository.existsByEmail(email)) {
-            throw new DuplicationException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL);
+            throw new DuplicationException(ErrorMessage.ALREADY_EXIST_MEMBER_EMAIL).error(log);
         }
     }
 

@@ -4,10 +4,14 @@ import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.InvalidArgumentException;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 @Embeddable
 public class Thumbnail {
+
+    private final static Logger log = LoggerFactory.getLogger(Thumbnail.class);
 
     @Column(name = "album_thumbnail", nullable = false)
     private String thumbnail;
@@ -23,7 +27,7 @@ public class Thumbnail {
     // TODO: URL 유효성 검증 로직 추가 (팀 협의 후 적용)
     private void validate(String thumbnail) {
         if (!StringUtils.hasText(thumbnail)) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_ALBUM_THUMBNAIL);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_ALBUM_THUMBNAIL).error(log);
         }
     }
 

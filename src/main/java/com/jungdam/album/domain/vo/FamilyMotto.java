@@ -5,10 +5,14 @@ import com.jungdam.error.exception.common.InvalidArgumentException;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 @Embeddable
 public class FamilyMotto {
+
+    private final static Logger log = LoggerFactory.getLogger(FamilyMotto.class);
 
     @Transient
     private static final int FAMILY_MOTTO_LENGTH = 30;
@@ -26,7 +30,7 @@ public class FamilyMotto {
 
     private void validate(String familyMotto) {
         if (!StringUtils.hasText(familyMotto) || familyMotto.length() > FAMILY_MOTTO_LENGTH) {
-            throw new InvalidArgumentException(ErrorMessage.INVALID_ALBUM_FAMILY_MOTTO);
+            throw new InvalidArgumentException(ErrorMessage.INVALID_ALBUM_FAMILY_MOTTO).warn(log);
         }
     }
 

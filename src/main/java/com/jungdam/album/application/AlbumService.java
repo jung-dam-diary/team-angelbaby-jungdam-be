@@ -7,11 +7,15 @@ import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.domain.Member;
 import com.jungdam.participant.domain.Participant;
 import com.jungdam.participant.domain.vo.Role;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AlbumService {
+
+    private final static Logger log = LoggerFactory.getLogger(AlbumService.class);
 
     private final AlbumRepository albumRepository;
 
@@ -30,7 +34,7 @@ public class AlbumService {
     @Transactional(readOnly = true)
     public Album findById(Long id) {
         return albumRepository.findById(id)
-            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_ALBUM));
+            .orElseThrow(() -> new NotExistException(ErrorMessage.NOT_EXIST_ALBUM).error(log));
     }
 
     @Transactional

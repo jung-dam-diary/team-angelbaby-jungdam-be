@@ -28,6 +28,8 @@ import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -39,6 +41,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final static Logger log = LoggerFactory.getLogger(
+        OAuth2AuthenticationSuccessHandler.class);
     private final static String QUERY_PARAM_FOR_TOKEN = "token";
     private final static int REFRESH_TOKEN_EXPIRY_SECONDS = 60;
 
@@ -187,6 +191,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             .map(Cookie::getValue);
 
         if (redirectUri.isPresent() && !isAuthorizedRedirectUri(redirectUri.get())) {
+            log.error(ErrorMessage.UNAUTHORIZED_REDIRECT_URI.getMessage(), this);
             throw new FailAuthenticationException(ErrorMessage.UNAUTHORIZED_REDIRECT_URI);
         }
 

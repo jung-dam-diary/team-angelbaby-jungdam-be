@@ -7,8 +7,12 @@ import com.jungdam.error.dto.ErrorMessage;
 import com.jungdam.error.exception.common.NotExistException;
 import com.jungdam.member.domain.vo.ProviderType;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OAuth2MemberInfoFactory {
+
+    private final static Logger log = LoggerFactory.getLogger(OAuth2MemberInfoFactory.class);
 
     public static OAuth2MemberInfo of(ProviderType providerType,
         Map<String, Object> attributes) {
@@ -20,7 +24,7 @@ public class OAuth2MemberInfoFactory {
             case KAKAO:
                 return new KakaoOAuth2MemberInfo(attributes);
             default:
-                throw new NotExistException(ErrorMessage.NOT_EXIST_PROVIDER_TYPE);
+                throw new NotExistException(ErrorMessage.NOT_EXIST_PROVIDER_TYPE).error(log);
         }
     }
 }
